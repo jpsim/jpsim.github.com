@@ -1,12 +1,12 @@
 ---
 layout: page
-title: "Hi, I'm JP Simard. I'm an <span>iOS developer</span> and entrepreneur based in <span>Ottawa, Canada.</span>"
+title: "Hi, I'm JP Simard - an <span>iOS developer</span> and entrepreneur based in <span>Ottawa, Canada.</span>"
 comments: false
 sharing: false
 footer: false
 style:
 ---
-In a nutshell, I'm an iOS developer at [@magneticbear](https://magneticbear.com) studios (founder), electrical engineer, musician, runner, jazz aficionado and a fake graphic designer.
+In a nutshell, I'm an iOS developer at [@magneticbear](http://magneticbear.com) studios (founder), electrical engineer, musician, runner, jazz aficionado and a fake graphic designer.
 
 ##Contact
 Email: [jp@jpsim.com](mailto:jp@jpsim.com)
