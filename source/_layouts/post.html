@@ -10,8 +10,8 @@ sharing: true
   <footer>
     <p class="meta">
       {% include post/author.html %} <span>on</span>
-      {% include post/date.html %}{% if updated %}{{ updated }}{% else %}{{ time }}.{% endif %}
-      {% include post/categories.html %}
+      {% include post/date.html %}{% if updated %}{{ updated }}{% else %}{{ time }}{% endif %}
+      in {% include post/categories.html %}.
       <span class="pull-request">If you would like to update this post, <a href="{{site.githuburl}}/{{page.date | date: '%Y-%m-%d'}}-{{ page.url | remove_first: '/' | remove: '/' | append: '.markdown' }}"> please send a pull request</a> on GitHub.</span>
     </p>
     {% unless page.sharing == false %}
