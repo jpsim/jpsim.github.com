@@ -15,6 +15,6 @@ $link-color-active: adjust-color($link-color-hover, $lightness: -15) !default;
 $link-color-nav: adjust-color($link-color, $lightness: 5, $saturation: 50) !default;
 
 // Fonts
-$serif: "freight-text-pro", Georgia, "Times New Roman", serif !default;
+$serif: Adelle, Georgia, "Times New Roman", serif !default;
 $sans: "Helvetica Neue", Arial, sans-serif !default;
 $mono: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace !default;
