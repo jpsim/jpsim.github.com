@@ -1,0 +1,118 @@
+body {
+  width: 80%;
+  margin: 0 auto;
+  background-color: $main-bg;
+  font: 1em/1.5em $serif;
+  color: $text-color;
+  font-weight: 400;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+  vertical-align: baseline;
+}
+
+/* deal with likely inherited shrinkage */
+ul p, ol p, table p, dl p, ul ul, ol ol, ul ol, ol ul, address p, li blockquote, blockquote p, form div div, form div p, fieldset div, table form div, pre code, p time, footer .meta time { font-size: 1em; }
+
+strong, b {
+  font-weight: 400;
+  font-style: normal;
+  color: $text-color-darkest;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 1em 0;
+}
+
+blockquote {
+  margin: 1em 0;
+  padding: 1.5em;
+  background: rgba(255,255,255,.7);
+  font-size: 1.125em;
+  font-style: italic;
+}
+
+cite {
+  color: $text-color-light;
+  font-size: .8em;
+  font-style: normal;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+abbr {
+  letter-spacing: .05em;
+}
+
+ul, ol {
+  margin: 1em 0 1em -1em;
+  padding: 0 0 0 1em;
+}
+
+html, button, input, select, textarea {
+  font-family: $serif;
+  color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1 {
+  font-size: 1.5em;
+  line-height: 1.2em;
+}
+
+h2, h3, h4, h5, h6 {
+  font-size: 1em;
+  padding: .75em 0 .25em;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+}
+
+h3 {
+  font-size: .9em;
+}
+
+h4 {
+  font-size: .85em;
+}
+
+h5, h6 {
+  font-size: .8em;
+}
+
+
+.main-header h1 {
+  font-size: .85em;
+  line-height: 1.125em;
+  margin: 0;
+  padding: 1em 0 0;
+  color: $text-color-light;
+}
+
+.main-header h1 a, .main-header h1 a:visited {
+  font-size: 1.25em;
+  line-height: 1.5em;
+  // text-transform: uppercase;
+  // letter-spacing: .15em;
+  font-style: italic;
+  color: $text-color-dark;
+  border-bottom: none;
+}
+
+.main-header h1 a {
+  display: block;
+}
+
+::-moz-selection {
+  background: $link-color;
+}
+
+::selection {
+  background: $link-color;
+}
