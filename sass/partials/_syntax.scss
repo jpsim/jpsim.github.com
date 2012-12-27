@@ -204,6 +204,7 @@ $solar-scroll-thumb: rgba(#fff, .2);
 pre, .highlight, .gist-highlight {
   &::-webkit-scrollbar {  height: .5em; background: $solar-scroll-bg; }
   &::-webkit-scrollbar-thumb:horizontal { background: $solar-scroll-thumb;  -webkit-border-radius: 4px; border-radius: 4px }
+  margin: 0;
 }
 
 .highlight code { @extend .pre-code; background: #000;}
@@ -248,6 +249,5 @@ figure.code {
   z-index: 1;
   font-size: 13px;
   text-shadow: #cbcccc 0 1px 0;
-  padding-left: 3em;
+  border-bottom: 0;
 }
-

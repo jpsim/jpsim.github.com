@@ -71,6 +71,7 @@ td { vertical-align: top; }
 .invisible { visibility: hidden; }
 
 @import "base";
+@import "partials/syntax";
 
 @media print {
   * { background: transparent !important; color: black !important; box-shadow:none !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; }
