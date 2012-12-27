@@ -7,10 +7,6 @@ categories: mbs entrepreneurship
 ---
 *Every minute* a founder is away from their team is costly.
 
-``` ruby
-ruby_code
-```
-
 Opportunities to do some business development, or to help out a client for a short while may seem tempting, but if it means being unavailable to your team, you **must** keep this period as short as possible. *This effect is compounded the smaller your team is.*
 
 In August, one of our *[awesome](http://openera.com)* clients invited us to work alongside them in Montréal for 2 months during their stint at the [Founder Fuel](http://founderfuel.com) accelerator.
