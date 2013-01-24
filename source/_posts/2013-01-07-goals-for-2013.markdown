@@ -3,7 +3,7 @@ layout: post
 title: "Goals for <span>2013</span>"
 date: 2013-01-07 12:03
 comments: true
-categories: personal, music, running
+categories: personal music running
 ---
 Writing my goals for 2013 publicly to keep myself accountable.
 
