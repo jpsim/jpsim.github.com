@@ -16,10 +16,10 @@ description: "JP Simard is an iOS Dev and founder of Magnetic Bear Studios based
 date_format: "ordinal"
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
-subscribe_rss:
+subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
-email:
+email: jp@jpsim.com
 
 # ----------------------- #
 #    Jekyll & Plugins     #

@@ -7,7 +7,7 @@
 
          | <a class="disqus-link" href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread">Comments</a>
         {% endif %}
-        | <a class="rss-feed" href="http://feeds.feedburner.com/jpsim">RSS Feed</a>
+        | <a class="rss-feed" href="{{ site.url }}/atom.xml">RSS Feed</a>
       </p>
     {% endunless %}
     {% if index %}
