@@ -3,7 +3,7 @@ layout: post
 title: "A more <span>open</span> kind of agency"
 date: 2013-01-07 14:12
 comments: true
-categories: mbs
+categories: mbs entrepreneurship opensource
 ---
 How MBS is leading the way to creating a new type of agency: a fully open one.
 
