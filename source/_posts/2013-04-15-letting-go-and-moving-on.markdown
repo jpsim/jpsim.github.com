@@ -7,7 +7,7 @@ categories: mbs dashbook entrepreneurship
 ---
 I've been building [Magnetic Bear Studios](http://mgn.tc) for the last two years.
 
-From a logo on a napkin and a 200$ contract, to an exponentially growing mobile dev shop (10x revenue, 8x staff yr/yr). One of my first big lessons running a young company was that ***it takes on a life of its own!*** It's scary.
+From a logo on a napkin and a 200$ contract, to an exponentially growing mobile dev shop. One of my first big lessons running a young company was that ***it takes on a life of its own!*** It's scary.
 
 You're focused 24/7 on finishing feature/contract #89 while dealing with time-sensitive business issues... and when you finally take a breath to look at where you are, you realize that **the company itself** has been evolving and pivoting. In a sense, it's a bit like the saying goes:
 
