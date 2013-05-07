@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "WWDC needs to <span>radically</span> change"
-date: 2013-04-26 16:54
+date: 2013-04-26 16:53
 comments: true
 categories: apple ios wwdc
 ---
