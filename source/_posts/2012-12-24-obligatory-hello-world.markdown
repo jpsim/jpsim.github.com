@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Obligatory <span>Hello World</span>"
+title: "Obligatory <span>Hello World 2</span>"
 date: 2012-12-24 13:05
 comments: true
 categories: blog
