@@ -3,7 +3,7 @@ layout: post
 title: "Obligatory <span>Hello World</span>"
 date: 2012-12-24 13:05
 comments: true
-categories: blog hello
+categories: blog
 ---
 With 2013 around the corner, it seems customary to create an article saying *"this is a new year, I'll start blogging again"*, so here I am...
 
