@@ -3,7 +3,7 @@ layout: post
 title: "On the importance of <span>pointless projects</span>"
 date: 2013-01-24 09:44
 comments: true
-categories: projects github personal
+categories: projects github personal test
 ---
 Yesterday, I [open sourced](https://github.com/jpsim/LetterpressPlayer) a Letterpress<sup>[1]</sup> cheating app for iPhone.
 
