@@ -37,9 +37,9 @@ No matter what strategy you choose to take for CocoaPods SCM, be aware of the pr
 
 Here are a few resources to help you decide:
 
-* [Official CocoaPods `.gitignore`](https://github.com/CocoaPods/pod-template/blob/master/.gitignore)
-* [CocoaPods plugin to maintain pod integrity](https://github.com/swizzlr/integer)
-* [An interesting Twitter conversation about this article :)](https://twitter.com/simjp/status/443779386865500160)
+* [Official CocoaPods `.gitignore`][3]
+* [CocoaPods plugin to maintain pod integrity][4]
+* [An interesting Twitter conversation about this article :)][5]
 
 ## Modifying Pods
 
@@ -49,11 +49,11 @@ Pre-CocoaPods, when all vendored code was checked in, it was trivial to make sma
 
 ### 1. Pull Request
 
-If your modifications are useful to other users of the 3rd party library, then consider submitting a [Pull Request][4]. This way, everyone benefits. Hopefully it will be merged quickly.
+If your modifications are useful to other users of the 3rd party library, then consider submitting a [Pull Request][6]. This way, everyone benefits. Hopefully it will be merged quickly.
 
 ### 2. Fork
 
-Certain projects are notorious for taking a long time to merge PR's ([cough][5]). In those cases or cases when your PR's aren't accepted, it can be useful to just point your `Podfile` to your fork of the project. Add this to your `Podfile`:
+Certain projects are notorious for taking a long time to merge PR's ([cough][7]). In those cases or cases when your PR's aren't accepted, it can be useful to just point your `Podfile` to your fork of the project. Add this to your `Podfile`:
 
 ```ruby
 pod 'KIF', :git => 'https://github.com/ksuther/KIF'
@@ -63,7 +63,7 @@ The downside to this approach is that you have to keep your fork up to date, whi
 
 ### 3. Diffs
 
-If your modifications are small, I'd encourage you to use patchfiles (`*.diff`) to apply them to your pods. This will apply your modifications every time you run `pod install`, with the added benefit of using the latest upstream updates. To see how it works, take a look at this github project: [jpsim/pod-diffs][6].
+If your modifications are small, I'd encourage you to use patchfiles (`*.diff`) to apply them to your pods. This will apply your modifications every time you run `pod install`, with the added benefit of using the latest upstream updates. To see how it works, take a look at this github project: [jpsim/pod-diffs][8].
 
 *Sidenote: patchfiles are super neat! Even if you modify code around your modification or the line numbers change, it's smart enought to find it again!*
 
@@ -73,12 +73,19 @@ This is a last resort. If all other methods fail, check in your vendored code in
 
 ## Continuous Integration & Xcode Bots
 
-There's this misconception that using Xcode 5's [Bots] feature for CI with CocoaPods projects means that you **must** check in your pods. In fact, Xcode Bots have the ability to run scripts prior to building your app. Check out [this gist][7] for a comprehensive guide to Bots and CocoaPods.
+There's this misconception that using Xcode 5's [Bots][9] feature for CI with CocoaPods projects means that you **must** check in your pods. In fact, Xcode Bots have the ability to run scripts prior to building your app. Check out [this gist][10] for a comprehensive guide to Bots and CocoaPods.
+
+---
+
+*Thanks to @alloy, @aschndr, @ashfurrow & @swizzlr for their feedback while writing this article*
 
 [1]: http://cocoapods.org
 [2]: https://github.com/AFNetworking/AFNetworking
-[4]: https://help.github.com/articles/using-pull-requests
-[5]: https://github.com/kif-framework/KIF
-[6]: https://github.com/jpsim/pod-diffs
-[Bots]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/ConfigureBots/ConfigureBots.html
-[7]: https://gist.github.com/mtitolo/f5283c54e300d88d9418
+[3]: https://github.com/CocoaPods/pod-template/blob/master/.gitignore
+[4]: https://github.com/swizzlr/integer
+[5]: https://twitter.com/simjp/status/443779386865500160
+[6]: https://help.github.com/articles/using-pull-requests
+[7]: https://github.com/kif-framework/KIF
+[8]: https://github.com/jpsim/pod-diffs
+[9]: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/ConfigureBots/ConfigureBots.html
+[10]: https://gist.github.com/mtitolo/f5283c54e300d88d9418
