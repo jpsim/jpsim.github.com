@@ -22,9 +22,12 @@ body {
 ul p, ol p, table p, dl p, ul ul, ol ol, ul ol, ol ul, address p, li blockquote, blockquote p, form div div, form div p, fieldset div, table form div, pre code, p time, footer .meta time { font-size: 1em; }
 
 strong, b {
-  font-weight: 400;
+  font-weight: 600;
   font-style: normal;
-  color: $text-color-darkest;
+}
+
+em strong, b {
+  font-style: italic;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
