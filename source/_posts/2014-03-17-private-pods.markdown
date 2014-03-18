@@ -22,7 +22,7 @@ You can either create a Specs-like private repo as indicated in [this official C
 Here's how you'd reference it directly in a `Podfile`:
 
 ```ruby
-pod 'PrivatePod', :podspec => 'https://raw.github.com/jpsim/JPSDisplayLink/master/JPSDisplayLink.podspec'
+pod 'PrivatePod', :podspec => 'https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec'
 ```
 
 ### Local
