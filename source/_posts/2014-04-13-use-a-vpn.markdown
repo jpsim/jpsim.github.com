@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Use a VPN!"
+date: 2014-04-13 12:22
+comments: true
+categories: tutorials
+---
+Using a private VPN has never been easier, it's foolish not to do it. It takes ~60s and you're protected on untrusted WiFi networks.
+
+This article is more public service announcement than tutorial, since it's really so easy you have no reason not to do it.
+
+I'll be showing you how to set up [OpenVPN] on [DigitalOcean] using [tugboat], but any server provider will do.
+
+## 1: Spin up an instance
+
+`$ tugboat create vpn`
+
+## 2: Install OpenVPN Access Server
+
+```
+$ tugboat ssh vpn
+$ wget http://swupdate.openvpn.org/as/openvpn-as-2.0.6-Ubuntu13.amd64.deb
+$ dpkg -i openvpn-as-2.0.6-Ubuntu13.amd64.deb
+$ sudo passwd openvpn
+```
+
+The steps are 1) ssh, 2) download 3) install 4) set password. It's that easy.
+
+You can find the latest OpenVPN AS package for your system [here][OpenVPN-releases].
+
+## 3: Download your client
+
+In the STDOUT from the `dpkg -i`, you'll see a `Client UI` URL to connect to from your computer/smartphone to download the client. It'll look like this:
+
+```
+$ Access Server web UIs are available here:
+$ Admin  UI: https://123.456.789.123:943/admin
+$ Client UI: https://123.456.789.123:943/
+```
+
+Accessing this URL will likely give you a certificate warning in your browser. This is because OpenVPN created a self-signed SSL certificate that your browser won't recognize. You can either proceed anyway, or download the auto-generated cert from your machine directly, and then proceed. I wasn't able to do this, so if you know how, please comment and I'll update this article.
+
+## 4: Connect
+
+Install the client, connect and voilà. You're now tunneling all your traffic through your vpn!
+
+## 5 (optional): Save the DigitalOcean image
+
+To save on cost, I only create this VPN server (from a saved image) when I need it and destroy it when I'm done. This saves on hosting costs **AND** DigitalOcean doesn't *actually* [charge for snapshots][snapshot-billing]!!!
+
+## Final Thoughts
+
+I'm writing this article from San Francisco's public city WiFi, through my newly minted OpenVPN server, without fear of a malicious San Franciscan sniffing my sensitive data :).
+
+[OpenVPN]: https://openvpn.net
+[DigitalOcean]: https://www.digitalocean.com
+[tugboat]: https://github.com/pearkes/tugboat
+[OpenVPN-releases]: https://openvpn.net/index.php/access-server/download-openvpn-as-sw.html
+[snapshot-billing]: https://www.digitalocean.com/community/questions/questions-on-snapshot-billing
