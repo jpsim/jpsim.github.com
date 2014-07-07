@@ -80,11 +80,11 @@ Because SourceKit lives outside of Xcode, it’s possible to leverage it to buil
 
 ![jazzy](/images/posts/jazzy.jpg)
 
-[jazzy][jazzy] is a command-line utility that generates documentation for your Swift or Objective-C projects. It uses SourceKit to derive Swift syntax from Objective-C defined tokens (i.e. class, property, method, etc.).
+[jazzy][jazzy] is a command-line utility that generates documentation for your Swift and Objective-C projects. It uses SourceKit to derive Swift syntax from Objective-C defined tokens (i.e. class, property, method, etc.).
 
 ### SwiftEdit
 
-[SwiftEdit][SwiftEdit] is a proof-of-concept editor that supports syntax highlighting for Swift projects.
+[SwiftEdit][SwiftEdit] is a proof-of-concept editor that supports syntax highlighting for Swift files.
 
 ![SwiftEdit](/images/posts/SwiftEdit.png)
 
