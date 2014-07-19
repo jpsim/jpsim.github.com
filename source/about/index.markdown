@@ -1,19 +1,18 @@
 ---
 layout: page
-title: "Hi, I'm JP Simard - an <span>iOS developer</span> and entrepreneur based in <span>Ottawa, Canada.</span>"
+title: "Hi, I'm JP Simard - an <span>iOS developer</span> and entrepreneur based in <span>SFO & Ottawa</span>."
 comments: false
 sharing: false
 footer: false
 style:
 ---
-In a nutshell, I'm an iOS developer at [@magneticbear](http://magneticbear.com) studios (founder), electrical engineer, musician, runner, jazz aficionado and a fake graphic designer.
+iOS/OSX developer at [Realm](http://realm.io), previously [Magnetic Bear Studios](http://magneticbear.com) (founder), electrical engineer, musician, runner, jazzman and a fake graphic designer.
 
-##Contact
-Email: [jp@jpsim.com](mailto:jp@jpsim.com)
+## Contact
 
-Tel: +1 888 744 0098 x101
+* Email: [{{ site.email }}](mailto:{{ site.email }})
+* Twitter: [@{{ site.twitter_user }}](https://twitter.com/{{ site.twitter_user }})
+* GitHub: [@{{ site.github_user }}](https://github.com/{{ site.github_user }})
 
-Twitter: [@simjp](https://twitter.com/simjp)
-
-> &#147;Don't play what's there, play what's not there.&#148;
-> <cite>&mdash; Miles Davis</cite>
+> "Don't play what's there, play what's not there."
+> <cite><br />– Miles Davis</cite>
