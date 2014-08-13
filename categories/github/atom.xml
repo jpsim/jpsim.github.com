@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: github | JP Simard]]></title>
+  <link href="http://jpsim.github.com/categories/github/atom.xml" rel="self"/>
+  <link href="http://jpsim.github.com/"/>
+  <updated>2014-08-13T18:02:24-04:00</updated>
+  <id>http://jpsim.github.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JPSThumbnailAnnotation updated for iOS 7]]></title>
+    <link href="http://jpsim.github.com/jpsthumbnailannotation-updated-for-ios-7/"/>
+    <updated>2014-03-27T11:55:00-04:00</updated>
+    <id>http://jpsim.github.com/jpsthumbnailannotation-updated-for-ios-7</id>
+    <content type="html"><![CDATA[<p>I've just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
+
+<p>Check it out on <a href="https://github.com/jpsim/JPSThumbnailAnnotation">GitHub</a> or just add it to CocoaPods: <code>pod 'JPSThumbnailAnnotation'</code>.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots2.jpg" alt="Screenshots" /></p>
+
+<p>I decided not to maintain the iOS 6 <em>style</em>, but iOS 6 is still supported.</p>
+
+<p>By the way, this is what the old style looked like. It's still in git, if you need to find it for some reason.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots.jpg" alt="Old Screenshots" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Keyboard Layout Guide]]></title>
+    <link href="http://jpsim.github.com/keyboard-layout-guide/"/>
+    <updated>2014-03-26T14:41:00-04:00</updated>
+    <id>http://jpsim.github.com/keyboard-layout-guide</id>
+    <content type="html"><![CDATA[<p>I really like iOS 7's <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They're immensely useful. But in my adventures with Auto Layout, I've often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
+
+<p>It's a bit of a drag to have to set up <code>NSNotification</code> observers just to be able to keep your textfield on the screen when the keyboard barges into view. So I added a <code>keyboardLayoutGuide</code> to <code>UIViewController</code> myself. You can check it out on GitHub here: <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">jpsim/JPSKeyboardLayoutGuide</a>.</p>
+
+<p>If you've used Apple's layout guides before, you'll know that they're actually just <code>id</code>'s that conform to the <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UILayoutSupport_Protocol/Reference/Reference.html"><code>UILayoutSupport</code> Protocol</a>. So I figured that having the guide just be a zero-sized UIView was probably the best way to go. This way, I can easily add it to the view and bind it to the keyboard frame by modifying a constraint's constant.</p>
+
+<p>In all honesty, I dislike the inheritance approach I took here; it seems like the easy way out. I'm hoping that either myself or a contributor will have a stroke of genius and find a composition-based way to do this. Perhaps a starting point would be a category on <code>UIViewController</code> along with an associated object as the <code>keyboardLayoutGuide</code> property... But then the <code>NSNotification</code>s will be troublesome. If you have an idea, please fork and send a PR or open up an issue on <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">github</a>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JPSVolumeButtonHandler]]></title>
+    <link href="http://jpsim.github.com/jpsvolumebuttonhandler/"/>
+    <updated>2014-02-19T14:38:00-05:00</updated>
+    <id>http://jpsim.github.com/jpsvolumebuttonhandler</id>
+    <content type="html"><![CDATA[<p>The fun times building a <a href="https://github.com/jpsim/JPSVolumeButtonHandler">tiny open source class</a> to use an iOS device's hardware volume buttons in 3rd party apps.</p>
+
+<p>This wasn't <em>too</em> hard, but the I thought the process merited a short blog post.</p>
+
+<p>I recently made a pixel-for-pixel clone of Apple's iOS 7 <code>UIImagePickerController</code> (the camera portion, not the library portion). The full code can be found on <a href="https://github.com/jpsim/JPSImagePickerController">github</a>.</p>
+
+<p>My motivation for doing this was that I was working on a client app that included functionality to take a picture and analyze it to determine whether or not it passed certain quality checks (legibility, resolution, completeness, etc). I wanted to display a message based on the result of this quality check during the "review" process of <code>UIImagePickerController</code>.</p>
+
+<p><img src="https://raw.github.com/jpsim/JPSImagePickerController/master/screenshots.png" alt="JPSImagePickerController in action" /></p>
+
+<p>The part I want to discuss is the code that uses the phone's hardware volume up button to snap a picture.</p>
+
+<p>There are a few hurdles to jump over to make this seamless:</p>
+
+<ol>
+<li>There's no official API or notification to observe the audio volume or hardware volume button presses</li>
+<li><code>UIImagePickerController</code> doesn't pass-through volume button presses to the system audio</li>
+<li>There's no official way to stop the system audio from being modified on a volume button press</li>
+<li>The only way to disable the HUD that appears on volume change is to display an <code>MPVolumeView</code> (it won't work if it's hidden or if its alpha is zero)</li>
+<li>The only way to set the system audio level is to use a deprecated method (i.e. if we want to undo a volume change caused by a volume button press)</li>
+<li>The system audio volume won't go up if it's already set to 1 and won't go down if it's set to 0. This means that button presses won't be registered if audio is at its maximum or its minimum.</li>
+</ol>
+
+
+<p>So I wrote a class called <a href="https://github.com/jpsim/JPSVolumeButtonHandler"><code>JPSVolumeButtonHandler</code></a> that solves the previous problems in the following way:</p>
+
+<ol>
+<li>Create an off-screen <code>MPVolumeView</code></li>
+<li>If the volume is at 1, set it to <code>0.99999f</code>, if it's at 0, set it to <code>0.00001f</code>, otherwise do nothing</li>
+<li>KVO observe the <code>outputVolume</code> property of an <code>AVAudioSession</code></li>
+<li>Set the <code>AVAudioSession</code>'s category to <code>AVAudioSessionCategoryAmbient</code> to not duck any other volume</li>
+<li>Trigger up/down code blocks when KVO notifies us of a change</li>
+<li>Reset the system audio to its initial value when KVO notifies us that it has changed</li>
+<li>Discard KVO notifications when the new volume value is the same as our initial value, since that means we reset the volume</li>
+</ol>
+
+
+<p>Hopefully either the <a href="https://github.com/jpsim/JPSImagePickerController">image picker clone</a>, or this <a href="https://github.com/jpsim/JPSVolumeButtonHandler">volume button class</a> ends up being useful to a few people.</p>
+
+<p>Thanks for reading!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JPSThumbnailAnnotation]]></title>
+    <link href="http://jpsim.github.com/jpsthumbnailannotation/"/>
+    <updated>2013-04-22T06:43:00-04:00</updated>
+    <id>http://jpsim.github.com/jpsthumbnailannotation</id>
+    <content type="html"><![CDATA[<p>I just released a new iOS component called <a href="https://github.com/jpsim/JPSThumbnailAnnotation">JPSThumbnailAnnotation</a> which is a great way to display thumbnails on a map.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots.jpg" alt="JPSThumbnailAnnotation in action" /></p>
+
+<p>This component was actually originally built at <a href="http://mgn.tc">MBS</a> for the ScalaOne iPhone app (now called TypesafeCon). You can find the original source <a href="https://github.com/magneticbear/scalaone_iphone">here</a>.</p>
+
+<p>After seeing <a href="http://samvermette.com">Sam Vermette</a>'s talk on Saturday at <a href="http://nsnorth.ca">NSNorth</a> on Open Source and his philosophy towards it, I decided to go back and extract this little component. It was built pretty quickly at the time, so it was very tightly coupled to the app itself. So I abstracted it a bit, and chose to release it as an individual component. This should make it easier for other iOS developers to integrate this component into their own map apps.</p>
+
+<p>Here's to hoping we find a few things at <a href="http://dashbook.co">Dashbook</a> that we can release in the open in the near future!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On the importance of <span>pointless projects</span>]]></title>
+    <link href="http://jpsim.github.com/pointless-projects/"/>
+    <updated>2013-01-24T09:44:00-05:00</updated>
+    <id>http://jpsim.github.com/pointless-projects</id>
+    <content type="html"><![CDATA[<p>Yesterday, I <a href="https://github.com/jpsim/LetterpressPlayer">open sourced</a> a Letterpress<sup>[1]</sup> cheating app for iPhone.</p>
+
+<p>I built it because I knew it would imply a bit of computer vision, OCR, basic set comparisons, yet it could probably be done in just a few hours.</p>
+
+<p>Even though it will never make money and the codebase is slightly embarrassing, I feel reenergized after writing it and my mind is clearer.</p>
+
+<p>Given that most of our projects at <a href="http://magneticbear.com">MBS</a> spend a few <em>months</em> in incubation before launching, it's incredibly refreshing to take a break. And of course, that's nothing compared to projects in more traditional fields of engineering like mech or electrical, which typically take years to release.</p>
+
+<p>So go out there and build something <em>crude</em> but useful.</p>
+
+<p><em>[1] <a href="http://www.atebits.com/letterpress/">Letterpress</a> is an insanely simple yet addicting game for iOS by Loren Brichter (a.k.a. atebits). If that name sounds familiar, it's possibly because he's also credited with the invention of the Pull-to-refresh concept and built the first version of what's now Twitter's official iPhone app.</em></p>
+]]></content>
+  </entry>
+  
+</feed>

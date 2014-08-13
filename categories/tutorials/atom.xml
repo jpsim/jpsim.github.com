@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tutorials | JP Simard]]></title>
+  <link href="http://jpsim.github.com/categories/tutorials/atom.xml" rel="self"/>
+  <link href="http://jpsim.github.com/"/>
+  <updated>2014-08-13T18:02:24-04:00</updated>
+  <id>http://jpsim.github.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Use a VPN!]]></title>
+    <link href="http://jpsim.github.com/use-a-vpn/"/>
+    <updated>2014-04-13T12:22:00-04:00</updated>
+    <id>http://jpsim.github.com/use-a-vpn</id>
+    <content type="html"><![CDATA[<p>Using a private VPN has never been easier, it's foolish not to do it. It takes ~60s and you're protected on untrusted WiFi networks.</p>
+
+<p>This article is more public service announcement than tutorial, since it's really so easy you have no reason not to do it.</p>
+
+<p>I'll be showing you how to set up <a href="https://openvpn.net">OpenVPN</a> on <a href="https://www.digitalocean.com">DigitalOcean</a> using <a href="https://github.com/pearkes/tugboat">tugboat</a>, but any server provider will do.</p>
+
+<h2>1: Spin up an instance</h2>
+
+<p><code>$ tugboat create vpn</code></p>
+
+<h2>2: Install OpenVPN Access Server</h2>
+
+<pre><code>$ tugboat ssh vpn
+$ wget http://swupdate.openvpn.org/as/openvpn-as-2.0.6-Ubuntu13.amd64.deb
+$ dpkg -i openvpn-as-2.0.6-Ubuntu13.amd64.deb
+$ sudo passwd openvpn
+</code></pre>
+
+<p>The steps are 1) ssh, 2) download 3) install 4) set password. It's that easy.</p>
+
+<p>You can find the latest OpenVPN AS package for your system <a href="https://openvpn.net/index.php/access-server/download-openvpn-as-sw.html">here</a>.</p>
+
+<h2>3: Download your client</h2>
+
+<p>In the STDOUT from the <code>dpkg -i</code>, you'll see a <code>Client UI</code> URL to connect to from your computer/smartphone to download the client. It'll look like this:</p>
+
+<pre><code>$ Access Server web UIs are available here:
+$ Admin  UI: https://123.456.789.123:943/admin
+$ Client UI: https://123.456.789.123:943/
+</code></pre>
+
+<p>Accessing this URL will likely give you a certificate warning in your browser. This is because OpenVPN created a self-signed SSL certificate that your browser won't recognize. You can either proceed anyway, or download the auto-generated cert from your machine directly, and then proceed. I wasn't able to do this, so if you know how, please comment and I'll update this article.</p>
+
+<h2>4: Connect</h2>
+
+<p>Install the client, connect and voilà. You're now tunneling all your traffic through your vpn!</p>
+
+<h2>5 (optional): Save the DigitalOcean image</h2>
+
+<p>To save on cost, I only create this VPN server (from a saved image) when I need it and destroy it when I'm done. This saves on hosting costs <strong>AND</strong> DigitalOcean doesn't <em>actually</em> <a href="https://www.digitalocean.com/community/questions/questions-on-snapshot-billing">charge for snapshots</a>!!!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I'm writing this article from San Francisco's public city WiFi, through my newly minted OpenVPN server, without fear of a malicious San Franciscan sniffing my sensitive data :).</p>
+]]></content>
+  </entry>
+  
+</feed>

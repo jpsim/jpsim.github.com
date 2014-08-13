@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[JP Simard]]></title>
+  <link href="http://jpsim.github.com/atom.xml" rel="self"/>
+  <link href="http://jpsim.github.com/"/>
+  <updated>2014-08-13T18:02:24-04:00</updated>
+  <id>http://jpsim.github.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Uncovering SourceKit]]></title>
+    <link href="http://jpsim.github.com/uncovering-sourcekit/"/>
+    <updated>2014-07-06T16:07:00-04:00</updated>
+    <id>http://jpsim.github.com/uncovering-sourcekit</id>
+    <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we&#8217;ll focus on <em>SourceKit</em>, Xcode&#8217;s under-appreciated sidekick.</p>
+
+<p><img src="http://jpsim.github.com/images/posts/sidekick.jpg" alt="sidekick" /></p>
+
+<center><sub>SourceKitSidekick temporarily wearing a cape</sub></center>
+
+
+<p><br/></p>
+
+<h2>What is SourceKit?</h2>
+
+<p>SourceKit is the set of tools that enables most of Swift&#8217;s source code manipulation features: source code parsing, syntax highlighting, typesetting, autocomplete, cross-language header generation, and lots more.</p>
+
+<h2>Architecture</h2>
+
+<p>Xcode traditionally runs its compiler (<a href="http://clang.llvm.org">Clang</a>) <em>in-process</em>, which means that any time the compiler would crash, so would the IDE.</p>
+
+<p><img src="http://jpsim.github.com/images/posts/house_of_cards.jpg" alt="house of cards" /></p>
+
+<center><sub>Xcode architecture diagram</sub></center>
+
+
+<p><br/></p>
+
+<p>Exacerbating the problem, Xcode can easily invoke the compiler thousands of times to parse, highlight and typeset source code, all before a user ever hits <em>⌘+B</em>. That&#8217;s because unlike most editors (Vim/Sublime/etc), Xcode doesn&#8217;t use regular expressions to parse source code, but rather Clang&#8217;s powerful (though much more complex) parser/tokenizer.</p>
+
+<p>Thankfully, Swift in Xcode 6 moves away from this architecture<sup>1</sup>, combining all these source code manipulation features into a separate process that communicates with Xcode through <a href="https://developer.apple.com/library/mac/documentation/macosx/conceptual/bpsystemstartup/chapters/CreatingXPCServices.html">XPC</a>: <code>sourcekitd</code>. This XPC daemon is launched whenever Xcode 6 loads any Swift code.</p>
+
+<p><img src="http://jpsim.github.com/images/posts/sourcekit_terminated.jpg" alt="sourcekit terminated" /></p>
+
+<center><sub>Life would be miserable if Xcode crashed every time this appeared</sub></center>
+
+
+<p><br/></p>
+
+<h2>How Xcode uses SourceKit</h2>
+
+<p>Since SourceKit is a private and undocumented tool, we need to get a little creative to learn how to use it. By setting the <code>SOURCEKIT_LOGGING</code><sup>2</sup> environment variable, Xcode will log its SourceKit communications to <code>stdout</code>, allowing us to monitor its communications in realtime. This is how many of the commands covered in this article were discovered.</p>
+
+<h2>Unified Symbol Resolution</h2>
+
+<p>SourceKit uses a Clang feature called the USR (Unified Symbol Resolution) as a unique identifier for a source code token (i.e. class, property, method, etc.). This is what allows you to <em>⌘+click</em> any token in Xcode and navigate to its definition. The USR is even more powerful now that it can unify a representation across languages (Swift/ObjC).</p>
+
+<p><img src="http://jpsim.github.com/images/posts/usr.jpg" alt="usr" /></p>
+
+<center><sub>The USR at work</sub></center>
+
+
+<p><br/></p>
+
+<p>To print the USR&#8217;s from a Swift file (and their locations), you can run the following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcrun swift-ide-test -print-usrs -source-filename=Musician.swift
+</span><span class='line'>10:7 s:C14swift_ide_test8Musician
+</span><span class='line'>14:9 s:vC14swift_ide_test8Musician4nameSS
+</span><span class='line'>19:9 s:vC14swift_ide_test8Musician9birthyearSu
+</span><span class='line'>33:5 s:FC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_
+</span><span class='line'>33:10 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
+</span><span class='line'>33:24 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu
+</span><span class='line'>34:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
+</span><span class='line'>34:21 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
+</span><span class='line'>35:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
+</span><span class='line'>35:26 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Swift<em>ish</em> header generation</h2>
+
+<p><em>⌘+clicking</em> on a token defined in Objective-C from Swift will cause Xcode to trigger a Swift-like header to be generated. I say Swift-like because this generated file is not valid Swift<sup>3</sup>, but at least displays the Swift syntax equivalent to the Objective-C tokens.</p>
+
+<p><a href="http://jpsim.github.com/images/posts/generated_swift_header.jpg"><img src="http://jpsim.github.com/images/posts/generated_swift_header.jpg" alt="Generated Swift Header" /></a></p>
+
+<center><sub>Left: original Objective-C header. Right: SourceKit-generated Swift-ish version.</sub></center>
+
+
+<p><br/></p>
+
+<h2>Using SourceKit from the command line</h2>
+
+<p><img src="http://jpsim.github.com/images/posts/sourcekit_playground.jpg" alt="SourceKit Playground" /></p>
+
+<p>There are 3 main command line tools that allow to interact with SourceKit: <code>sourcekitd-test</code>, <code>swift-ide-test</code> and <code>swift</code>.</p>
+
+<p>I compiled a shell script with documentation that runs through many useful commands like syntax highlighting, interface generation, AST parsing, demangling, and more.</p>
+
+<p>The script is available on GitHub as a <a href="https://gist.github.com/jpsim/13971c81445219db1c63#file-sourcekit_playground-sh">gist</a>.</p>
+
+<h2>3rd Party Tools Using SourceKit</h2>
+
+<p>Because SourceKit lives outside of Xcode, it’s possible to leverage it to build anything from a Swift IDE to a documentation generator.</p>
+
+<h3>jazzy<sup>♪♫</sup></h3>
+
+<p><img src="http://jpsim.github.com/images/posts/jazzy.jpg" alt="jazzy" /></p>
+
+<p><a href="https://github.com/realm/jazzy">jazzy</a> is a command-line utility that generates documentation for your Swift and Objective-C projects. It uses SourceKit to derive Swift syntax from Objective-C defined tokens (i.e. class, property, method, etc.).</p>
+
+<h3>SwiftEdit</h3>
+
+<p><a href="https://github.com/jpsim/SwiftEdit">SwiftEdit</a> is a proof-of-concept editor that supports syntax highlighting for Swift files.</p>
+
+<p><img src="http://jpsim.github.com/images/posts/SwiftEdit.png" alt="SwiftEdit" /></p>
+
+<h2>SourceKit &amp; You</h2>
+
+<p>We’re just scratching the surface of what’s possible to build with SourceKit. Tools could be made to measure cross-language code coverage, or provide an editor where Objective-C and Swift can be edited simultaneously. Hopefully this article inspires you to build something with SourceKit and improve our tools in the process.</p>
+
+<hr />
+
+<p><em>1: Objective-C in Xcode 6 (Beta 2) doesn&#8217;t use SourceKit at all, keeping Xcode&#8217;s traditional clang-in-process architecture. I expect this to change before Xcode 6 GM.</em></p>
+
+<p><em>2: For SourceKit logging, launch Xcode with <sub><code>export SOURCEKIT_LOGGING=3 &amp;&amp; /Applications/Xcode6-Beta2.app/Contents/MacOS/Xcode</code></sub></em></p>
+
+<p><em>3: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has <a href="https://github.com/ksm/SwiftInFlux#access-control">access control mechanisms</a>.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SF Swift Meetup]]></title>
+    <link href="http://jpsim.github.com/sf-swift-meetup/"/>
+    <updated>2014-06-27T14:58:00-04:00</updated>
+    <id>http://jpsim.github.com/sf-swift-meetup</id>
+    <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We&#8217;ve made the whole thing available online:</p>
+
+<ul>
+<li><a href="http://realm.io/news/swift-unchartered-territory-swift-intro-and-internals">Video</a></li>
+<li><a href="https://speakerdeck.com/jpsim/swift-uncharted-territory">Slides</a></li>
+<li><a href="https://github.com/jpsim/talks">Slides Source</a></li>
+</ul>
+
+
+<p>The first half of the talk covers the basic features and syntax of the language. The rest of the talk touches on some more in-depth discoveries about the runtime, introspection and how the tools work behind the scenes.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use a VPN!]]></title>
+    <link href="http://jpsim.github.com/use-a-vpn/"/>
+    <updated>2014-04-13T12:22:00-04:00</updated>
+    <id>http://jpsim.github.com/use-a-vpn</id>
+    <content type="html"><![CDATA[<p>Using a private VPN has never been easier, it&#8217;s foolish not to do it. It takes ~60s and you&#8217;re protected on untrusted WiFi networks.</p>
+
+<p>This article is more public service announcement than tutorial, since it&#8217;s really so easy you have no reason not to do it.</p>
+
+<p>I&#8217;ll be showing you how to set up <a href="https://openvpn.net">OpenVPN</a> on <a href="https://www.digitalocean.com">DigitalOcean</a> using <a href="https://github.com/pearkes/tugboat">tugboat</a>, but any server provider will do.</p>
+
+<h2>1: Spin up an instance</h2>
+
+<p><code>$ tugboat create vpn</code></p>
+
+<h2>2: Install OpenVPN Access Server</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tugboat ssh vpn
+</span><span class='line'>$ wget http://swupdate.openvpn.org/as/openvpn-as-2.0.6-Ubuntu13.amd64.deb
+</span><span class='line'>$ dpkg -i openvpn-as-2.0.6-Ubuntu13.amd64.deb
+</span><span class='line'>$ sudo passwd openvpn</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The steps are 1) ssh, 2) download 3) install 4) set password. It&#8217;s that easy.</p>
+
+<p>You can find the latest OpenVPN AS package for your system <a href="https://openvpn.net/index.php/access-server/download-openvpn-as-sw.html">here</a>.</p>
+
+<h2>3: Download your client</h2>
+
+<p>In the STDOUT from the <code>dpkg -i</code>, you&#8217;ll see a <code>Client UI</code> URL to connect to from your computer/smartphone to download the client. It&#8217;ll look like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ Access Server web UIs are available here:
+</span><span class='line'>$ Admin  UI: https://123.456.789.123:943/admin
+</span><span class='line'>$ Client UI: https://123.456.789.123:943/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Accessing this URL will likely give you a certificate warning in your browser. This is because OpenVPN created a self-signed SSL certificate that your browser won&#8217;t recognize. You can either proceed anyway, or download the auto-generated cert from your machine directly, and then proceed. I wasn&#8217;t able to do this, so if you know how, please comment and I&#8217;ll update this article.</p>
+
+<h2>4: Connect</h2>
+
+<p>Install the client, connect and voilà. You&#8217;re now tunneling all your traffic through your vpn!</p>
+
+<h2>5 (optional): Save the DigitalOcean image</h2>
+
+<p>To save on cost, I only create this VPN server (from a saved image) when I need it and destroy it when I&#8217;m done. This saves on hosting costs <strong>AND</strong> DigitalOcean doesn&#8217;t <em>actually</em> <a href="https://www.digitalocean.com/community/questions/questions-on-snapshot-billing">charge for snapshots</a>!!!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I&#8217;m writing this article from San Francisco&#8217;s public city WiFi, through my newly minted OpenVPN server, without fear of a malicious San Franciscan sniffing my sensitive data :).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Moving to SF]]></title>
+    <link href="http://jpsim.github.com/moving-to-sf/"/>
+    <updated>2014-03-31T13:59:00-04:00</updated>
+    <id>http://jpsim.github.com/moving-to-sf</id>
+    <content type="html"><![CDATA[<p>I&#8217;m excited to share that I&#8217;ll be joining an awesome <a href="http://ycombinator.org">YC</a> company in San Francisco, starting in 2 weeks!</p>
+
+<p>The company has yet to launch, so I can&#8217;t say much about it, but I <em>can</em> tell you that I wouldn&#8217;t have joined it if I didn&#8217;t think it has the potential to change how software is built on a fundamental level.</p>
+
+<p>This decision is actually the result of over 6 weeks of careful job hunting and deliberation, so it wasn&#8217;t done on a whim.</p>
+
+<p>I&#8217;ve had a blast building <a href="http://magneticbear.com">Magnetic Bear Studios</a> over the last 3 years, but it&#8217;s time to move on. The truth is, I&#8217;m a product builder, not a business builder. It&#8217;s what I love. And that&#8217;s what I&#8217;ll be doing at this new job. The other stuff was always incidental to me, but was taking up the majority of my attention.</p>
+
+<p>I look forward to sharing more with you once we launch!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JPSThumbnailAnnotation updated for iOS 7]]></title>
+    <link href="http://jpsim.github.com/jpsthumbnailannotation-updated-for-ios-7/"/>
+    <updated>2014-03-27T11:55:00-04:00</updated>
+    <id>http://jpsim.github.com/jpsthumbnailannotation-updated-for-ios-7</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
+
+<p>Check it out on <a href="https://github.com/jpsim/JPSThumbnailAnnotation">GitHub</a> or just add it to CocoaPods: <code>pod 'JPSThumbnailAnnotation'</code>.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots2.jpg" alt="Screenshots" /></p>
+
+<p>I decided not to maintain the iOS 6 <em>style</em>, but iOS 6 is still supported.</p>
+
+<p>By the way, this is what the old style looked like. It&#8217;s still in git, if you need to find it for some reason.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots.jpg" alt="Old Screenshots" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Keyboard Layout Guide]]></title>
+    <link href="http://jpsim.github.com/keyboard-layout-guide/"/>
+    <updated>2014-03-26T14:41:00-04:00</updated>
+    <id>http://jpsim.github.com/keyboard-layout-guide</id>
+    <content type="html"><![CDATA[<p>I really like iOS 7&#8217;s <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
+
+<p>It&#8217;s a bit of a drag to have to set up <code>NSNotification</code> observers just to be able to keep your textfield on the screen when the keyboard barges into view. So I added a <code>keyboardLayoutGuide</code> to <code>UIViewController</code> myself. You can check it out on GitHub here: <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">jpsim/JPSKeyboardLayoutGuide</a>.</p>
+
+<p>If you&#8217;ve used Apple&#8217;s layout guides before, you&#8217;ll know that they&#8217;re actually just <code>id</code>&#8217;s that conform to the <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UILayoutSupport_Protocol/Reference/Reference.html"><code>UILayoutSupport</code> Protocol</a>. So I figured that having the guide just be a zero-sized UIView was probably the best way to go. This way, I can easily add it to the view and bind it to the keyboard frame by modifying a constraint&#8217;s constant.</p>
+
+<p>In all honesty, I dislike the inheritance approach I took here; it seems like the easy way out. I&#8217;m hoping that either myself or a contributor will have a stroke of genius and find a composition-based way to do this. Perhaps a starting point would be a category on <code>UIViewController</code> along with an associated object as the <code>keyboardLayoutGuide</code> property&#8230; But then the <code>NSNotification</code>s will be troublesome. If you have an idea, please fork and send a PR or open up an issue on <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">github</a>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Private Pods]]></title>
+    <link href="http://jpsim.github.com/private-pods/"/>
+    <updated>2014-03-17T19:12:00-04:00</updated>
+    <id>http://jpsim.github.com/private-pods</id>
+    <content type="html"><![CDATA[<p>Keeping a project modular is a lofty software development goal that we all strive for even though it can never be fully attained.</p>
+
+<p>One way to encourage a modular architecture is to use a dependency manager like <a href="http://cocoapods.org">Cocoapods</a>. I&#8217;ve blogged about using Cocoapods <a href="http://jpsim.github.com/cocoapods-tips-tricks">before</a>, but I didn&#8217;t touch on splitting up portions of your code that wouldn&#8217;t benefit from being open-sourced. Either because they&#8217;re too application-specific, or they&#8217;re proprietary.</p>
+
+<p>For example, say you were building an application backed by a private web API, that needed to persist data to disk. A naïve implementation (<em>read what <strong>most</strong> of us would do, including myself</em>) would combine UI, API and persistence all in one project/workspace. In a fully modular app, UI/API/persistence would all have some degree of separation.</p>
+
+<p>Private pods go a long way to help split up your codebase into logical modules. This becomes especially valuable in medium-large projects with 10k+ lines of code.</p>
+
+<p>There are two main ways to make a private pod: remote and local.</p>
+
+<h3>Remote</h3>
+
+<p>You can either create a Specs-like private repo as indicated in <a href="http://guides.cocoapods.org/making/private-cocoapods.html">this official Cocoapods guide</a> or you can host your <code>.podspec</code> online and reference it directly in your <code>Podfile</code>.</p>
+
+<p>Here&#8217;s how you&#8217;d reference it directly in a <code>Podfile</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Local</h3>
+
+<p>Though I find it unlikely, it might make sense to keep your private pods in the same repo as your project. In which case, you&#8217;d commit all its code in a special folder (i.e. <code>local_pods/POD_NAME</code>) and you&#8217;d specify the podspec path in your <code>Podfile</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, the <code>.podspec</code> would be located at <code>local_pods/PrivatePod/PrivatePod.podspec</code>.</p>
+
+<p><em>Note: I&#8217;ve had inconsistent results writing local podspecs. Specs that worked perfectly in a remote repo didn&#8217;t work at all locally for no apparent reason. Your mileage may vary, I might have made a stupid mistake.</em></p>
+
+<h2>Word of caution</h2>
+
+<p>Splitting up your codebase is not something you should do for its own sake. The additional overhead probably won&#8217;t be worthwhile in smaller projects. But the larger the project, the bigger the gain.</p>
+
+<p>On that note, I hope this article helps you decide how you want to split your monolithic 300k line app. But hey, you could always build static libraries instead (<em>cue laughter</em>).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CocoaPods Tips & Tricks]]></title>
+    <link href="http://jpsim.github.com/cocoapods-tips-tricks/"/>
+    <updated>2014-03-12T09:45:00-04:00</updated>
+    <id>http://jpsim.github.com/cocoapods-tips-tricks</id>
+    <content type="html"><![CDATA[<p><a href="http://cocoapods.org">CocoaPods</a> documentation isn&#8217;t very opiniated, which can cause confusion for newcomers. Here are a few tricks I&#8217;ve picked up after building a few dozen projects with CocoaPods.</p>
+
+<h2>Source Control</h2>
+
+<p>Should you check in <code>Podfile.lock</code>? How about your <code>*.xcworkspace</code> and the <code>Pods</code> directory? Since all of these are automatically generated by running <code>pod install</code>, is it redundant to also include them in your source control?</p>
+
+<p>Some CocoaPods maintainers recommend to check everything in.</p>
+
+<p>My approach is to check in <code>Podfile.lock</code> but not <code>xcworkspace</code> and <code>Pods</code>. Here&#8217;s why:</p>
+
+<h3>Podfile.lock</h3>
+
+<p>Checking in <code>Podfile.lock</code> has the advantage of keeping track of the pod versions last used when working on the project. Also, if you run <code>pod install</code> and some pods have changed versions, you&#8217;ll see the change in your next commit, encouraging you to confirm that nothing broke.</p>
+
+<h3>Workspace</h3>
+
+<p>In most cases, checking in the <code>*.xcworkspace</code> to source control is unnecessary, since <code>pod install</code> will automatically generate it for you. There are rare cases in which you need to customize it, in which case you should check it in.</p>
+
+<h3>Pods Directory</h3>
+
+<p>Checking in the <code>Pods</code> directory is a contested issue. Checking it in allows full control of the pods and will ensure you review every change to your vendored code. Not checking it in will keep your code more decoupled from its dependencies and clean up your commit logs. I don&#8217;t do it because it ends up creating too many commit messages, especially if you&#8217;re using a library which is updated very often, like <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>. Most dependency managers in other languages tend to not check in dependencies as well (i.e. npm &amp; rubygems).</p>
+
+<h3>Finalizing a Project</h3>
+
+<p>If I&#8217;m going to stop working on a project for a while, or I&#8217;m handing it off to a client, I&#8217;ll create a branch with everything checked in. <code>Podfile.lock</code>, <code>*.xcworkspace</code> and <code>Pods</code>. This way, even if pods change over time, or they&#8217;re removed from github, or whatever happens, I&#8217;m sure to have a working version of my project.</p>
+
+<h3>Resources</h3>
+
+<p>No matter what strategy you choose to take for CocoaPods SCM, be aware of the pros/cons of each.</p>
+
+<p>Here are a few resources to help you decide:</p>
+
+<ul>
+<li><a href="https://github.com/CocoaPods/pod-template/blob/master/.gitignore">Official CocoaPods <code>.gitignore</code></a></li>
+<li><a href="https://github.com/swizzlr/integer">CocoaPods plugin to maintain pod integrity</a></li>
+<li><a href="https://twitter.com/simjp/status/443779386865500160">An interesting Twitter conversation about this article :)</a></li>
+</ul>
+
+
+<h2>Modifying Pods</h2>
+
+<p>Before modifying a pod, ask yourself if it&#8217;s necessary. Often, a category or subclass will do.</p>
+
+<p>Pre-CocoaPods, when all vendored code was checked in, it was trivial to make small changes to 3rd party code. It&#8217;s still easy now, but not as obvious. There are many ways to make changes to Pods in your project:</p>
+
+<h3>1. Pull Request</h3>
+
+<p>If your modifications are useful to other users of the 3rd party library, then consider submitting a <a href="https://help.github.com/articles/using-pull-requests">Pull Request</a>. This way, everyone benefits. Hopefully it will be merged quickly.</p>
+
+<h3>2. Fork</h3>
+
+<p>Certain projects are notorious for taking a long time to merge PR&#8217;s (<a href="https://github.com/kif-framework/KIF">cough</a>). In those cases or cases when your PR&#8217;s aren&#8217;t accepted, it can be useful to just point your <code>Podfile</code> to your fork of the project. Add this to your <code>Podfile</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;KIF&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/ksuther/KIF&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The downside to this approach is that you have to keep your fork up to date, which is where the patchfile approach comes in.</p>
+
+<h3>3. Diffs</h3>
+
+<p>If your modifications are small, I&#8217;d encourage you to use patchfiles (<code>*.diff</code>) to apply them to your pods. This will apply your modifications every time you run <code>pod install</code>, with the added benefit of using the latest upstream updates. To see how it works, take a look at this github project: <a href="https://github.com/jpsim/pod-diffs">jpsim/pod-diffs</a>.</p>
+
+<p><em>Sidenote: patchfiles are super neat! Even if you modify code around your modification or the line numbers change, it&#8217;s smart enought to find it again!</em></p>
+
+<h3>4. Check it in</h3>
+
+<p>This is a last resort. If all other methods fail, check in your vendored code into your project outside of CocoaPods. Then, you&#8217;re free to modify it in any way you see fit. But then you need to update it manually when the upstream version changes.</p>
+
+<h2>Continuous Integration &amp; Xcode Bots</h2>
+
+<p>There&#8217;s this misconception that using Xcode 5&#8217;s <a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/ConfigureBots/ConfigureBots.html">Bots</a> feature for CI with CocoaPods projects means that you <strong>must</strong> check in your pods. In fact, Xcode Bots have the ability to run scripts prior to building your app. Check out <a href="https://gist.github.com/mtitolo/f5283c54e300d88d9418">this gist</a> for a comprehensive guide to Bots and CocoaPods.</p>
+
+<hr />
+
+<p><em>Thanks to @alloy, @aschndr, @ashfurrow &amp; @swizzlr for their feedback while writing this article</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JPSVolumeButtonHandler]]></title>
+    <link href="http://jpsim.github.com/jpsvolumebuttonhandler/"/>
+    <updated>2014-02-19T14:38:00-05:00</updated>
+    <id>http://jpsim.github.com/jpsvolumebuttonhandler</id>
+    <content type="html"><![CDATA[<p>The fun times building a <a href="https://github.com/jpsim/JPSVolumeButtonHandler">tiny open source class</a> to use an iOS device&#8217;s hardware volume buttons in 3rd party apps.</p>
+
+<p>This wasn&#8217;t <em>too</em> hard, but the I thought the process merited a short blog post.</p>
+
+<p>I recently made a pixel-for-pixel clone of Apple&#8217;s iOS 7 <code>UIImagePickerController</code> (the camera portion, not the library portion). The full code can be found on <a href="https://github.com/jpsim/JPSImagePickerController">github</a>.</p>
+
+<p>My motivation for doing this was that I was working on a client app that included functionality to take a picture and analyze it to determine whether or not it passed certain quality checks (legibility, resolution, completeness, etc). I wanted to display a message based on the result of this quality check during the &#8220;review&#8221; process of <code>UIImagePickerController</code>.</p>
+
+<p><img src="https://raw.github.com/jpsim/JPSImagePickerController/master/screenshots.png" alt="JPSImagePickerController in action" /></p>
+
+<p>The part I want to discuss is the code that uses the phone&#8217;s hardware volume up button to snap a picture.</p>
+
+<p>There are a few hurdles to jump over to make this seamless:</p>
+
+<ol>
+<li>There&#8217;s no official API or notification to observe the audio volume or hardware volume button presses</li>
+<li><code>UIImagePickerController</code> doesn&#8217;t pass-through volume button presses to the system audio</li>
+<li>There&#8217;s no official way to stop the system audio from being modified on a volume button press</li>
+<li>The only way to disable the HUD that appears on volume change is to display an <code>MPVolumeView</code> (it won&#8217;t work if it&#8217;s hidden or if its alpha is zero)</li>
+<li>The only way to set the system audio level is to use a deprecated method (i.e. if we want to undo a volume change caused by a volume button press)</li>
+<li>The system audio volume won&#8217;t go up if it&#8217;s already set to 1 and won&#8217;t go down if it&#8217;s set to 0. This means that button presses won&#8217;t be registered if audio is at its maximum or its minimum.</li>
+</ol>
+
+
+<p>So I wrote a class called <a href="https://github.com/jpsim/JPSVolumeButtonHandler"><code>JPSVolumeButtonHandler</code></a> that solves the previous problems in the following way:</p>
+
+<ol>
+<li>Create an off-screen <code>MPVolumeView</code></li>
+<li>If the volume is at 1, set it to <code>0.99999f</code>, if it&#8217;s at 0, set it to <code>0.00001f</code>, otherwise do nothing</li>
+<li>KVO observe the <code>outputVolume</code> property of an <code>AVAudioSession</code></li>
+<li>Set the <code>AVAudioSession</code>&#8217;s category to <code>AVAudioSessionCategoryAmbient</code> to not duck any other volume</li>
+<li>Trigger up/down code blocks when KVO notifies us of a change</li>
+<li>Reset the system audio to its initial value when KVO notifies us that it has changed</li>
+<li>Discard KVO notifications when the new volume value is the same as our initial value, since that means we reset the volume</li>
+</ol>
+
+
+<p>Hopefully either the <a href="https://github.com/jpsim/JPSImagePickerController">image picker clone</a>, or this <a href="https://github.com/jpsim/JPSVolumeButtonHandler">volume button class</a> ends up being useful to a few people.</p>
+
+<p>Thanks for reading!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[WWDC needs to <span>radically</span> change]]></title>
+    <link href="http://jpsim.github.com/wwdc-radically-change/"/>
+    <updated>2013-04-26T16:53:00-04:00</updated>
+    <id>http://jpsim.github.com/wwdc-radically-change</id>
+    <content type="html"><![CDATA[<p>This is my road (so far) to WWDC13. This should serve as a reminder to my future self to avoid WWDC next year.</p>
+
+<p>The effort that went into getting a ticket is far more than I&#8217;m willing to admit&#8230; it&#8217;s JUST a conference, after all! Here&#8217;s a recap:</p>
+
+<h2>Early April</h2>
+
+<ol>
+<li>Start researching WWDC history to be well prepared (see last section). I felt this was critical to get a ticket.</li>
+<li>Rumors and trends converge towards a June 10-14 schedule, with an April 25th announcement</li>
+<li>Sign up to 2 different WWDC announcement notification services (for redundancy)</li>
+<li>Book round-trip flights and accommodations early to avoid much higher costs once they skyrocket after the announcement.</li>
+</ol>
+
+
+<h2>April 25</h2>
+
+<ol>
+<li>9:55, start repeatedly refreshing WWDC page</li>
+<li>10:00:05, see purchase button, enter info</li>
+<li>10:00:55, click &#8220;complete order&#8221;</li>
+<li>Get error, enter info again</li>
+<li>10:01:55, click &#8220;complete order&#8221;</li>
+<li>Get redirected to WWDC where it says <a href="http://i97.photobucket.com/albums/l230/Insider2000/SpitCereal.png">&#8220;sold out&#8221;</a></li>
+<li>Mope for a few minutes</li>
+<li>Acceptance: Oh well, it&#8217;s just a conference. I&#8217;ll take this as a week-long vacation in SF. Go on with the rest of my day.</li>
+<li>16:30, receive a phone call from Apple rep saying <strong>&#8220;We see you encountered some errors while purchasing your WWDC tickets this morning. I&#8217;d like to let you know that we have a ticket reserved for you and we&#8217;ll be sending you an email with information on how to complete your purchase in the next twelve hours [sic].&#8221;</strong></li>
+<li>Celebrate for a few minutes</li>
+</ol>
+
+
+<h2>April 26</h2>
+
+<ol>
+<li>14:27, receive email from Apple with instructions to complete the purchase</li>
+<li>16:00, attempt to complete the purchase but run into another set of errors on:
+
+<ul>
+<li>Google Chrome</li>
+<li>OS X Safari</li>
+<li>iOS Safari</li>
+<li>Firefox</li>
+<li>reset OS X Safari</li>
+<li>it works!</li>
+</ul>
+</li>
+<li>Finally complete the order.</li>
+</ol>
+
+
+<p>Note to self&#8230; avoid WWDC next year, people will be resort to writing bots to buy their tickets and the conference will sell out in 0.04s.</p>
+
+<h2>WWDC Stats</h2>
+
+<h2>Conference Dates</h2>
+
+<ul>
+<li>2003: June 23 to June 27</li>
+<li>2004: June 28 to July 2</li>
+<li>2005: June 6 to June 10</li>
+<li>2006: August 7 to August 11</li>
+<li>2007: June 11 to June 15</li>
+<li>2008: June 9 to June 13</li>
+<li>2009: June 8 to June 12</li>
+<li>2010: June 7 to June 11</li>
+<li>2011: June 6 to June 10</li>
+<li>2012: June 11 to June 15</li>
+</ul>
+
+
+<h2>Announcement Dates, Times and Sell Out Durations</h2>
+
+<ul>
+<li>2010: April 28 (8 days)</li>
+<li>2011: March 28 (12hrs: 16x faster than previous year)</li>
+<li>2012: April 25 (1h43m: 7x faster than previous year)</li>
+<li>2013: April 25, 10:00am (90s: 70x faster than previous year)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JPSThumbnailAnnotation]]></title>
+    <link href="http://jpsim.github.com/jpsthumbnailannotation/"/>
+    <updated>2013-04-22T06:43:00-04:00</updated>
+    <id>http://jpsim.github.com/jpsthumbnailannotation</id>
+    <content type="html"><![CDATA[<p>I just released a new iOS component called <a href="https://github.com/jpsim/JPSThumbnailAnnotation">JPSThumbnailAnnotation</a> which is a great way to display thumbnails on a map.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots.jpg" alt="JPSThumbnailAnnotation in action" /></p>
+
+<p>This component was actually originally built at <a href="http://mgn.tc">MBS</a> for the ScalaOne iPhone app (now called TypesafeCon). You can find the original source <a href="https://github.com/magneticbear/scalaone_iphone">here</a>.</p>
+
+<p>After seeing <a href="http://samvermette.com">Sam Vermette</a>&#8217;s talk on Saturday at <a href="http://nsnorth.ca">NSNorth</a> on Open Source and his philosophy towards it, I decided to go back and extract this little component. It was built pretty quickly at the time, so it was very tightly coupled to the app itself. So I abstracted it a bit, and chose to release it as an individual component. This should make it easier for other iOS developers to integrate this component into their own map apps.</p>
+
+<p>Here&#8217;s to hoping we find a few things at <a href="http://dashbook.co">Dashbook</a> that we can release in the open in the near future!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Letting Go &amp; Moving On]]></title>
+    <link href="http://jpsim.github.com/letting-go-and-moving-on/"/>
+    <updated>2013-04-15T07:54:00-04:00</updated>
+    <id>http://jpsim.github.com/letting-go-and-moving-on</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been building <a href="http://mgn.tc">Magnetic Bear Studios</a> for the last two years.</p>
+
+<p>From a logo on a napkin and a 200$ contract, to an exponentially growing mobile dev shop. One of my first big lessons running a young company was that <strong><em>it takes on a life of its own!</em></strong> It&#8217;s scary.</p>
+
+<p>You&#8217;re focused 24/7 on finishing feature/contract #89 while dealing with time-sensitive business issues&#8230; and when you finally take a breath to look at where you are, you realize that <strong>the company itself</strong> has been evolving and pivoting. In a sense, it&#8217;s a bit like the saying goes:</p>
+
+<blockquote><p>Focus on what&#8217;s important and the rest will take care of itself.</p></blockquote>
+
+<p>What the saying fails to convey is that the rest may not be done the way <em>you</em> would do it.</p>
+
+<p>Being a technical founder at a small company, I&#8217;ve had my head buried in code for the last few months. When I looked up again to assess where the business was going, I saw that the team&#8217;s interests were moving rapidly away from services towards building a product entirely ourselves.</p>
+
+<p>To be fair, <a href="http://mgn.tc/m2d">the goal from day one was always to evolve to a product company</a>, so that seed was planted a long time ago.</p>
+
+<p>But it was still difficult to let go of the services side. Of the CEO position and its responsibilities. Of the brand and company we had built from the ground up.</p>
+
+<p>Ultimately, I couldn&#8217;t be more enthusiastic and confident about this new chapter. Being CTO of <a href="http://dashbook.co">Dashbook</a>, I&#8217;ll be focusing 100% on tech while relying on 2 extraordinary co-founders to take care of every other aspect of the business.</p>
+
+<p>So the lesson here is that you have to let the company run its natural course. It has a mind of its own&#8230; and you should trust it!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On the importance of <span>pointless projects</span>]]></title>
+    <link href="http://jpsim.github.com/pointless-projects/"/>
+    <updated>2013-01-24T09:44:00-05:00</updated>
+    <id>http://jpsim.github.com/pointless-projects</id>
+    <content type="html"><![CDATA[<p>Yesterday, I <a href="https://github.com/jpsim/LetterpressPlayer">open sourced</a> a Letterpress<sup>[1]</sup> cheating app for iPhone.</p>
+
+<p>I built it because I knew it would imply a bit of computer vision, OCR, basic set comparisons, yet it could probably be done in just a few hours.</p>
+
+<p>Even though it will never make money and the codebase is slightly embarrassing, I feel reenergized after writing it and my mind is clearer.</p>
+
+<p>Given that most of our projects at <a href="http://magneticbear.com">MBS</a> spend a few <em>months</em> in incubation before launching, it&#8217;s incredibly refreshing to take a break. And of course, that&#8217;s nothing compared to projects in more traditional fields of engineering like mech or electrical, which typically take years to release.</p>
+
+<p>So go out there and build something <em>crude</em> but useful.</p>
+
+<p><em>[1] <a href="http://www.atebits.com/letterpress/">Letterpress</a> is an insanely simple yet addicting game for iOS by Loren Brichter (a.k.a. atebits). If that name sounds familiar, it&#8217;s possibly because he&#8217;s also credited with the invention of the Pull-to-refresh concept and built the first version of what&#8217;s now Twitter&#8217;s official iPhone app.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A more <span>open</span> kind of agency]]></title>
+    <link href="http://jpsim.github.com/a-more-open-kind-of-agency/"/>
+    <updated>2013-01-07T14:12:00-05:00</updated>
+    <id>http://jpsim.github.com/a-more-open-kind-of-agency</id>
+    <content type="html"><![CDATA[<p>How MBS is leading the way to creating a new type of agency: a fully open one.</p>
+
+<p><em>This article was originally published on <a href="http://magneticbear.com">magneticbear.com</a></em></p>
+
+<p>Since we started <a href="http://magneticbear.com">Magnetic Bear Studios</a> about a year and a half ago, one of our core values was being as open as possible; our history, our process, our margins, our code.</p>
+
+<p>Up to date, we have open sourced 10 internal projects on <a href="https://github.com/magneticbear">github</a>. In 2013, we&#8217;re making open source an integral part of our company process.</p>
+
+<p>To start off this wave of openness, we&#8217;re publishing our main company website at <a href="https://github.com/magneticbear/magneticbear.com">github.com/magneticbear/magneticbear.com</a>. By the way, the site is based on a wonderful open source framework called <a href="https://github.com/bevry/docpad">docpad</a>.</p>
+
+<p>To help in our efforts to support the open-source community, we&#8217;ll be releasing some of our internal, currently closed-source projects, at the rate of one every month or two.</p>
+
+<p>Finally, over the next few weeks, the MBS team will also be writing some blog articles here to document and publish some of the lessons we learn building mobile apps for startups from around the world.</p>
+
+<p>We&#8217;ll let you know when we have more open goodness to share with you!</p>
+
+<p><em>PS: There&#8217;s a lot more to open source than code. We&#8217;ll be making an effort to share everything from our networking stack to our contract lifecycle to some app design freebies.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Goals for <span>2013</span>]]></title>
+    <link href="http://jpsim.github.com/goals-for-2013/"/>
+    <updated>2013-01-07T12:03:00-05:00</updated>
+    <id>http://jpsim.github.com/goals-for-2013</id>
+    <content type="html"><![CDATA[<p>Writing my goals for 2013 publicly to keep myself accountable.</p>
+
+<h2>Gig monthly</h2>
+
+<h3>What?</h3>
+
+<p>There was a time when I played sax at local restaurants, corporate gigs, heck I even <a href="http://mgn.tc/psgroove">recorded an album</a> with <a href="http://patricksimard.com">my brother</a> that sold pretty decently.</p>
+
+<h3>How?</h3>
+
+<p>I&#8217;ve got a bassist, drummer and guitarist lined up. I&#8217;m approaching several of the bars/restaurants I used to play to set up some gigs.</p>
+
+<h2>Learn Japanese</h2>
+
+<h3>What?</h3>
+
+<p><a href="http://twitter.com/c_contant">Christine</a> and I will be learning Japanese this year. Our goal is to reach survival-in-Japan level by the end of the year.</p>
+
+<h3>How?</h3>
+
+<p>I bought all 3 levels of Rosetta Stone Japanese today. 3x 20 minutes and an hour-long session with Christine once a week.</p>
+
+<h2>Get featured on Hacker News</h2>
+
+<h3>What?</h3>
+
+<p>I&#8217;d certainly like to refine my writing abilities and this is a stretch goal to accomplish that.</p>
+
+<h3>How?</h3>
+
+<p>Blogging here and on the <a href="http://magneticbear.com/labs">MBS Labs</a> website weekly.</p>
+
+<h2>Run a 3:30 marathon</h2>
+
+<h3>What?</h3>
+
+<p>I&#8217;m not in the shape I&#8217;d like to be. I ran a 4:00 marathon last year and I can already run a 1:30 half marathon so this is the next logical step.</p>
+
+<h3>How?</h3>
+
+<p>Following the <a href="http://runkeeper.com/fitness-class/running-marathon/12">RunKeeper training plan</a>. Track my progress on my <a href="http://runkeeper.com/user/jpsim/profile">RunKeeper profile</a>.</p>
+
+<h2>Bike daily</h2>
+
+<h3>What?</h3>
+
+<p>Starting on February 1st (in the snow for an added challenge). This doesn&#8217;t apply to days I have to drive.</p>
+
+<h3>How?</h3>
+
+<p>I&#8217;m buying a bike and doing it!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Remote <span>founder</span>]]></title>
+    <link href="http://jpsim.github.com/remote-founder/"/>
+    <updated>2012-12-24T13:31:00-05:00</updated>
+    <id>http://jpsim.github.com/remote-founder</id>
+    <content type="html"><![CDATA[<p><em>Every minute</em> a founder is away from their team is costly.</p>
+
+<p>Opportunities to do some business development, or to help out a client for a short while may seem tempting, but if it means being unavailable to your team, you <strong>must</strong> keep this period as short as possible. <em>This effect is compounded the smaller your team is.</em></p>
+
+<p>In August, one of our <em><a href="http://openera.com">awesome</a></em> clients invited us to work alongside them in Montréal for 2 months during their stint at the <a href="http://founderfuel.com">Founder Fuel</a> accelerator.</p>
+
+<p>There were many advantages for us to join them there:</p>
+
+<ul>
+<li>Proximity to our growing Montréal client base</li>
+<li>Business development opportunities in a new city (more than 50% of our leads come from there)</li>
+<li>Chance to meet and interview MTL-based devs</li>
+</ul>
+
+
+<p>But overall, being away from my team 3 days a week for 2 months had a noticeable impact on performance and most of all, our <em>culture</em>.</p>
+
+<p>So choose your battles carefully and fight alongside your team.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Obligatory <span>Hello World</span>]]></title>
+    <link href="http://jpsim.github.com/obligatory-hello-world/"/>
+    <updated>2012-12-24T13:05:00-05:00</updated>
+    <id>http://jpsim.github.com/obligatory-hello-world</id>
+    <content type="html"><![CDATA[<p>With 2013 around the corner, it seems customary to create an article saying <em>&#8220;this is a new year, I&#8217;ll start blogging again&#8221;</em>, so here I am&#8230;</p>
+
+<p>Only that this time I actually have a few articles written so I know this place won&#8217;t be a barren wasteland of stale octojunk.</p>
+
+<p>I&#8217;ll be splitting up my posts on the new <a href="http://magneticbear.com">Magnetic Bear Studios</a> site and this one.</p>
+]]></content>
+  </entry>
+  
+</feed>

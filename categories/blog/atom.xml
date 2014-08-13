@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: blog | JP Simard]]></title>
+  <link href="http://jpsim.github.com/categories/blog/atom.xml" rel="self"/>
+  <link href="http://jpsim.github.com/"/>
+  <updated>2014-08-13T18:02:24-04:00</updated>
+  <id>http://jpsim.github.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Obligatory <span>Hello World</span>]]></title>
+    <link href="http://jpsim.github.com/obligatory-hello-world/"/>
+    <updated>2012-12-24T13:05:00-05:00</updated>
+    <id>http://jpsim.github.com/obligatory-hello-world</id>
+    <content type="html"><![CDATA[<p>With 2013 around the corner, it seems customary to create an article saying <em>"this is a new year, I'll start blogging again"</em>, so here I am...</p>
+
+<p>Only that this time I actually have a few articles written so I know this place won't be a barren wasteland of stale octojunk.</p>
+
+<p>I'll be splitting up my posts on the new <a href="http://magneticbear.com">Magnetic Bear Studios</a> site and this one.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: entrepreneurship | JP Simard]]></title>
+  <link href="http://jpsim.github.com/categories/entrepreneurship/atom.xml" rel="self"/>
+  <link href="http://jpsim.github.com/"/>
+  <updated>2014-08-13T18:02:24-04:00</updated>
+  <id>http://jpsim.github.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Letting Go &amp; Moving On]]></title>
+    <link href="http://jpsim.github.com/letting-go-and-moving-on/"/>
+    <updated>2013-04-15T07:54:00-04:00</updated>
+    <id>http://jpsim.github.com/letting-go-and-moving-on</id>
+    <content type="html"><![CDATA[<p>I've been building <a href="http://mgn.tc">Magnetic Bear Studios</a> for the last two years.</p>
+
+<p>From a logo on a napkin and a 200$ contract, to an exponentially growing mobile dev shop. One of my first big lessons running a young company was that <strong><em>it takes on a life of its own!</em></strong> It's scary.</p>
+
+<p>You're focused 24/7 on finishing feature/contract #89 while dealing with time-sensitive business issues... and when you finally take a breath to look at where you are, you realize that <strong>the company itself</strong> has been evolving and pivoting. In a sense, it's a bit like the saying goes:</p>
+
+<blockquote><p>Focus on what's important and the rest will take care of itself.</p></blockquote>
+
+<p>What the saying fails to convey is that the rest may not be done the way <em>you</em> would do it.</p>
+
+<p>Being a technical founder at a small company, I've had my head buried in code for the last few months. When I looked up again to assess where the business was going, I saw that the team's interests were moving rapidly away from services towards building a product entirely ourselves.</p>
+
+<p>To be fair, <a href="http://mgn.tc/m2d">the goal from day one was always to evolve to a product company</a>, so that seed was planted a long time ago.</p>
+
+<p>But it was still difficult to let go of the services side. Of the CEO position and its responsibilities. Of the brand and company we had built from the ground up.</p>
+
+<p>Ultimately, I couldn't be more enthusiastic and confident about this new chapter. Being CTO of <a href="http://dashbook.co">Dashbook</a>, I'll be focusing 100% on tech while relying on 2 extraordinary co-founders to take care of every other aspect of the business.</p>
+
+<p>So the lesson here is that you have to let the company run its natural course. It has a mind of its own... and you should trust it!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A more <span>open</span> kind of agency]]></title>
+    <link href="http://jpsim.github.com/a-more-open-kind-of-agency/"/>
+    <updated>2013-01-07T14:12:00-05:00</updated>
+    <id>http://jpsim.github.com/a-more-open-kind-of-agency</id>
+    <content type="html"><![CDATA[<p>How MBS is leading the way to creating a new type of agency: a fully open one.</p>
+
+<p><em>This article was originally published on <a href="http://magneticbear.com">magneticbear.com</a></em></p>
+
+<p>Since we started <a href="http://magneticbear.com">Magnetic Bear Studios</a> about a year and a half ago, one of our core values was being as open as possible; our history, our process, our margins, our code.</p>
+
+<p>Up to date, we have open sourced 10 internal projects on <a href="https://github.com/magneticbear">github</a>. In 2013, we're making open source an integral part of our company process.</p>
+
+<p>To start off this wave of openness, we're publishing our main company website at <a href="https://github.com/magneticbear/magneticbear.com">github.com/magneticbear/magneticbear.com</a>. By the way, the site is based on a wonderful open source framework called <a href="https://github.com/bevry/docpad">docpad</a>.</p>
+
+<p>To help in our efforts to support the open-source community, we'll be releasing some of our internal, currently closed-source projects, at the rate of one every month or two.</p>
+
+<p>Finally, over the next few weeks, the MBS team will also be writing some blog articles here to document and publish some of the lessons we learn building mobile apps for startups from around the world.</p>
+
+<p>We'll let you know when we have more open goodness to share with you!</p>
+
+<p><em>PS: There's a lot more to open source than code. We'll be making an effort to share everything from our networking stack to our contract lifecycle to some app design freebies.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Remote <span>founder</span>]]></title>
+    <link href="http://jpsim.github.com/remote-founder/"/>
+    <updated>2012-12-24T13:31:00-05:00</updated>
+    <id>http://jpsim.github.com/remote-founder</id>
+    <content type="html"><![CDATA[<p><em>Every minute</em> a founder is away from their team is costly.</p>
+
+<p>Opportunities to do some business development, or to help out a client for a short while may seem tempting, but if it means being unavailable to your team, you <strong>must</strong> keep this period as short as possible. <em>This effect is compounded the smaller your team is.</em></p>
+
+<p>In August, one of our <em><a href="http://openera.com">awesome</a></em> clients invited us to work alongside them in Montréal for 2 months during their stint at the <a href="http://founderfuel.com">Founder Fuel</a> accelerator.</p>
+
+<p>There were many advantages for us to join them there:</p>
+
+<ul>
+<li>Proximity to our growing Montréal client base</li>
+<li>Business development opportunities in a new city (more than 50% of our leads come from there)</li>
+<li>Chance to meet and interview MTL-based devs</li>
+</ul>
+
+
+<p>But overall, being away from my team 3 days a week for 2 months had a noticeable impact on performance and most of all, our <em>culture</em>.</p>
+
+<p>So choose your battles carefully and fight alongside your team.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: talks | JP Simard]]></title>
+  <link href="http://jpsim.github.com/categories/talks/atom.xml" rel="self"/>
+  <link href="http://jpsim.github.com/"/>
+  <updated>2014-08-13T18:02:24-04:00</updated>
+  <id>http://jpsim.github.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SF Swift Meetup]]></title>
+    <link href="http://jpsim.github.com/sf-swift-meetup/"/>
+    <updated>2014-06-27T14:58:00-04:00</updated>
+    <id>http://jpsim.github.com/sf-swift-meetup</id>
+    <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We've made the whole thing available online:</p>
+
+<ul>
+<li><a href="http://realm.io/news/swift-unchartered-territory-swift-intro-and-internals">Video</a></li>
+<li><a href="https://speakerdeck.com/jpsim/swift-uncharted-territory">Slides</a></li>
+<li><a href="https://github.com/jpsim/talks">Slides Source</a></li>
+</ul>
+
+
+<p>The first half of the talk covers the basic features and syntax of the language. The rest of the talk touches on some more in-depth discoveries about the runtime, introspection and how the tools work behind the scenes.</p>
+]]></content>
+  </entry>
+  
+</feed>

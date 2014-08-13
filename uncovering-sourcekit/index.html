@@ -3,10 +3,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>JP Simard - iOS Developer</title>
+  <title>Uncovering SourceKit - JP Simard - iOS Developer</title>
   <meta name="description" content="To support a fancy new language, nifty realtime IDE features and impressive cross-language interoperability, Apple had to develop several new &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="canonical" href="http://jpsim.github.com">
+  <link rel="canonical" href="http://jpsim.github.com/uncovering-sourcekit">
   <link href="/favicon.ico" rel="shortcut icon"> 
   <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -36,12 +36,9 @@
   </header>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article class="article">
-      
   <header>
     
       <p class="meta">
@@ -60,18 +57,18 @@
 <time datetime="2014-07-06T16:07:00-04:00" pubdate data-updated="true">Jul 6<span>th</span>, 2014</time>
         
 
-         | <a class="disqus-link" href="/uncovering-sourcekit/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="http://jpsim.github.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/uncovering-sourcekit/">Uncovering SourceKit</a></h1>
+      <h1 class="entry-title">Uncovering SourceKit</h1>
     
   </header>
 
 
-  <div class="entry-content"><p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we&#8217;ll focus on <em>SourceKit</em>, Xcode&#8217;s under-appreciated sidekick.</p>
+<div class="entry-content"><p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we&#8217;ll focus on <em>SourceKit</em>, Xcode&#8217;s under-appreciated sidekick.</p>
 
 <p><img src="/images/posts/sidekick.jpg" alt="sidekick" /></p>
 
@@ -196,20 +193,66 @@
 
 <p><em>3: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has <a href="https://github.com/ksm/SwiftInFlux#access-control">access control mechanisms</a>.</em></p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <a href="/about" class="fn">JP Simard</a></span>
+ <span>on</span>
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2014-07-06T16:07:00-04:00" pubdate data-updated="true">Jul 6<span>th</span>, 2014</time>
+      in 
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/categories/development/'>development</a>, <a class='category' href='/categories/ios/'>ios</a>, <a class='category' href='/categories/jazzy/'>jazzy</a>, <a class='category' href='/categories/sourcekit/'>sourcekit</a>, <a class='category' href='/categories/swift/'>swift</a>, <a class='category' href='/categories/xcode/'>xcode</a>
+  
+</span>
+
+.
+      <span class="pull-request">If you would like to update this post, <a href="https://github.com/jpsim/jpsim.github.com/blob/source/source/_posts/2014-07-06-uncovering-sourcekit.markdown"> please send a pull request</a> on GitHub.</span>
+    </p>
     
-      <a class="prev" href="/archives/page/2/">&laquo; Older</a>
-    
-    <a href="/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jpsim.github.com/uncovering-sourcekit/" data-via="simjp" data-counturl="http://jpsim.github.com/uncovering-sourcekit/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sf-swift-meetup/" title="Previous Post: SF Swift Meetup">&laquo; Previous</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -218,6 +261,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
@@ -237,7 +281,10 @@
 
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jpsim.com/uncovering-sourcekit/';
+        var disqus_url = 'http://jpsim.com/uncovering-sourcekit/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

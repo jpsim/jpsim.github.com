@@ -1,0 +1,193 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Keyboard Layout Guide - JP Simard - iOS Developer</title>
+  <meta name="description" content="I really like iOS 7&#8217;s topLayoutGuide and bottomLayoutGuide. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve &hellip;">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="http://jpsim.github.com/keyboard-layout-guide">
+  <link href="/favicon.ico" rel="shortcut icon"> 
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="/stylesheets/screen.css" rel="stylesheet">
+  <link href="/stylesheets/widescreen.css" rel="stylesheet" media="screen and (min-width: 45em)">
+  
+  <script src="//use.typekit.net/nhv5bly.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+  <link href="http://jpsim.github.com/atom.xml" rel="alternate" title="JP Simard" type="application/atom+xml">
+</head>
+
+<body >
+  <header class="main-header" role="banner">
+        <h1><a href="/">JP Simard</a> &mdash; iOS Developer</h1>
+    <nav role="navigation">
+      <ul class="main-nav">
+  <li><a href="/">Home</a></li>
+  <li><a href="https://twitter.com/simjp">Twitter</a></li>
+  <li><a href="https://github.com/jpsim">GitHub</a></li>
+  <li><a href="http://realm.io">Realm</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+    </nav>
+  </header>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T14:41:00-04:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+        
+
+         | <a class="disqus-link" href="#disqus_thread">Comments</a>
+        
+        | <a class="rss-feed" href="http://jpsim.github.com/atom.xml">RSS Feed</a>
+      </p>
+    
+    
+      <h1 class="entry-title">Keyboard Layout Guide</h1>
+    
+  </header>
+
+
+<div class="entry-content"><p>I really like iOS 7&#8217;s <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
+
+<p>It&#8217;s a bit of a drag to have to set up <code>NSNotification</code> observers just to be able to keep your textfield on the screen when the keyboard barges into view. So I added a <code>keyboardLayoutGuide</code> to <code>UIViewController</code> myself. You can check it out on GitHub here: <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">jpsim/JPSKeyboardLayoutGuide</a>.</p>
+
+<p>If you&#8217;ve used Apple&#8217;s layout guides before, you&#8217;ll know that they&#8217;re actually just <code>id</code>&#8217;s that conform to the <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UILayoutSupport_Protocol/Reference/Reference.html"><code>UILayoutSupport</code> Protocol</a>. So I figured that having the guide just be a zero-sized UIView was probably the best way to go. This way, I can easily add it to the view and bind it to the keyboard frame by modifying a constraint&#8217;s constant.</p>
+
+<p>In all honesty, I dislike the inheritance approach I took here; it seems like the easy way out. I&#8217;m hoping that either myself or a contributor will have a stroke of genius and find a composition-based way to do this. Perhaps a starting point would be a category on <code>UIViewController</code> along with an associated object as the <code>keyboardLayoutGuide</code> property&#8230; But then the <code>NSNotification</code>s will be troublesome. If you have an idea, please fork and send a PR or open up an issue on <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">github</a>!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <a href="/about" class="fn">JP Simard</a></span>
+ <span>on</span>
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T14:41:00-04:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+      in 
+
+<span class="categories">
+  
+    <a class='category' href='/categories/development/'>development</a>, <a class='category' href='/categories/github/'>github</a>, <a class='category' href='/categories/ios/'>ios</a>, <a class='category' href='/categories/opensource/'>opensource</a>, <a class='category' href='/categories/personal/'>personal</a>, <a class='category' href='/categories/projects/'>projects</a>
+  
+</span>
+
+.
+      <span class="pull-request">If you would like to update this post, <a href="https://github.com/jpsim/jpsim.github.com/blob/source/source/_posts/2014-03-26-keyboard-layout-guide.markdown"> please send a pull request</a> on GitHub.</span>
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jpsim.github.com/keyboard-layout-guide/" data-via="simjp" data-counturl="http://jpsim.github.com/keyboard-layout-guide/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/private-pods/" title="Previous Post: Private Pods">&laquo; Previous</a>
+      
+      
+        <a class="basic-alignment right" href="/jpsthumbnailannotation-updated-for-ios-7/" title="Next Post: JPSThumbnailAnnotation updated for iOS 7">Next &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is an iOS developer. <a href="/about">More about me &raquo;</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer class="footer" role="contentinfo"><p>
+  &copy; 2014 JP Simard
+  <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
+</p>
+
+<p class="top"><a href="#">Back to top &uarr;</a></p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'simjp';
+      var disqus_developer = 1;
+
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jpsim.com/keyboard-layout-guide/';
+        var disqus_url = 'http://jpsim.com/keyboard-layout-guide/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script>
+    var _gaq=[['_setAccount','UA-35217213-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+
+
+
+</body>
+</html>
