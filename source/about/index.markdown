@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Hi, I'm JP Simard - an <span>iOS developer</span> and entrepreneur based in <span>SFO & Ottawa</span>."
+title: "Hi, I'm JP Simard - an <span>iOS developer</span> and entrepreneur based in <span>SF & Ottawa</span>."
 comments: false
 sharing: false
 footer: false
