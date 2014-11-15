@@ -23,14 +23,14 @@ Xcode traditionally runs its compiler ([Clang][clang]) *in-process*, which means
 
 Exacerbating the problem, Xcode can easily invoke the compiler thousands of times to parse, highlight and typeset source code, all before a user ever hits *⌘+B*. That's because unlike most editors (Vim/Sublime/etc), Xcode doesn't use regular expressions to parse source code, but rather Clang's powerful (though much more complex) parser/tokenizer.
 
-Thankfully, Swift in Xcode 6 moves away from this architecture<sup>1</sup>, combining all these source code manipulation features into a separate process that communicates with Xcode through [XPC][xpc]: `sourcekitd`. This XPC daemon is launched whenever Xcode 6 loads any Swift code.
+Thankfully, Swift in Xcode 6 moves away from this architecture[^1], combining all these source code manipulation features into a separate process that communicates with Xcode through [XPC][xpc]: `sourcekitd`. This XPC daemon is launched whenever Xcode 6 loads any Swift code.
 
 ![sourcekit terminated](/images/posts/sourcekit_terminated.jpg)
 <center><sub>Life would be miserable if Xcode crashed every time this appeared</sub></center><br/>
 
 ## How Xcode uses SourceKit
 
-Since SourceKit is a private and undocumented tool, we need to get a little creative to learn how to use it. By setting the `SOURCEKIT_LOGGING`<sup>2</sup> environment variable, Xcode will log its SourceKit communications to `stdout`, allowing us to monitor its communications in realtime. This is how many of the commands covered in this article were discovered.
+Since SourceKit is a private and undocumented tool, we need to get a little creative to learn how to use it. By setting the `SOURCEKIT_LOGGING`[^2] environment variable, Xcode will log its SourceKit communications to `stdout`, allowing us to monitor its communications in realtime. This is how many of the commands covered in this article were discovered.
 
 ## Unified Symbol Resolution
 
@@ -57,7 +57,7 @@ $ xcrun swift-ide-test -print-usrs -source-filename=Musician.swift
 
 ## Swift*ish* header generation
 
-*⌘+clicking* on a token defined in Objective-C from Swift will cause Xcode to trigger a Swift-like header to be generated. I say Swift-like because this generated file is not valid Swift<sup>3</sup>, but at least displays the Swift syntax equivalent to the Objective-C tokens.
+*⌘+clicking* on a token defined in Objective-C from Swift will cause Xcode to trigger a Swift-like header to be generated. I say Swift-like because this generated file is not valid Swift[^3], but at least displays the Swift syntax equivalent to the Objective-C tokens.
 
 [![Generated Swift Header](/images/posts/generated_swift_header.jpg)](/images/posts/generated_swift_header.jpg)
 <center><sub>Left: original Objective-C header. Right: SourceKit-generated Swift-ish version.</sub></center><br/>
@@ -94,11 +94,11 @@ We’re just scratching the surface of what’s possible to build with SourceKit
 
 ---
 
-*1: Objective-C in Xcode 6 (Beta 2) doesn't use SourceKit at all, keeping Xcode's traditional clang-in-process architecture. I expect this to change before Xcode 6 GM.*
+[^1]: Objective-C in Xcode 6 (Beta 2) doesn't use SourceKit at all, keeping Xcode's traditional clang-in-process architecture. I expect this to change before Xcode 6 GM.*
 
-*2: For SourceKit logging, launch Xcode with <sub>`export SOURCEKIT_LOGGING=3 && /Applications/Xcode6-Beta2.app/Contents/MacOS/Xcode`</sub>*
+[^2]: For SourceKit logging, launch Xcode with <sub>`export SOURCEKIT_LOGGING=3 && /Applications/Xcode6-Beta2.app/Contents/MacOS/Xcode`</sub>*
 
-*3: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has [access control mechanisms][access-control].*
+[^3]: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has [access control mechanisms][access-control].*
 
 [swift]: http://developer.apple.com/swift
 [playgrounds]: https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html
