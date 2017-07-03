@@ -1,0 +1,123 @@
+---
+layout: post
+title: "Building a serverless password-protected photo gallery"
+date: 2017-07-04 06:14
+comments: true
+categories: development tutorials aws cloudformation serverless projects
+---
+Building a serverless photo gallery?
+*Easy!*
+Password-protecting that without adding servers?
+*Surprisingly much more complex.*
+
+![](https://github.com/jpsim/AWSPics/raw/master/assets/awspics.gif)
+
+## Goals
+
+> Host a self-contained, declarative infrastructure, password-protected,
+data-driven static photo gallery to share personal pictures with friends and
+family, without needing to run, maintain (or pay for) servers.
+
+With [the recent addition](https://twitter.com/simjp/status/873604866043543552)
+to our family, I wanted to set up a place where I could share pictures with
+our closest friends and family. Facebook wasn't an option because...
+[yeah](https://daringfireball.net/2017/06/fuck_facebook),
+[because](http://www.slate.com/articles/technology/data_mine_1/2013/09/facebook_privacy_and_kids_don_t_post_photos_of_your_kids_online.html)
+[many](http://www.telegraph.co.uk/women/family/i-dont-put-pictures-of-my-children-on-facebook---and-you-shouldn/)
+[reasons](http://www.huffingtonpost.com.au/2016/02/07/can-i-post-photos-of-other-peoples-children_n_9184560.html)
+[actually](https://medium.com/matter/beware-your-baby-s-face-is-online-and-on-sale-d33ae8cdaa9d).
+
+Most of my family members are on Apple devices, while most of my friends are in
+the Google/Android ecosystem. So for day to day sharing of moments, we post a
+few pictures to iCloud photo sharing, and a few others to a WhatsApp group. But
+neither of these can really serve as the canonical place where we're storing
+these photos long-term, because WhatsApp is pretty ephemeral, and the iCloud
+photo sharing experience _sucks_ on non-Apple devices.
+
+## Architecture
+
+Unfortunately there's no "put a password in front of AWS CloudFront" checkbox.
+I wish there were, so I wouldn't have had to build this. But there isn't, so it
+was time to roll up my sleeves and learn a bit about how modern web
+infrastructure is built. Or at least my idea of it.
+
+![](https://github.com/jpsim/AWSPics/raw/master/assets/architecture.png)
+
+There are 7 main components:
+
+1. **CloudFront with restricted bucket access** to prevent unauthenticated
+   access to the site or its pictures.
+2. **Login lambda function** to validate authentication and sign cookies to
+   allow access to restricted buckets.
+3. **Source S3 bucket** to store original pictures and metadata driving the
+   site.
+4. **Resized S3 bucket** to store resized versions of the original pictures.
+5. **Web S3 bucket** to store the static website generated from the data in the
+   source bucket.
+6. **Resize lambda function** to automatically resize images added to the source
+   S3 bucket and store them in the resized S3 bucket.
+7. **Site builder lambda function** to automatically rebuild the static website
+   when changes are made to the source S3 bucket.
+
+## Can it be simplified?
+
+Of course. There are a few ways I can think of to simplify this, but the
+tradeoffs aren't worthwhile IMO.
+
+1. **Resize images on demand.** Rather than resize all the images when they're
+   first added to the source bucket, the resize lambda could be exposed via a
+   CloudFront origin. However, since the static site only really uses two
+   image sizes, and that lambda functions have a significant
+   [cold start penalty](https://serverless.com/blog/keep-your-lambdas-warm/),
+   it's much more efficient to just precompute the resized images.
+2. **Consolidate buckets.**  Rather than separate source, resized & web buckets,
+   they could just be in a single bucket. However, this would just shift the
+   complexity a bit since the stack would then need to filter new object
+   notifications to know which function to invoke. Plus, right now to back up
+   the valuable content, I just need to periodically mirror the source bucket,
+   rather than all the derivative data in the resized and web buckets.
+
+## Problems?
+
+I have a few annoyances with this setup as-is.
+
+One is that only the resized bucket triggers the site builder function. That
+means that any other object modified in the source bucket, such as the
+`metadata.yml` files that include album comments, don't trigger a site build.
+
+Another related problem is that for every new image in the source bucket, two
+are created in the resized bucket, each one invoking the site builder function.
+Not only that, but if I upload an album with lots of pictures all in one shot,
+the site will be rebuilt twice for each picture! 🙀
+
+Unfortunately, S3 buckets can only have a
+[single notification per event type](https://stackoverflow.com/q/31471178/373262),
+so we can't trigger both the resize and site builder functions when new objects
+are created on the source bucket.
+
+I think the solution here would involve
+[publishing S3 events to SNS or SQS](http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
+and "debouncing" the site builder lambda, but again... **#complexity**.
+
+![](https://media.giphy.com/media/mYqaRkXyoGbcY/giphy.gif)
+
+I'll probably do this eventually, but I'm in no hurry.
+
+## Code
+
+I've open sourced the entire AWS stack on GitHub over at
+[jpsim/AWSPics](https://github.com/jpsim/AWSPics). I'm also hosting a demo
+site over at [awspics.net](https://awspics.net) (use "username"/"password" as
+credentials to check it out).
+
+There's a (long) video walkthrough [on YouTube](https://youtu.be/010AGcY4uoE)
+too, if that's useful to follow along.
+
+## Closing Thoughts
+
+Overall, I really enjoyed stepping outside my comfort zone of native
+Swift/ObjC/C++ programming, learning a TON about several AWS services and
+ultimately meeting my goal of setting up a private photo gallery.
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If you think incremental Xcode builds take a while, try deploying changes to an AWS CloudFormation stack 😅 <a href="https://t.co/yTPsqarT92">pic.twitter.com/yTPsqarT92</a></p>&mdash; JP Simard (@simjp) <a href="https://twitter.com/simjp/status/881640404851884033">July 2, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
