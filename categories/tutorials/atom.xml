@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tutorials | JP Simard]]></title>
   <link href="http://jpsim.github.com/categories/tutorials/atom.xml" rel="self"/>
   <link href="http://jpsim.github.com/"/>
-  <updated>2014-08-13T18:02:24-04:00</updated>
+  <updated>2017-07-03T10:24:30-07:00</updated>
   <id>http://jpsim.github.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -14,9 +14,139 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Building a serverless password-protected photo gallery]]></title>
+    <link href="http://jpsim.github.com/awspics/"/>
+    <updated>2017-07-02T16:00:00-07:00</updated>
+    <id>http://jpsim.github.com/awspics</id>
+    <content type="html"><![CDATA[<p>Building a serverless photo gallery?
+<em>Easy!</em>
+Password-protecting that without adding servers?
+<em>Surprisingly much more complex.</em></p>
+
+<p><img src="https://github.com/jpsim/AWSPics/raw/master/assets/awspics.gif" alt="" /></p>
+
+<h2>Goals</h2>
+
+<blockquote><p>Host a self-contained, declarative infrastructure, password-protected,
+data-driven static photo gallery to share personal pictures with friends and
+family, without needing to run, maintain (or pay for) servers.</p></blockquote>
+
+<p>With <a href="https://twitter.com/simjp/status/873604866043543552">the recent addition</a>
+to our family, I wanted to set up a place where I could share pictures with
+our closest friends and family. Facebook wasn't an option because... <a href="https://daringfireball.net/2017/06/fuck_facebook">yeah</a>,
+<a href="http://www.slate.com/articles/technology/data_mine_1/2013/09/facebook_privacy_and_kids_don_t_post_photos_of_your_kids_online.html">because</a>
+<a href="http://www.telegraph.co.uk/women/family/i-dont-put-pictures-of-my-children-on-facebook---and-you-shouldn/">many</a>
+<a href="http://www.huffingtonpost.com.au/2016/02/07/can-i-post-photos-of-other-peoples-children_n_9184560.html">reasons</a>
+<a href="https://medium.com/matter/beware-your-baby-s-face-is-online-and-on-sale-d33ae8cdaa9d">actually</a>.</p>
+
+<p>Most of my family members are on Apple devices, while most of my friends are in
+the Google/Android ecosystem. So for day to day sharing of moments, we post a
+few pictures to iCloud photo sharing, and a few others to a WhatsApp group. But
+neither of these can really serve as the canonical place where we're storing
+these photos long-term, because WhatsApp is pretty ephemeral, and the iCloud
+photo sharing experience <em>sucks</em> on non-Apple devices.</p>
+
+<h2>Architecture</h2>
+
+<p>Unfortunately there's no "put a password in front of AWS CloudFront" checkbox.
+I wish there were, so I wouldn't have had to build this. But there isn't, so it
+was time to roll up my sleeves and learn a bit about how modern web
+infrastructure is built. Or at least my idea of it.</p>
+
+<p><img src="https://github.com/jpsim/AWSPics/raw/master/assets/architecture.png" alt="" /></p>
+
+<p>There are 7 main components:</p>
+
+<ol>
+<li><strong>CloudFront with restricted bucket access</strong> to prevent unauthenticated
+access to the site or its pictures.</li>
+<li><strong>Login lambda function</strong> to validate authentication and sign cookies to
+allow access to restricted buckets.</li>
+<li><strong>Source S3 bucket</strong> to store original pictures and metadata driving the
+site.</li>
+<li><strong>Resized S3 bucket</strong> to store resized versions of the original pictures.</li>
+<li><strong>Web S3 bucket</strong> to store the static website generated from the data in the
+source bucket.</li>
+<li><strong>Resize lambda function</strong> to automatically resize images added to the source
+S3 bucket and store them in the resized S3 bucket.</li>
+<li><strong>Site builder lambda function</strong> to automatically rebuild the static website
+when changes are made to the source S3 bucket.</li>
+</ol>
+
+
+<h2>Can it be simplified?</h2>
+
+<p>Of course. There are a few ways I can think of to simplify this, but the
+tradeoffs aren't worthwhile IMO.</p>
+
+<ol>
+<li><strong>Resize images on demand.</strong> Rather than resize all the images when they're
+first added to the source bucket, the resize lambda could be exposed via a
+CloudFront origin. However, since the static site only really uses two
+image sizes, and that lambda functions have a significant
+<a href="https://serverless.com/blog/keep-your-lambdas-warm/">cold start penalty</a>,
+it's much more efficient to just precompute the resized images.</li>
+<li><strong>Consolidate buckets.</strong>  Rather than separate source, resized &amp; web buckets,
+they could just be in a single bucket. However, this would just shift the
+complexity a bit since the stack would then need to filter new object
+notifications to know which function to invoke. Plus, right now to back up
+the valuable content, I just need to periodically mirror the source bucket,
+rather than all the derivative data in the resized and web buckets.</li>
+</ol>
+
+
+<h2>Problems?</h2>
+
+<p>I have a few annoyances with this setup as-is.</p>
+
+<p>One is that only the resized bucket triggers the site builder function. That
+means that any other object modified in the source bucket, such as the
+<code>metadata.yml</code> files that include album comments, don't trigger a site build.</p>
+
+<p>Another related problem is that for every new image in the source bucket, two
+are created in the resized bucket, each one invoking the site builder function.
+Not only that, but if I upload an album with lots of pictures all in one shot,
+the site will be rebuilt twice for each picture! 🙀</p>
+
+<p>Unfortunately, S3 buckets can only have a <a href="todo">single notification per event type</a>, so
+we can't trigger both the resize and site builder functions when new objects are
+created on the source bucket.</p>
+
+<p>I think the solution here would involve <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">publishing S3 events to SNS or SQS</a>
+and "debouncing" the site builder lambda, but again... <strong>#complexity</strong>.</p>
+
+<p><img src="https://media.giphy.com/media/mYqaRkXyoGbcY/giphy.gif" alt="" /></p>
+
+<p>I'll probably do this eventually, but I'm in no hurry.</p>
+
+<h2>Code</h2>
+
+<p>I've open sourced the entire AWS stack on GitHub over at
+<a href="https://github.com/jpsim/AWSPics">jpsim/AWSPics</a>. I'm also hosting a demo
+site over at <a href="https://awspics.net">awspics.net</a> (use "username"/"password" as
+credentials to check it out).</p>
+
+<p>There's a (long) video walkthrough <a href="https://youtu.be/010AGcY4uoE">on YouTube</a>
+too, if that's useful to follow along.</p>
+
+<h2>Closing Thoughts</h2>
+
+<p>Overall, I really enjoyed stepping outside my comfort zone of native
+Swift/ObjC/C++ programming, learning a TON about several AWS services and
+ultimately meeting my goal of setting up a private photo gallery.</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If you think incremental Xcode builds take a while, try deploying changes to an AWS CloudFormation stack 😅 <a href="https://t.co/yTPsqarT92">pic.twitter.com/yTPsqarT92</a></p>&mdash; JP Simard (@simjp) <a href="https://twitter.com/simjp/status/881640404851884033">July 2, 2017</a></blockquote>
+
+
+<script async src="http://jpsim.github.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Use a VPN!]]></title>
     <link href="http://jpsim.github.com/use-a-vpn/"/>
-    <updated>2014-04-13T12:22:00-04:00</updated>
+    <updated>2014-04-13T12:22:00-07:00</updated>
     <id>http://jpsim.github.com/use-a-vpn</id>
     <content type="html"><![CDATA[<p>Using a private VPN has never been easier, it's foolish not to do it. It takes ~60s and you're protected on untrusted WiFi networks.</p>
 

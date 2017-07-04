@@ -4,7 +4,7 @@
   <title><![CDATA[Category: talks | JP Simard]]></title>
   <link href="http://jpsim.github.com/categories/talks/atom.xml" rel="self"/>
   <link href="http://jpsim.github.com/"/>
-  <updated>2014-08-13T18:02:24-04:00</updated>
+  <updated>2017-07-03T10:24:30-07:00</updated>
   <id>http://jpsim.github.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[SF Swift Meetup]]></title>
     <link href="http://jpsim.github.com/sf-swift-meetup/"/>
-    <updated>2014-06-27T14:58:00-04:00</updated>
+    <updated>2014-06-27T14:58:00-07:00</updated>
     <id>http://jpsim.github.com/sf-swift-meetup</id>
     <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We've made the whole thing available online:</p>
 

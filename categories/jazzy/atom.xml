@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jazzy | JP Simard]]></title>
   <link href="http://jpsim.github.com/categories/jazzy/atom.xml" rel="self"/>
   <link href="http://jpsim.github.com/"/>
-  <updated>2014-08-13T18:02:24-04:00</updated>
+  <updated>2017-07-03T10:24:30-07:00</updated>
   <id>http://jpsim.github.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Uncovering SourceKit]]></title>
     <link href="http://jpsim.github.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00-04:00</updated>
+    <updated>2014-07-06T16:07:00-07:00</updated>
     <id>http://jpsim.github.com/uncovering-sourcekit</id>
     <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we'll focus on <em>SourceKit</em>, Xcode's under-appreciated sidekick.</p>
 
