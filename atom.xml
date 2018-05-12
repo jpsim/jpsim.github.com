@@ -4,7 +4,7 @@
   <title><![CDATA[JP Simard]]></title>
   <link href="http://jpsim.github.com/atom.xml" rel="self"/>
   <link href="http://jpsim.github.com/"/>
-  <updated>2017-07-03T10:24:25-07:00</updated>
+  <updated>2018-05-12T16:56:39-07:00</updated>
   <id>http://jpsim.github.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a serverless password-protected photo gallery]]></title>
     <link href="http://jpsim.github.com/awspics/"/>
-    <updated>2017-07-02T16:00:00-07:00</updated>
+    <updated>2017-07-04T06:14:00-07:00</updated>
     <id>http://jpsim.github.com/awspics</id>
     <content type="html"><![CDATA[<p>Building a serverless photo gallery?
 <em>Easy!</em>
@@ -33,7 +33,8 @@ family, without needing to run, maintain (or pay for) servers.</p></blockquote>
 
 <p>With <a href="https://twitter.com/simjp/status/873604866043543552">the recent addition</a>
 to our family, I wanted to set up a place where I could share pictures with
-our closest friends and family. Facebook wasn&#8217;t an option because&#8230; <a href="https://daringfireball.net/2017/06/fuck_facebook">yeah</a>,
+our closest friends and family. Facebook wasn&#8217;t an option because&#8230;
+<a href="https://daringfireball.net/2017/06/fuck_facebook">yeah</a>,
 <a href="http://www.slate.com/articles/technology/data_mine_1/2013/09/facebook_privacy_and_kids_don_t_post_photos_of_your_kids_online.html">because</a>
 <a href="http://www.telegraph.co.uk/women/family/i-dont-put-pictures-of-my-children-on-facebook---and-you-shouldn/">many</a>
 <a href="http://www.huffingtonpost.com.au/2016/02/07/can-i-post-photos-of-other-peoples-children_n_9184560.html">reasons</a>
@@ -108,11 +109,13 @@ are created in the resized bucket, each one invoking the site builder function.
 Not only that, but if I upload an album with lots of pictures all in one shot,
 the site will be rebuilt twice for each picture! 🙀</p>
 
-<p>Unfortunately, S3 buckets can only have a <a href="todo">single notification per event type</a>, so
-we can&#8217;t trigger both the resize and site builder functions when new objects are
-created on the source bucket.</p>
+<p>Unfortunately, S3 buckets can only have a
+<a href="https://stackoverflow.com/q/31471178/373262">single notification per event type</a>,
+so we can&#8217;t trigger both the resize and site builder functions when new objects
+are created on the source bucket.</p>
 
-<p>I think the solution here would involve <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">publishing S3 events to SNS or SQS</a>
+<p>I think the solution here would involve
+<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">publishing S3 events to SNS or SQS</a>
 and &#8220;debouncing&#8221; the site builder lambda, but again&#8230; <strong>#complexity</strong>.</p>
 
 <p><img src="https://media.giphy.com/media/mYqaRkXyoGbcY/giphy.gif" alt="" /></p>
@@ -425,7 +428,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>Here&#8217;s how you&#8217;d reference it directly in a <code>Podfile</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -434,7 +437,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>Though I find it unlikely, it might make sense to keep your private pods in the same repo as your project. In which case, you&#8217;d commit all its code in a special folder (i.e. <code>local_pods/POD_NAME</code>) and you&#8217;d specify the podspec path in your <code>Podfile</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -509,7 +512,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>Certain projects are notorious for taking a long time to merge PR&#8217;s (<a href="https://github.com/kif-framework/KIF">cough</a>). In those cases or cases when your PR&#8217;s aren&#8217;t accepted, it can be useful to just point your <code>Podfile</code> to your fork of the project. Add this to your <code>Podfile</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;KIF&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/ksuther/KIF&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;KIF&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/ksuther/KIF&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

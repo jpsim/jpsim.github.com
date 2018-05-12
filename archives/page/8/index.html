@@ -27,7 +27,6 @@
   <li><a href="/">Home</a></li>
   <li><a href="https://twitter.com/simjp">Twitter</a></li>
   <li><a href="https://github.com/jpsim">GitHub</a></li>
-  <li><a href="http://realm.io">Realm</a></li>
   <li><a href="/archives">Archives</a></li>
   <li><a href="/about">About</a></li>
 </ul>
@@ -88,7 +87,7 @@
 <p>Here&#8217;s how you&#8217;d reference it directly in a <code>Podfile</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -97,7 +96,7 @@
 <p>Though I find it unlikely, it might make sense to keep your private pods in the same repo as your project. In which case, you&#8217;d commit all its code in a special folder (i.e. <code>local_pods/POD_NAME</code>) and you&#8217;d specify the podspec path in your <code>Podfile</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -139,7 +138,7 @@
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2017 JP Simard
+  &copy; 2018 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 
