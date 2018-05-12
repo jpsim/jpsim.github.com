@@ -243,20 +243,24 @@ end
 desc "deploy public directory to github pages"
 multitask :push do
   puts "## Deploying branch to Github Pages "
-  (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
-  Rake::Task[:copydot].invoke(public_dir, deploy_dir)
-  puts "\n## copying #{public_dir} to #{deploy_dir}"
-  cp_r "#{public_dir}/.", deploy_dir
+  `rm -rf #{deploy_dir}}`
+  `git clone git@github.com:jpsim/jpsim.github.com.git #{deploy_dir}`
   cd "#{deploy_dir}" do
-    system "git add ."
-    system "git add -u"
-    puts "\n## Commiting: Site updated at #{Time.now.utc}"
-    message = "Site updated at #{Time.now.utc}"
-    system "git commit -m \"#{message}\""
-    puts "\n## Pushing generated #{deploy_dir} website"
-    system "git push origin #{deploy_branch} --force"
-    puts "\n## Github Pages deploy complete"
+    `git checkout master`
+    `git rm -rf .`
   end
+
+  Rake::Task[:copydot].invoke(public_dir, deploy_dir)
+
+  cp_r "#{public_dir}/.", deploy_dir
+
+  puts "\n## Pushing generated #{deploy_dir} website"
+  cd "#{deploy_dir}" do
+    `git add -A`
+    `git commit -m "Site updated at #{Time.now.utc}" --allow-empty`
+    `git push origin #{deploy_branch}`
+  end
+  puts "\n## Github Pages deploy complete"
 end
 
 desc "Update configurations to support publishing to root or sub directory"
