@@ -2,12 +2,12 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://jpsim.github.com
+url: https://jpsim.com
 title: JP Simard
-subtitle: "iOS Developer"
+subtitle: "Swift Developer"
 author: JP Simard
 # simple_search: http://google.com/search
-description: "JP Simard is an iOS developer living in San Francisco and Ottawa"
+description: "JP Simard is a Swift developer living in San Francisco and Ottawa"
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
