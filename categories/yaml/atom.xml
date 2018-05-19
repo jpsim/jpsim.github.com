@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: yaml | JP Simard]]></title>
+  <link href="https://jpsim.com/categories/yaml/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
+  <author>
+    <name><![CDATA[JP Simard]]></name>
+    <email><![CDATA[jp@jpsim.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing Yams 1.0]]></title>
+    <link href="https://jpsim.com/introducing-yams-1-dot-0/"/>
+    <updated>2018-05-19T11:40:00+10:00</updated>
+    <id>https://jpsim.com/introducing-yams-1-dot-0</id>
+    <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
+
+<p><a href="https://twitter.com/norio_nomura">Norio Nomura</a> and I (ok, honestly mostly Norio 😅) have been building a
+Swift library for encoding &amp; decoding <a href="http://yaml.org">YAML</a> for the last 18 months and
+it's now stable enough to make a 1.0 release and share with the world.</p>
+
+<p>It's called Yams, you can find it on GitHub at <a href="https://github.com/jpsim/Yams">jpsim/Yams</a> and API
+docs are located at <a href="https://jpsim.com/Yams">jpsim.com/Yams</a>.</p>
+
+<p>You could say it's a Swift binding for <a href="https://github.com/yaml/libyaml">LibYAML</a> but I'd argue it's
+much more than that.</p>
+
+<p>I'm actually very happy with how this library ended up. It plays nicely with
+Swift 4's <a href="https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types">Codable protocol</a>, meaning that you get fast &amp; type-safe
+encoding &amp; decoding that feels right at home in modern Swift.</p>
+
+<p>Here's a simple example of encoding &amp; decoding <code>Codable</code> types:</p>
+
+<pre><code class="swift">import Yams
+
+struct S: Codable {
+  var p: String
+}
+
+let s = S(p: "test")
+let encoder = YAMLEncoder()
+let encodedYAML = try encoder.encode(s)
+encodedYAML == """
+  p: test
+
+  """
+let decoder = YAMLDecoder()
+let decoded = try decoder.decode(S.self, from: encodedYAML)
+s.p == decoded.p
+</code></pre>
+
+<p>Alternatively, you can use it to work with Swift scalar &amp; collection types,
+which is probably the easiest way to start parsing arbitrary YAML for your
+projects. Finally, there's a third mode, which is a Yams-native API that best
+translates to how LibYAML works.</p>
+
+<p>This library's been powering a number of popular projects that use YAML for
+configuration, like <a href="https://github.com/realm/SwiftLint">SwiftLint</a>, <a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> &amp; used in
+<a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> to parse Swift Package Manager build manifests. So
+if you've wanted to add YAML configuration files to your Swift CLI, or want to
+interoperate with other tools that process YAML, I encourage you to give Yams a
+try.</p>
+]]></content>
+  </entry>
+  
+</feed>

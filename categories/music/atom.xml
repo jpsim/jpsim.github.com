@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: music | JP Simard]]></title>
-  <link href="http://jpsim.github.com/categories/music/atom.xml" rel="self"/>
-  <link href="http://jpsim.github.com/"/>
-  <updated>2018-05-12T17:01:23-07:00</updated>
-  <id>http://jpsim.github.com/</id>
+  <link href="https://jpsim.com/categories/music/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
     <email><![CDATA[jp@jpsim.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Goals for <span>2013</span>]]></title>
-    <link href="http://jpsim.github.com/goals-for-2013/"/>
-    <updated>2013-01-07T12:03:00-08:00</updated>
-    <id>http://jpsim.github.com/goals-for-2013</id>
+    <link href="https://jpsim.com/goals-for-2013/"/>
+    <updated>2013-01-07T12:03:00+10:00</updated>
+    <id>https://jpsim.com/goals-for-2013</id>
     <content type="html"><![CDATA[<p>Writing my goals for 2013 publicly to keep myself accountable.</p>
 
 <h2>Gig monthly</h2>

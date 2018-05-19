@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: aws | JP Simard]]></title>
-  <link href="http://jpsim.github.com/categories/aws/atom.xml" rel="self"/>
-  <link href="http://jpsim.github.com/"/>
-  <updated>2018-05-12T17:01:23-07:00</updated>
-  <id>http://jpsim.github.com/</id>
+  <link href="https://jpsim.com/categories/aws/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
     <email><![CDATA[jp@jpsim.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Building a serverless password-protected photo gallery]]></title>
-    <link href="http://jpsim.github.com/awspics/"/>
-    <updated>2017-07-04T06:14:00-07:00</updated>
-    <id>http://jpsim.github.com/awspics</id>
+    <link href="https://jpsim.com/awspics/"/>
+    <updated>2017-07-04T06:14:00+10:00</updated>
+    <id>https://jpsim.com/awspics</id>
     <content type="html"><![CDATA[<p>Building a serverless photo gallery?
 <em>Easy!</em>
 Password-protecting that without adding servers?
@@ -141,7 +141,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If you think incremental Xcode builds take a while, try deploying changes to an AWS CloudFormation stack 😅 <a href="https://t.co/yTPsqarT92">pic.twitter.com/yTPsqarT92</a></p>&mdash; JP Simard (@simjp) <a href="https://twitter.com/simjp/status/881640404851884033">July 2, 2017</a></blockquote>
 
 
-<script async src="http://jpsim.github.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="https://jpsim.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ]]></content>
   </entry>

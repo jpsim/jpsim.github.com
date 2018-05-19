@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ios | JP Simard]]></title>
-  <link href="http://jpsim.github.com/categories/ios/atom.xml" rel="self"/>
-  <link href="http://jpsim.github.com/"/>
-  <updated>2018-05-12T17:01:23-07:00</updated>
-  <id>http://jpsim.github.com/</id>
+  <link href="https://jpsim.com/categories/ios/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
     <email><![CDATA[jp@jpsim.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Uncovering SourceKit]]></title>
-    <link href="http://jpsim.github.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00-07:00</updated>
-    <id>http://jpsim.github.com/uncovering-sourcekit</id>
+    <link href="https://jpsim.com/uncovering-sourcekit/"/>
+    <updated>2014-07-06T16:07:00+10:00</updated>
+    <id>https://jpsim.com/uncovering-sourcekit</id>
     <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we'll focus on <em>SourceKit</em>, Xcode's under-appreciated sidekick.</p>
 
 <p><img src="/images/posts/sidekick.jpg" alt="sidekick" /></p>
@@ -136,9 +136,9 @@
   
   <entry>
     <title type="html"><![CDATA[SF Swift Meetup]]></title>
-    <link href="http://jpsim.github.com/sf-swift-meetup/"/>
-    <updated>2014-06-27T14:58:00-07:00</updated>
-    <id>http://jpsim.github.com/sf-swift-meetup</id>
+    <link href="https://jpsim.com/sf-swift-meetup/"/>
+    <updated>2014-06-27T14:58:00+10:00</updated>
+    <id>https://jpsim.com/sf-swift-meetup</id>
     <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We've made the whole thing available online:</p>
 
 <ul>
@@ -154,9 +154,9 @@
   
   <entry>
     <title type="html"><![CDATA[JPSThumbnailAnnotation updated for iOS 7]]></title>
-    <link href="http://jpsim.github.com/jpsthumbnailannotation-updated-for-ios-7/"/>
-    <updated>2014-03-27T11:55:00-07:00</updated>
-    <id>http://jpsim.github.com/jpsthumbnailannotation-updated-for-ios-7</id>
+    <link href="https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7/"/>
+    <updated>2014-03-27T11:55:00+10:00</updated>
+    <id>https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7</id>
     <content type="html"><![CDATA[<p>I've just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
 
 <p>Check it out on <a href="https://github.com/jpsim/JPSThumbnailAnnotation">GitHub</a> or just add it to CocoaPods: <code>pod 'JPSThumbnailAnnotation'</code>.</p>
@@ -173,9 +173,9 @@
   
   <entry>
     <title type="html"><![CDATA[Keyboard Layout Guide]]></title>
-    <link href="http://jpsim.github.com/keyboard-layout-guide/"/>
-    <updated>2014-03-26T14:41:00-07:00</updated>
-    <id>http://jpsim.github.com/keyboard-layout-guide</id>
+    <link href="https://jpsim.com/keyboard-layout-guide/"/>
+    <updated>2014-03-26T14:41:00+10:00</updated>
+    <id>https://jpsim.com/keyboard-layout-guide</id>
     <content type="html"><![CDATA[<p>I really like iOS 7's <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They're immensely useful. But in my adventures with Auto Layout, I've often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
 
 <p>It's a bit of a drag to have to set up <code>NSNotification</code> observers just to be able to keep your textfield on the screen when the keyboard barges into view. So I added a <code>keyboardLayoutGuide</code> to <code>UIViewController</code> myself. You can check it out on GitHub here: <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">jpsim/JPSKeyboardLayoutGuide</a>.</p>
@@ -188,9 +188,9 @@
   
   <entry>
     <title type="html"><![CDATA[Private Pods]]></title>
-    <link href="http://jpsim.github.com/private-pods/"/>
-    <updated>2014-03-17T19:12:00-07:00</updated>
-    <id>http://jpsim.github.com/private-pods</id>
+    <link href="https://jpsim.com/private-pods/"/>
+    <updated>2014-03-17T19:12:00+10:00</updated>
+    <id>https://jpsim.com/private-pods</id>
     <content type="html"><![CDATA[<p>Keeping a project modular is a lofty software development goal that we all strive for even though it can never be fully attained.</p>
 
 <p>One way to encourage a modular architecture is to use a dependency manager like <a href="http://cocoapods.org">Cocoapods</a>. I've blogged about using Cocoapods <a href="/cocoapods-tips-tricks">before</a>, but I didn't touch on splitting up portions of your code that wouldn't benefit from being open-sourced. Either because they're too application-specific, or they're proprietary.</p>

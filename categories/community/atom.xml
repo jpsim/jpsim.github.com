@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: community | JP Simard]]></title>
-  <link href="http://jpsim.github.com/categories/community/atom.xml" rel="self"/>
-  <link href="http://jpsim.github.com/"/>
-  <updated>2018-05-12T17:01:23-07:00</updated>
-  <id>http://jpsim.github.com/</id>
+  <link href="https://jpsim.com/categories/community/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
     <email><![CDATA[jp@jpsim.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[SF Swift Meetup]]></title>
-    <link href="http://jpsim.github.com/sf-swift-meetup/"/>
-    <updated>2014-06-27T14:58:00-07:00</updated>
-    <id>http://jpsim.github.com/sf-swift-meetup</id>
+    <link href="https://jpsim.com/sf-swift-meetup/"/>
+    <updated>2014-06-27T14:58:00+10:00</updated>
+    <id>https://jpsim.com/sf-swift-meetup</id>
     <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We've made the whole thing available online:</p>
 
 <ul>

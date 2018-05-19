@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: dashbook | JP Simard]]></title>
-  <link href="http://jpsim.github.com/categories/dashbook/atom.xml" rel="self"/>
-  <link href="http://jpsim.github.com/"/>
-  <updated>2018-05-12T17:01:23-07:00</updated>
-  <id>http://jpsim.github.com/</id>
+  <link href="https://jpsim.com/categories/dashbook/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
     <email><![CDATA[jp@jpsim.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Letting Go &amp; Moving On]]></title>
-    <link href="http://jpsim.github.com/letting-go-and-moving-on/"/>
-    <updated>2013-04-15T07:54:00-07:00</updated>
-    <id>http://jpsim.github.com/letting-go-and-moving-on</id>
+    <link href="https://jpsim.com/letting-go-and-moving-on/"/>
+    <updated>2013-04-15T07:54:00+10:00</updated>
+    <id>https://jpsim.com/letting-go-and-moving-on</id>
     <content type="html"><![CDATA[<p>I've been building <a href="http://mgn.tc">Magnetic Bear Studios</a> for the last two years.</p>
 
 <p>From a logo on a napkin and a 200$ contract, to an exponentially growing mobile dev shop. One of my first big lessons running a young company was that <strong><em>it takes on a life of its own!</em></strong> It's scary.</p>

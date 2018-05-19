@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: git | JP Simard]]></title>
-  <link href="http://jpsim.github.com/categories/git/atom.xml" rel="self"/>
-  <link href="http://jpsim.github.com/"/>
-  <updated>2018-05-12T17:01:23-07:00</updated>
-  <id>http://jpsim.github.com/</id>
+  <link href="https://jpsim.com/categories/git/atom.xml" rel="self"/>
+  <link href="https://jpsim.com/"/>
+  <updated>2018-05-19T11:44:13+10:00</updated>
+  <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
     <email><![CDATA[jp@jpsim.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CocoaPods Tips & Tricks]]></title>
-    <link href="http://jpsim.github.com/cocoapods-tips-tricks/"/>
-    <updated>2014-03-12T09:45:00-07:00</updated>
-    <id>http://jpsim.github.com/cocoapods-tips-tricks</id>
+    <link href="https://jpsim.com/cocoapods-tips-tricks/"/>
+    <updated>2014-03-12T09:45:00+10:00</updated>
+    <id>https://jpsim.com/cocoapods-tips-tricks</id>
     <content type="html"><![CDATA[<p><a href="http://cocoapods.org">CocoaPods</a> documentation isn't very opiniated, which can cause confusion for newcomers. Here are a few tricks I've picked up after building a few dozen projects with CocoaPods.</p>
 
 <h2>Source Control</h2>
