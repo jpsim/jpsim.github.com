@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | JP Simard]]></title>
   <link href="https://jpsim.com/categories/swift/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-05-19T11:44:13+10:00</updated>
+  <updated>2018-05-20T13:23:16+10:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -60,11 +60,11 @@ projects. Finally, there's a third mode, which is a Yams-native API that best
 translates to how LibYAML works.</p>
 
 <p>This library's been powering a number of popular projects that use YAML for
-configuration, like <a href="https://github.com/realm/SwiftLint">SwiftLint</a>, <a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> &amp; used in
-<a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> to parse Swift Package Manager build manifests. So
-if you've wanted to add YAML configuration files to your Swift CLI, or want to
-interoperate with other tools that process YAML, I encourage you to give Yams a
-try.</p>
+configuration, like <a href="https://github.com/realm/SwiftLint">SwiftLint</a>, <a href="https://github.com/SwiftGen/SwiftGen">SwiftGen</a>,
+<a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> &amp; used in <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> to parse Swift
+Package Manager build manifests. So if you've wanted to add YAML configuration
+files to your Swift CLI, or want to interoperate with other tools that process
+YAML, I encourage you to give Yams a try.</p>
 ]]></content>
   </entry>
   
