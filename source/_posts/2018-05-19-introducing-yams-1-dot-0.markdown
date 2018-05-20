@@ -49,11 +49,11 @@ projects. Finally, there's a third mode, which is a Yams-native API that best
 translates to how LibYAML works.
 
 This library's been powering a number of popular projects that use YAML for
-configuration, like [SwiftLint][SwiftLint], [XcodeGen][XcodeGen] & used in
-[SourceKitten][SourceKitten] to parse Swift Package Manager build manifests. So
-if you've wanted to add YAML configuration files to your Swift CLI, or want to
-interoperate with other tools that process YAML, I encourage you to give Yams a
-try.
+configuration, like [SwiftLint][SwiftLint], [SwiftGen][SwiftGen],
+[XcodeGen][XcodeGen] & used in [SourceKitten][SourceKitten] to parse Swift
+Package Manager build manifests. So if you've wanted to add YAML configuration
+files to your Swift CLI, or want to interoperate with other tools that process
+YAML, I encourage you to give Yams a try.
 
 [yams-logo]: https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg
 [norio]: https://twitter.com/norio_nomura
@@ -63,5 +63,6 @@ try.
 [LibYAML]: https://github.com/yaml/libyaml
 [codable]: https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
 [SwiftLint]: https://github.com/realm/SwiftLint
+[SwiftGen]: https://github.com/SwiftGen/SwiftGen
 [XcodeGen]: https://github.com/yonaskolb/XcodeGen
 [SourceKitten]: https://github.com/jpsim/SourceKitten
