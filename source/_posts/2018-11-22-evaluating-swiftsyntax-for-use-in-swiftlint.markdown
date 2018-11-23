@@ -16,7 +16,7 @@ In reality, SwiftSyntax delegates all parsing & lexing to the `swiftc` binary, [
 
 **Launching a new instance of the Swift compiler for each file parsed is orders of magnitude slower than SourceKitten's XPC call to a long-lived SourceKit daemon.**
 
-I discovered this after [reimplementing](https://github.com/realm/SwiftLint/compare/fallthrough-swift-syntax) a very simple SwiftLint rule with a SwiftSyntax-based implementation: [Fallthrough](https://github.com/realm/SwiftLint/blob/master/Rules.md#fallthrough). This opt-in rule is a perfect proof-of-concept for integrating SwiftSyntax into SwiftLint because it literally just finds all occurrences of the `fallthrough` keyword and reports a violation at that location. I measured the time it took to lint a folder of ~100 Swift files from Lyft's iOS codebase with only the `fallthrough` rule whitelisted.
+I discovered this after [reimplementing](https://github.com/realm/SwiftLint/pull/2476) a very simple SwiftLint rule with a SwiftSyntax-based implementation: [Fallthrough](https://github.com/realm/SwiftLint/blob/master/Rules.md#fallthrough). This opt-in rule is a perfect proof-of-concept for integrating SwiftSyntax into SwiftLint because it literally just finds all occurrences of the `fallthrough` keyword and reports a violation at that location. I measured the time it took to lint a folder of ~100 Swift files from Lyft's iOS codebase with only the `fallthrough` rule whitelisted.
 
 ```yaml
 # .swiftlint.yml configuration file
