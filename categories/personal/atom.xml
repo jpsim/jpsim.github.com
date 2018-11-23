@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | JP Simard]]></title>
   <link href="https://jpsim.com/categories/personal/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-05-20T15:13:59+10:00</updated>
+  <updated>2018-11-22T16:58:24-08:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Moving to SF]]></title>
     <link href="https://jpsim.com/moving-to-sf/"/>
-    <updated>2014-03-31T13:59:00+10:00</updated>
+    <updated>2014-03-31T13:59:00-07:00</updated>
     <id>https://jpsim.com/moving-to-sf</id>
     <content type="html"><![CDATA[<p>I'm excited to share that I'll be joining an awesome <a href="http://ycombinator.org">YC</a> company in San Francisco, starting in 2 weeks!</p>
 
@@ -33,7 +33,7 @@
   <entry>
     <title type="html"><![CDATA[JPSThumbnailAnnotation updated for iOS 7]]></title>
     <link href="https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7/"/>
-    <updated>2014-03-27T11:55:00+10:00</updated>
+    <updated>2014-03-27T11:55:00-07:00</updated>
     <id>https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7</id>
     <content type="html"><![CDATA[<p>I've just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
 
@@ -52,7 +52,7 @@
   <entry>
     <title type="html"><![CDATA[Keyboard Layout Guide]]></title>
     <link href="https://jpsim.com/keyboard-layout-guide/"/>
-    <updated>2014-03-26T14:41:00+10:00</updated>
+    <updated>2014-03-26T14:41:00-07:00</updated>
     <id>https://jpsim.com/keyboard-layout-guide</id>
     <content type="html"><![CDATA[<p>I really like iOS 7's <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They're immensely useful. But in my adventures with Auto Layout, I've often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
 
@@ -67,7 +67,7 @@
   <entry>
     <title type="html"><![CDATA[JPSVolumeButtonHandler]]></title>
     <link href="https://jpsim.com/jpsvolumebuttonhandler/"/>
-    <updated>2014-02-19T14:38:00+10:00</updated>
+    <updated>2014-02-19T14:38:00-08:00</updated>
     <id>https://jpsim.com/jpsvolumebuttonhandler</id>
     <content type="html"><![CDATA[<p>The fun times building a <a href="https://github.com/jpsim/JPSVolumeButtonHandler">tiny open source class</a> to use an iOS device's hardware volume buttons in 3rd party apps.</p>
 
@@ -115,7 +115,7 @@
   <entry>
     <title type="html"><![CDATA[JPSThumbnailAnnotation]]></title>
     <link href="https://jpsim.com/jpsthumbnailannotation/"/>
-    <updated>2013-04-22T06:43:00+10:00</updated>
+    <updated>2013-04-22T06:43:00-07:00</updated>
     <id>https://jpsim.com/jpsthumbnailannotation</id>
     <content type="html"><![CDATA[<p>I just released a new iOS component called <a href="https://github.com/jpsim/JPSThumbnailAnnotation">JPSThumbnailAnnotation</a> which is a great way to display thumbnails on a map.</p>
 

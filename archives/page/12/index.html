@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="This is my road (so far) to WWDC13. This should serve as a reminder to my future self to avoid WWDC next year. The effort that went into getting a &hellip;">
+  <meta name="description" content="The fun times building a tiny open source class to use an iOS device&#8217;s hardware volume buttons in 3rd party apps. This wasn&#8217;t too hard, &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/12">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -56,98 +56,60 @@
   
 
 
-<time datetime="2013-04-26T16:53:00+10:00" pubdate data-updated="true">Apr 26<span>th</span>, 2013</time>
+<time datetime="2014-02-19T14:38:00-08:00" pubdate data-updated="true">Feb 19<span>th</span>, 2014</time>
         
 
-         | <a class="disqus-link" href="/wwdc-radically-change/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/jpsvolumebuttonhandler/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/wwdc-radically-change/">WWDC needs to <span>radically</span> change</a></h1>
+      <h1 class="entry-title"><a href="/jpsvolumebuttonhandler/">JPSVolumeButtonHandler</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>This is my road (so far) to WWDC13. This should serve as a reminder to my future self to avoid WWDC next year.</p>
+  <div class="entry-content"><p>The fun times building a <a href="https://github.com/jpsim/JPSVolumeButtonHandler">tiny open source class</a> to use an iOS device&#8217;s hardware volume buttons in 3rd party apps.</p>
 
-<p>The effort that went into getting a ticket is far more than I&#8217;m willing to admit&#8230; it&#8217;s JUST a conference, after all! Here&#8217;s a recap:</p>
+<p>This wasn&#8217;t <em>too</em> hard, but the I thought the process merited a short blog post.</p>
 
-<h2>Early April</h2>
+<p>I recently made a pixel-for-pixel clone of Apple&#8217;s iOS 7 <code>UIImagePickerController</code> (the camera portion, not the library portion). The full code can be found on <a href="https://github.com/jpsim/JPSImagePickerController">github</a>.</p>
+
+<p>My motivation for doing this was that I was working on a client app that included functionality to take a picture and analyze it to determine whether or not it passed certain quality checks (legibility, resolution, completeness, etc). I wanted to display a message based on the result of this quality check during the &#8220;review&#8221; process of <code>UIImagePickerController</code>.</p>
+
+<p><img src="https://raw.github.com/jpsim/JPSImagePickerController/master/screenshots.png" alt="JPSImagePickerController in action" /></p>
+
+<p>The part I want to discuss is the code that uses the phone&#8217;s hardware volume up button to snap a picture.</p>
+
+<p>There are a few hurdles to jump over to make this seamless:</p>
 
 <ol>
-<li>Start researching WWDC history to be well prepared (see last section). I felt this was critical to get a ticket.</li>
-<li>Rumors and trends converge towards a June 10-14 schedule, with an April 25th announcement</li>
-<li>Sign up to 2 different WWDC announcement notification services (for redundancy)</li>
-<li>Book round-trip flights and accommodations early to avoid much higher costs once they skyrocket after the announcement.</li>
+<li>There&#8217;s no official API or notification to observe the audio volume or hardware volume button presses</li>
+<li><code>UIImagePickerController</code> doesn&#8217;t pass-through volume button presses to the system audio</li>
+<li>There&#8217;s no official way to stop the system audio from being modified on a volume button press</li>
+<li>The only way to disable the HUD that appears on volume change is to display an <code>MPVolumeView</code> (it won&#8217;t work if it&#8217;s hidden or if its alpha is zero)</li>
+<li>The only way to set the system audio level is to use a deprecated method (i.e. if we want to undo a volume change caused by a volume button press)</li>
+<li>The system audio volume won&#8217;t go up if it&#8217;s already set to 1 and won&#8217;t go down if it&#8217;s set to 0. This means that button presses won&#8217;t be registered if audio is at its maximum or its minimum.</li>
 </ol>
 
 
-<h2>April 25</h2>
+<p>So I wrote a class called <a href="https://github.com/jpsim/JPSVolumeButtonHandler"><code>JPSVolumeButtonHandler</code></a> that solves the previous problems in the following way:</p>
 
 <ol>
-<li>9:55, start repeatedly refreshing WWDC page</li>
-<li>10:00:05, see purchase button, enter info</li>
-<li>10:00:55, click &#8220;complete order&#8221;</li>
-<li>Get error, enter info again</li>
-<li>10:01:55, click &#8220;complete order&#8221;</li>
-<li>Get redirected to WWDC where it says <a href="http://i97.photobucket.com/albums/l230/Insider2000/SpitCereal.png">&#8220;sold out&#8221;</a></li>
-<li>Mope for a few minutes</li>
-<li>Acceptance: Oh well, it&#8217;s just a conference. I&#8217;ll take this as a week-long vacation in SF. Go on with the rest of my day.</li>
-<li>16:30, receive a phone call from Apple rep saying <strong>&#8220;We see you encountered some errors while purchasing your WWDC tickets this morning. I&#8217;d like to let you know that we have a ticket reserved for you and we&#8217;ll be sending you an email with information on how to complete your purchase in the next twelve hours [sic].&#8221;</strong></li>
-<li>Celebrate for a few minutes</li>
+<li>Create an off-screen <code>MPVolumeView</code></li>
+<li>If the volume is at 1, set it to <code>0.99999f</code>, if it&#8217;s at 0, set it to <code>0.00001f</code>, otherwise do nothing</li>
+<li>KVO observe the <code>outputVolume</code> property of an <code>AVAudioSession</code></li>
+<li>Set the <code>AVAudioSession</code>&#8217;s category to <code>AVAudioSessionCategoryAmbient</code> to not duck any other volume</li>
+<li>Trigger up/down code blocks when KVO notifies us of a change</li>
+<li>Reset the system audio to its initial value when KVO notifies us that it has changed</li>
+<li>Discard KVO notifications when the new volume value is the same as our initial value, since that means we reset the volume</li>
 </ol>
 
 
-<h2>April 26</h2>
+<p>Hopefully either the <a href="https://github.com/jpsim/JPSImagePickerController">image picker clone</a>, or this <a href="https://github.com/jpsim/JPSVolumeButtonHandler">volume button class</a> ends up being useful to a few people.</p>
 
-<ol>
-<li>14:27, receive email from Apple with instructions to complete the purchase</li>
-<li>16:00, attempt to complete the purchase but run into another set of errors on:
-
-<ul>
-<li>Google Chrome</li>
-<li>OS X Safari</li>
-<li>iOS Safari</li>
-<li>Firefox</li>
-<li>reset OS X Safari</li>
-<li>it works!</li>
-</ul>
-</li>
-<li>Finally complete the order.</li>
-</ol>
-
-
-<p>Note to self&#8230; avoid WWDC next year, people will be resort to writing bots to buy their tickets and the conference will sell out in 0.04s.</p>
-
-<h2>WWDC Stats</h2>
-
-<h2>Conference Dates</h2>
-
-<ul>
-<li>2003: June 23 to June 27</li>
-<li>2004: June 28 to July 2</li>
-<li>2005: June 6 to June 10</li>
-<li>2006: August 7 to August 11</li>
-<li>2007: June 11 to June 15</li>
-<li>2008: June 9 to June 13</li>
-<li>2009: June 8 to June 12</li>
-<li>2010: June 7 to June 11</li>
-<li>2011: June 6 to June 10</li>
-<li>2012: June 11 to June 15</li>
-</ul>
-
-
-<h2>Announcement Dates, Times and Sell Out Durations</h2>
-
-<ul>
-<li>2010: April 28 (8 days)</li>
-<li>2011: March 28 (12hrs: 16x faster than previous year)</li>
-<li>2012: April 25 (1h43m: 7x faster than previous year)</li>
-<li>2013: April 25, 10:00am (90s: 70x faster than previous year)</li>
-</ul>
-
+<p>Thanks for reading!</p>
 </div>
   
   

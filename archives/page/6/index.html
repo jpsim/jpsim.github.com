@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="I&#8217;m excited to share that I&#8217;ll be joining an awesome YC company in San Francisco, starting in 2 weeks! The company has yet to launch, so &hellip;">
+  <meta name="description" content="Using a private VPN has never been easier, it&#8217;s foolish not to do it. It takes ~60s and you&#8217;re protected on untrusted WiFi networks. This &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/6">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -56,29 +56,71 @@
   
 
 
-<time datetime="2014-03-31T13:59:00+10:00" pubdate data-updated="true">Mar 31<span>st</span>, 2014</time>
+<time datetime="2014-04-13T12:22:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2014</time>
         
 
-         | <a class="disqus-link" href="/moving-to-sf/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/use-a-vpn/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/moving-to-sf/">Moving to SF</a></h1>
+      <h1 class="entry-title"><a href="/use-a-vpn/">Use a VPN!</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>I&#8217;m excited to share that I&#8217;ll be joining an awesome <a href="http://ycombinator.org">YC</a> company in San Francisco, starting in 2 weeks!</p>
+  <div class="entry-content"><p>Using a private VPN has never been easier, it&#8217;s foolish not to do it. It takes ~60s and you&#8217;re protected on untrusted WiFi networks.</p>
 
-<p>The company has yet to launch, so I can&#8217;t say much about it, but I <em>can</em> tell you that I wouldn&#8217;t have joined it if I didn&#8217;t think it has the potential to change how software is built on a fundamental level.</p>
+<p>This article is more public service announcement than tutorial, since it&#8217;s really so easy you have no reason not to do it.</p>
 
-<p>This decision is actually the result of over 6 weeks of careful job hunting and deliberation, so it wasn&#8217;t done on a whim.</p>
+<p>I&#8217;ll be showing you how to set up <a href="https://openvpn.net">OpenVPN</a> on <a href="https://www.digitalocean.com">DigitalOcean</a> using <a href="https://github.com/pearkes/tugboat">tugboat</a>, but any server provider will do.</p>
 
-<p>I&#8217;ve had a blast building <a href="http://magneticbear.com">Magnetic Bear Studios</a> over the last 3 years, but it&#8217;s time to move on. The truth is, I&#8217;m a product builder, not a business builder. It&#8217;s what I love. And that&#8217;s what I&#8217;ll be doing at this new job. The other stuff was always incidental to me, but was taking up the majority of my attention.</p>
+<h2>1: Spin up an instance</h2>
 
-<p>I look forward to sharing more with you once we launch!</p>
+<p><code>$ tugboat create vpn</code></p>
+
+<h2>2: Install OpenVPN Access Server</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tugboat ssh vpn
+</span><span class='line'>$ wget http://swupdate.openvpn.org/as/openvpn-as-2.0.6-Ubuntu13.amd64.deb
+</span><span class='line'>$ dpkg -i openvpn-as-2.0.6-Ubuntu13.amd64.deb
+</span><span class='line'>$ sudo passwd openvpn</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The steps are 1) ssh, 2) download 3) install 4) set password. It&#8217;s that easy.</p>
+
+<p>You can find the latest OpenVPN AS package for your system <a href="https://openvpn.net/index.php/access-server/download-openvpn-as-sw.html">here</a>.</p>
+
+<h2>3: Download your client</h2>
+
+<p>In the STDOUT from the <code>dpkg -i</code>, you&#8217;ll see a <code>Client UI</code> URL to connect to from your computer/smartphone to download the client. It&#8217;ll look like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ Access Server web UIs are available here:
+</span><span class='line'>$ Admin  UI: https://123.456.789.123:943/admin
+</span><span class='line'>$ Client UI: https://123.456.789.123:943/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Accessing this URL will likely give you a certificate warning in your browser. This is because OpenVPN created a self-signed SSL certificate that your browser won&#8217;t recognize. You can either proceed anyway, or download the auto-generated cert from your machine directly, and then proceed. I wasn&#8217;t able to do this, so if you know how, please comment and I&#8217;ll update this article.</p>
+
+<h2>4: Connect</h2>
+
+<p>Install the client, connect and voilà. You&#8217;re now tunneling all your traffic through your vpn!</p>
+
+<h2>5 (optional): Save the DigitalOcean image</h2>
+
+<p>To save on cost, I only create this VPN server (from a saved image) when I need it and destroy it when I&#8217;m done. This saves on hosting costs <strong>AND</strong> DigitalOcean doesn&#8217;t <em>actually</em> <a href="https://www.digitalocean.com/community/questions/questions-on-snapshot-billing">charge for snapshots</a>!!!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I&#8217;m writing this article from San Francisco&#8217;s public city WiFi, through my newly minted OpenVPN server, without fear of a malicious San Franciscan sniffing my sensitive data :).</p>
 </div>
   
   

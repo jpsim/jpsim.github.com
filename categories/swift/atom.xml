@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | JP Simard]]></title>
   <link href="https://jpsim.com/categories/swift/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-05-20T15:13:59+10:00</updated>
+  <updated>2018-11-22T16:58:24-08:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -14,9 +14,59 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
+    <link href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/"/>
+    <updated>2018-11-22T14:50:00-08:00</updated>
+    <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
+    <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
+
+<p>I have for some time been looking forward to reimplementing some of <a href="https://github.com/realm/SwiftLint">SwiftLint</a>'s simpler syntax-only rules with <a href="https://github.com/apple/swift-syntax">SwiftSyntax</a>. If you're not familiar with it, the recent <a href="https://nshipster.com/swiftsyntax/">NSHipster article</a> gives a great overview. My motivation for integrating it into SwiftLint was that it would be nice to use an officially maintained library directly to obtain the syntax tree rather than the open source but community-maintained <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> library. I was also under the false impression that SwiftSyntax would be significantly faster than SourceKit/SourceKitten.</p>
+
+<p>SourceKitten gets its syntax tree by dynamically loading <a href="https://github.com/apple/swift/tree/master/tools/SourceKit">SourceKit</a> and making cross-process XPC calls to a SourceKit daemon. In a typical uncached lint run, SwiftLint spends a significant amount of time waiting on this syntax tree for each file being linted. Because SwiftSyntax is <a href="https://github.com/apple/swift-syntax#building-swiftsyntax-from-master">code-generated</a> from the same syntax definition files as the Swift compiler, I had (incorrectly) assumed that calculating a Swift file's syntax tree using SwiftSyntax was done entirely in-process by the library, which would have lead to significant performance gains by avoiding the cross-process XPC call made by SourceKitten for equivalent functionality.</p>
+
+<p>In reality, SwiftSyntax delegates all parsing &amp; lexing to the <code>swiftc</code> binary, <a href="https://github.com/apple/swift-syntax/blob/0.40200.0/Sources/SwiftSyntax/SwiftSyntax.swift#L100-L101">launching the process</a>, <a href="https://github.com/apple/swift-syntax/blob/0.40200.0/Sources/SwiftSyntax/SwiftSyntax.swift#L102">reading its output from stdout</a> and <a href="https://github.com/apple/swift-syntax/blob/0.40200.0/Sources/SwiftSyntax/SwiftSyntax.swift#L103-L104">deserializing the JSON response</a> into its <code>SourceFileSyntax</code> Swift type. This is repeated for each file being parsed 😱.</p>
+
+<p><strong>Launching a new instance of the Swift compiler for each file parsed is orders of magnitude slower than SourceKitten's XPC call to a long-lived SourceKit daemon.</strong></p>
+
+<p>I discovered this after <a href="https://github.com/realm/SwiftLint/compare/fallthrough-swift-syntax">reimplementing</a> a very simple SwiftLint rule with a SwiftSyntax-based implementation: <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md#fallthrough">Fallthrough</a>. This opt-in rule is a perfect proof-of-concept for integrating SwiftSyntax into SwiftLint because it literally just finds all occurrences of the <code>fallthrough</code> keyword and reports a violation at that location. I measured the time it took to lint a folder of ~100 Swift files from Lyft's iOS codebase with only the <code>fallthrough</code> rule whitelisted.</p>
+
+<pre><code class="yaml"># .swiftlint.yml configuration file
+included:
+  - path/to/lint/dir # contains ~100 Swift files
+whitelist_rules:
+  - fallthrough
+</code></pre>
+
+<p>I compiled both SwiftLint from <code>master</code> and again with this <code>fallthrough-swift-syntax</code> branch with <code>swift build -c release</code> and named the binaries <code>swiftlint-master</code> and <code>swiftlint-swift-syntax</code>. I then benchmarked both binaries using the excellent <a href="https://github.com/sharkdp/hyperfine">hyperfine</a> utility.</p>
+
+<pre><code class="shell">$ hyperfine './swiftlint-master lint --quiet --no-cache' './swiftlint-swift-syntax lint --quiet --no-cache'
+Benchmark #1: ./swiftlint-master lint --quiet --no-cache
+  Time (mean ± σ):     231.3 ms ±   5.1 ms    [User: 130.5 ms, System: 29.2 ms]
+  Range (min … max):   224.3 ms … 238.3 ms
+
+Benchmark #2: ./swiftlint-swift-syntax lint --quiet --no-cache
+  Time (mean ± σ):      5.254 s ±  0.149 s    [User: 20.309 s, System: 23.110 s]
+  Range (min … max):    4.839 s …  5.354 s
+
+Summary
+  './swiftlint-master lint --quiet --no-cache' ran
+   22.71 ± 0.82 times faster than './swiftlint-swift-syntax lint --quiet --no-cache'
+</code></pre>
+
+<p><strong>The SwiftSyntax version was 22x slower than the existing SourceKitten version</strong></p>
+
+<p><em>Note that I ran SwiftLint with its caching mechanism and logging disabled to accurately measure the time it took just to perform the lint, rather than the overhead from logging or skipping the lint entirely by just returning cached results. Although logging only added 3ms to 10ms in my tests.</em></p>
+
+<hr />
+
+<p>Ultimately, this means SwiftLint will be keeping its SourceKitten-based implementation for the foreseeable future, unless SwiftSyntax removes its reliance on costly compiler invocations and drastically improves its performance. I really hope the Swift team can somehow find a way to move parsing and lexing into SwiftSyntax itself, making the library much more appealing to use.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Introducing Yams 1.0]]></title>
     <link href="https://jpsim.com/introducing-yams-1-dot-0/"/>
-    <updated>2018-05-19T11:40:00+10:00</updated>
+    <updated>2018-05-19T11:40:00-07:00</updated>
     <id>https://jpsim.com/introducing-yams-1-dot-0</id>
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
 
@@ -71,7 +121,7 @@ YAML, I encourage you to give Yams a try.</p>
   <entry>
     <title type="html"><![CDATA[Uncovering SourceKit]]></title>
     <link href="https://jpsim.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00+10:00</updated>
+    <updated>2014-07-06T16:07:00-07:00</updated>
     <id>https://jpsim.com/uncovering-sourcekit</id>
     <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we'll focus on <em>SourceKit</em>, Xcode's under-appreciated sidekick.</p>
 
@@ -192,7 +242,7 @@ YAML, I encourage you to give Yams a try.</p>
   <entry>
     <title type="html"><![CDATA[SF Swift Meetup]]></title>
     <link href="https://jpsim.com/sf-swift-meetup/"/>
-    <updated>2014-06-27T14:58:00+10:00</updated>
+    <updated>2014-06-27T14:58:00-07:00</updated>
     <id>https://jpsim.com/sf-swift-meetup</id>
     <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We've made the whole thing available online:</p>
 

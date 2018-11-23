@@ -3,10 +3,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>JP Simard - Swift Developer</title>
+  <title>Evaluating SwiftSyntax for use in SwiftLint - JP Simard - Swift Developer</title>
   <meta name="description" content="tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭 I have for some time been looking forward &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="canonical" href="https://jpsim.com">
+  <link rel="canonical" href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint">
   <link href="/favicon.ico" rel="shortcut icon"> 
   <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,12 +35,9 @@
   </header>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article class="article">
-      
   <header>
     
       <p class="meta">
@@ -59,18 +56,18 @@
 <time datetime="2018-11-22T14:50:00-08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2018</time>
         
 
-         | <a class="disqus-link" href="/evaluating-swiftsyntax-for-use-in-swiftlint/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/evaluating-swiftsyntax-for-use-in-swiftlint/">Evaluating SwiftSyntax for use in SwiftLint</a></h1>
+      <h1 class="entry-title">Evaluating SwiftSyntax for use in SwiftLint</h1>
     
   </header>
 
 
-  <div class="entry-content"><p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
+<div class="entry-content"><p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 
 <p>I have for some time been looking forward to reimplementing some of <a href="https://github.com/realm/SwiftLint">SwiftLint</a>&#8217;s simpler syntax-only rules with <a href="https://github.com/apple/swift-syntax">SwiftSyntax</a>. If you&#8217;re not familiar with it, the recent <a href="https://nshipster.com/swiftsyntax/">NSHipster article</a> gives a great overview. My motivation for integrating it into SwiftLint was that it would be nice to use an officially maintained library directly to obtain the syntax tree rather than the open source but community-maintained <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> library. I was also under the false impression that SwiftSyntax would be significantly faster than SourceKit/SourceKitten.</p>
 
@@ -132,20 +129,66 @@
 
 <p>Ultimately, this means SwiftLint will be keeping its SourceKitten-based implementation for the foreseeable future, unless SwiftSyntax removes its reliance on costly compiler invocations and drastically improves its performance. I really hope the Swift team can somehow find a way to move parsing and lexing into SwiftSyntax itself, making the library much more appealing to use.</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <a href="/about" class="fn">JP Simard</a></span>
+ <span>on</span>
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2018-11-22T14:50:00-08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2018</time>
+      in 
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/categories/apple/'>apple</a>, <a class='category' href='/categories/development/'>development</a>, <a class='category' href='/categories/github/'>github</a>, <a class='category' href='/categories/opensource/'>opensource</a>, <a class='category' href='/categories/projects/'>projects</a>, <a class='category' href='/categories/sourcekit/'>sourcekit</a>, <a class='category' href='/categories/sourcekitten/'>sourcekitten</a>, <a class='category' href='/categories/swift/'>swift</a>, <a class='category' href='/categories/swiftlint/'>swiftlint</a>
+  
+</span>
+
+.
+      <span class="pull-request">If you would like to update this post, <a href="https://github.com/jpsim/jpsim.github.com/blob/source/source/_posts/2018-11-22-evaluating-swiftsyntax-for-use-in-swiftlint.markdown"> please send a pull request</a> on GitHub.</span>
+    </p>
     
-      <a class="prev" href="/archives/page/2/">&laquo; Older</a>
-    
-    <a href="/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/" data-via="simjp" data-counturl="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/introducing-yams-1-dot-0/" title="Previous Post: Introducing Yams 1.0">&laquo; Previous</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -154,6 +197,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
@@ -173,7 +217,10 @@
 
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/';
+        var disqus_url = 'http://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

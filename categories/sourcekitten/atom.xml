@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: apple | JP Simard]]></title>
-  <link href="https://jpsim.com/categories/apple/atom.xml" rel="self"/>
+  <title><![CDATA[Category: sourcekitten | JP Simard]]></title>
+  <link href="https://jpsim.com/categories/sourcekitten/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
   <updated>2018-11-22T16:58:24-08:00</updated>
   <id>https://jpsim.com/</id>
@@ -60,92 +60,6 @@ Summary
 <hr />
 
 <p>Ultimately, this means SwiftLint will be keeping its SourceKitten-based implementation for the foreseeable future, unless SwiftSyntax removes its reliance on costly compiler invocations and drastically improves its performance. I really hope the Swift team can somehow find a way to move parsing and lexing into SwiftSyntax itself, making the library much more appealing to use.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[WWDC needs to <span>radically</span> change]]></title>
-    <link href="https://jpsim.com/wwdc-radically-change/"/>
-    <updated>2013-04-26T16:53:00-07:00</updated>
-    <id>https://jpsim.com/wwdc-radically-change</id>
-    <content type="html"><![CDATA[<p>This is my road (so far) to WWDC13. This should serve as a reminder to my future self to avoid WWDC next year.</p>
-
-<p>The effort that went into getting a ticket is far more than I'm willing to admit... it's JUST a conference, after all! Here's a recap:</p>
-
-<h2>Early April</h2>
-
-<ol>
-<li>Start researching WWDC history to be well prepared (see last section). I felt this was critical to get a ticket.</li>
-<li>Rumors and trends converge towards a June 10-14 schedule, with an April 25th announcement</li>
-<li>Sign up to 2 different WWDC announcement notification services (for redundancy)</li>
-<li>Book round-trip flights and accommodations early to avoid much higher costs once they skyrocket after the announcement.</li>
-</ol>
-
-
-<h2>April 25</h2>
-
-<ol>
-<li>9:55, start repeatedly refreshing WWDC page</li>
-<li>10:00:05, see purchase button, enter info</li>
-<li>10:00:55, click "complete order"</li>
-<li>Get error, enter info again</li>
-<li>10:01:55, click "complete order"</li>
-<li>Get redirected to WWDC where it says <a href="http://i97.photobucket.com/albums/l230/Insider2000/SpitCereal.png">"sold out"</a></li>
-<li>Mope for a few minutes</li>
-<li>Acceptance: Oh well, it's just a conference. I'll take this as a week-long vacation in SF. Go on with the rest of my day.</li>
-<li>16:30, receive a phone call from Apple rep saying <strong>"We see you encountered some errors while purchasing your WWDC tickets this morning. I'd like to let you know that we have a ticket reserved for you and we'll be sending you an email with information on how to complete your purchase in the next twelve hours [sic]."</strong></li>
-<li>Celebrate for a few minutes</li>
-</ol>
-
-
-<h2>April 26</h2>
-
-<ol>
-<li>14:27, receive email from Apple with instructions to complete the purchase</li>
-<li>16:00, attempt to complete the purchase but run into another set of errors on:
-
-<ul>
-<li>Google Chrome</li>
-<li>OS X Safari</li>
-<li>iOS Safari</li>
-<li>Firefox</li>
-<li>reset OS X Safari</li>
-<li>it works!</li>
-</ul>
-</li>
-<li>Finally complete the order.</li>
-</ol>
-
-
-<p>Note to self... avoid WWDC next year, people will be resort to writing bots to buy their tickets and the conference will sell out in 0.04s.</p>
-
-<h2>WWDC Stats</h2>
-
-<h2>Conference Dates</h2>
-
-<ul>
-<li>2003: June 23 to June 27</li>
-<li>2004: June 28 to July 2</li>
-<li>2005: June 6 to June 10</li>
-<li>2006: August 7 to August 11</li>
-<li>2007: June 11 to June 15</li>
-<li>2008: June 9 to June 13</li>
-<li>2009: June 8 to June 12</li>
-<li>2010: June 7 to June 11</li>
-<li>2011: June 6 to June 10</li>
-<li>2012: June 11 to June 15</li>
-</ul>
-
-
-<h2>Announcement Dates, Times and Sell Out Durations</h2>
-
-<ul>
-<li>2010: April 28 (8 days)</li>
-<li>2011: March 28 (12hrs: 16x faster than previous year)</li>
-<li>2012: April 25 (1h43m: 7x faster than previous year)</li>
-<li>2013: April 25, 10:00am (90s: 70x faster than previous year)</li>
-</ul>
-
 ]]></content>
   </entry>
   

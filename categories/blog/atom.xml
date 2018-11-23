@@ -4,7 +4,7 @@
   <title><![CDATA[Category: blog | JP Simard]]></title>
   <link href="https://jpsim.com/categories/blog/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-05-20T15:13:59+10:00</updated>
+  <updated>2018-11-22T16:58:24-08:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Obligatory <span>Hello World</span>]]></title>
     <link href="https://jpsim.com/obligatory-hello-world/"/>
-    <updated>2012-12-24T13:05:00+10:00</updated>
+    <updated>2012-12-24T13:05:00-08:00</updated>
     <id>https://jpsim.com/obligatory-hello-world</id>
     <content type="html"><![CDATA[<p>With 2013 around the corner, it seems customary to create an article saying <em>"this is a new year, I'll start blogging again"</em>, so here I am...</p>
 

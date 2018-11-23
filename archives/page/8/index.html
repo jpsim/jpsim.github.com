@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="I really like iOS 7&#8217;s topLayoutGuide and bottomLayoutGuide. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve &hellip;">
+  <meta name="description" content="I&#8217;ve just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation. Check it out on GitHub or &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/8">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -56,27 +56,31 @@
   
 
 
-<time datetime="2014-03-26T14:41:00+10:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+<time datetime="2014-03-27T11:55:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2014</time>
         
 
-         | <a class="disqus-link" href="/keyboard-layout-guide/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/jpsthumbnailannotation-updated-for-ios-7/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/keyboard-layout-guide/">Keyboard Layout Guide</a></h1>
+      <h1 class="entry-title"><a href="/jpsthumbnailannotation-updated-for-ios-7/">JPSThumbnailAnnotation updated for iOS 7</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>I really like iOS 7&#8217;s <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
+  <div class="entry-content"><p>I&#8217;ve just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
 
-<p>It&#8217;s a bit of a drag to have to set up <code>NSNotification</code> observers just to be able to keep your textfield on the screen when the keyboard barges into view. So I added a <code>keyboardLayoutGuide</code> to <code>UIViewController</code> myself. You can check it out on GitHub here: <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">jpsim/JPSKeyboardLayoutGuide</a>.</p>
+<p>Check it out on <a href="https://github.com/jpsim/JPSThumbnailAnnotation">GitHub</a> or just add it to CocoaPods: <code>pod 'JPSThumbnailAnnotation'</code>.</p>
 
-<p>If you&#8217;ve used Apple&#8217;s layout guides before, you&#8217;ll know that they&#8217;re actually just <code>id</code>&#8217;s that conform to the <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UILayoutSupport_Protocol/Reference/Reference.html"><code>UILayoutSupport</code> Protocol</a>. So I figured that having the guide just be a zero-sized UIView was probably the best way to go. This way, I can easily add it to the view and bind it to the keyboard frame by modifying a constraint&#8217;s constant.</p>
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots2.jpg" alt="Screenshots" /></p>
 
-<p>In all honesty, I dislike the inheritance approach I took here; it seems like the easy way out. I&#8217;m hoping that either myself or a contributor will have a stroke of genius and find a composition-based way to do this. Perhaps a starting point would be a category on <code>UIViewController</code> along with an associated object as the <code>keyboardLayoutGuide</code> property&#8230; But then the <code>NSNotification</code>s will be troublesome. If you have an idea, please fork and send a PR or open up an issue on <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">github</a>!</p>
+<p>I decided not to maintain the iOS 6 <em>style</em>, but iOS 6 is still supported.</p>
+
+<p>By the way, this is what the old style looked like. It&#8217;s still in git, if you need to find it for some reason.</p>
+
+<p><img src="https://github.com/jpsim/JPSThumbnailAnnotation/raw/master/screenshots.jpg" alt="Old Screenshots" /></p>
 </div>
   
   

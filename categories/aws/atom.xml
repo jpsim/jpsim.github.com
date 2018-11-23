@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | JP Simard]]></title>
   <link href="https://jpsim.com/categories/aws/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-05-20T15:13:59+10:00</updated>
+  <updated>2018-11-22T16:58:24-08:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a serverless password-protected photo gallery]]></title>
     <link href="https://jpsim.com/awspics/"/>
-    <updated>2017-07-04T06:14:00+10:00</updated>
+    <updated>2017-07-04T06:14:00-07:00</updated>
     <id>https://jpsim.com/awspics</id>
     <content type="html"><![CDATA[<p>Building a serverless photo gallery?
 <em>Easy!</em>
