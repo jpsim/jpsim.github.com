@@ -4,7 +4,7 @@
   <title><![CDATA[JP Simard]]></title>
   <link href="https://jpsim.com/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-11-22T16:58:24-08:00</updated>
+  <updated>2018-11-22T17:10:01-08:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -28,7 +28,7 @@
 
 <p><strong>Launching a new instance of the Swift compiler for each file parsed is orders of magnitude slower than SourceKitten&#8217;s XPC call to a long-lived SourceKit daemon.</strong></p>
 
-<p>I discovered this after <a href="https://github.com/realm/SwiftLint/compare/fallthrough-swift-syntax">reimplementing</a> a very simple SwiftLint rule with a SwiftSyntax-based implementation: <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md#fallthrough">Fallthrough</a>. This opt-in rule is a perfect proof-of-concept for integrating SwiftSyntax into SwiftLint because it literally just finds all occurrences of the <code>fallthrough</code> keyword and reports a violation at that location. I measured the time it took to lint a folder of ~100 Swift files from Lyft&#8217;s iOS codebase with only the <code>fallthrough</code> rule whitelisted.</p>
+<p>I discovered this after <a href="https://github.com/realm/SwiftLint/pull/2476">reimplementing</a> a very simple SwiftLint rule with a SwiftSyntax-based implementation: <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md#fallthrough">Fallthrough</a>. This opt-in rule is a perfect proof-of-concept for integrating SwiftSyntax into SwiftLint because it literally just finds all occurrences of the <code>fallthrough</code> keyword and reports a violation at that location. I measured the time it took to lint a folder of ~100 Swift files from Lyft&#8217;s iOS codebase with only the <code>fallthrough</code> rule whitelisted.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
