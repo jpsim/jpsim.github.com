@@ -4,7 +4,7 @@
   <title><![CDATA[Category: development | JP Simard]]></title>
   <link href="https://jpsim.com/categories/development/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-11-22T17:10:01-08:00</updated>
+  <updated>2018-11-29T13:54:18-08:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -19,6 +19,9 @@
     <updated>2018-11-22T14:50:00-08:00</updated>
     <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
     <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
+
+<p><strong>Update:</strong> Since writing this post, I learnt that SwiftSyntax's upcoming byte tree deserialization mode will speed this up considerably.
+I hope to post a follow-up article on this shortly.</p>
 
 <p>I have for some time been looking forward to reimplementing some of <a href="https://github.com/realm/SwiftLint">SwiftLint</a>'s simpler syntax-only rules with <a href="https://github.com/apple/swift-syntax">SwiftSyntax</a>. If you're not familiar with it, the recent <a href="https://nshipster.com/swiftsyntax/">NSHipster article</a> gives a great overview. My motivation for integrating it into SwiftLint was that it would be nice to use an officially maintained library directly to obtain the syntax tree rather than the open source but community-maintained <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> library. I was also under the false impression that SwiftSyntax would be significantly faster than SourceKit/SourceKitten.</p>
 
