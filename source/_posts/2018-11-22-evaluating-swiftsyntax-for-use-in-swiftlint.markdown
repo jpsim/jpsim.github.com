@@ -8,6 +8,9 @@ categories: development swift swiftlint sourcekit sourcekitten apple opensource 
 
 **tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭**
 
+**Update:** Since writing this post, I learnt that SwiftSyntax's upcoming byte tree deserialization mode will speed this up considerably.
+I hope to post a follow-up article on this shortly.
+
 I have for some time been looking forward to reimplementing some of [SwiftLint](https://github.com/realm/SwiftLint)'s simpler syntax-only rules with [SwiftSyntax](https://github.com/apple/swift-syntax). If you're not familiar with it, the recent [NSHipster article](https://nshipster.com/swiftsyntax/) gives a great overview. My motivation for integrating it into SwiftLint was that it would be nice to use an officially maintained library directly to obtain the syntax tree rather than the open source but community-maintained [SourceKitten](https://github.com/jpsim/SourceKitten) library. I was also under the false impression that SwiftSyntax would be significantly faster than SourceKit/SourceKitten.
 
 SourceKitten gets its syntax tree by dynamically loading [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) and making cross-process XPC calls to a SourceKit daemon. In a typical uncached lint run, SwiftLint spends a significant amount of time waiting on this syntax tree for each file being linted. Because SwiftSyntax is [code-generated](https://github.com/apple/swift-syntax#building-swiftsyntax-from-master) from the same syntax definition files as the Swift compiler, I had (incorrectly) assumed that calculating a Swift file's syntax tree using SwiftSyntax was done entirely in-process by the library, which would have lead to significant performance gains by avoiding the cross-process XPC call made by SourceKitten for equivalent functionality.
