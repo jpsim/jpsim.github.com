@@ -4,7 +4,7 @@
   <title><![CDATA[JP Simard]]></title>
   <link href="https://jpsim.com/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-11-29T13:54:18-08:00</updated>
+  <updated>2021-11-23T11:11:47-05:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
     <link href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/"/>
-    <updated>2018-11-22T14:50:00-08:00</updated>
+    <updated>2018-11-22T14:50:00-05:00</updated>
     <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
     <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 
@@ -88,7 +88,7 @@ I hope to post a follow-up article on this shortly.</p>
   <entry>
     <title type="html"><![CDATA[Introducing Yams 1.0]]></title>
     <link href="https://jpsim.com/introducing-yams-1-dot-0/"/>
-    <updated>2018-05-19T11:40:00-07:00</updated>
+    <updated>2018-05-19T11:40:00-04:00</updated>
     <id>https://jpsim.com/introducing-yams-1-dot-0</id>
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
 
@@ -160,7 +160,7 @@ YAML, I encourage you to give Yams a try.</p>
   <entry>
     <title type="html"><![CDATA[Building a serverless password-protected photo gallery]]></title>
     <link href="https://jpsim.com/awspics/"/>
-    <updated>2017-07-04T06:14:00-07:00</updated>
+    <updated>2017-07-04T06:14:00-04:00</updated>
     <id>https://jpsim.com/awspics</id>
     <content type="html"><![CDATA[<p>Building a serverless photo gallery?
 <em>Easy!</em>
@@ -293,7 +293,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Uncovering SourceKit]]></title>
     <link href="https://jpsim.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00-07:00</updated>
+    <updated>2014-07-06T16:07:00-04:00</updated>
     <id>https://jpsim.com/uncovering-sourcekit</id>
     <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we&#8217;ll focus on <em>SourceKit</em>, Xcode&#8217;s under-appreciated sidekick.</p>
 
@@ -425,7 +425,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[SF Swift Meetup]]></title>
     <link href="https://jpsim.com/sf-swift-meetup/"/>
-    <updated>2014-06-27T14:58:00-07:00</updated>
+    <updated>2014-06-27T14:58:00-04:00</updated>
     <id>https://jpsim.com/sf-swift-meetup</id>
     <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We&#8217;ve made the whole thing available online:</p>
 
@@ -443,7 +443,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Use a VPN!]]></title>
     <link href="https://jpsim.com/use-a-vpn/"/>
-    <updated>2014-04-13T12:22:00-07:00</updated>
+    <updated>2014-04-13T12:22:00-04:00</updated>
     <id>https://jpsim.com/use-a-vpn</id>
     <content type="html"><![CDATA[<p>Using a private VPN has never been easier, it&#8217;s foolish not to do it. It takes ~60s and you&#8217;re protected on untrusted WiFi networks.</p>
 
@@ -502,7 +502,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Moving to SF]]></title>
     <link href="https://jpsim.com/moving-to-sf/"/>
-    <updated>2014-03-31T13:59:00-07:00</updated>
+    <updated>2014-03-31T13:59:00-04:00</updated>
     <id>https://jpsim.com/moving-to-sf</id>
     <content type="html"><![CDATA[<p>I&#8217;m excited to share that I&#8217;ll be joining an awesome <a href="http://ycombinator.org">YC</a> company in San Francisco, starting in 2 weeks!</p>
 
@@ -519,7 +519,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[JPSThumbnailAnnotation updated for iOS 7]]></title>
     <link href="https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7/"/>
-    <updated>2014-03-27T11:55:00-07:00</updated>
+    <updated>2014-03-27T11:55:00-04:00</updated>
     <id>https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7</id>
     <content type="html"><![CDATA[<p>I&#8217;ve just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
 
@@ -538,7 +538,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Keyboard Layout Guide]]></title>
     <link href="https://jpsim.com/keyboard-layout-guide/"/>
-    <updated>2014-03-26T14:41:00-07:00</updated>
+    <updated>2014-03-26T14:41:00-04:00</updated>
     <id>https://jpsim.com/keyboard-layout-guide</id>
     <content type="html"><![CDATA[<p>I really like iOS 7&#8217;s <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
 
@@ -553,7 +553,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Private Pods]]></title>
     <link href="https://jpsim.com/private-pods/"/>
-    <updated>2014-03-17T19:12:00-07:00</updated>
+    <updated>2014-03-17T19:12:00-04:00</updated>
     <id>https://jpsim.com/private-pods</id>
     <content type="html"><![CDATA[<p>Keeping a project modular is a lofty software development goal that we all strive for even though it can never be fully attained.</p>
 
@@ -600,7 +600,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[CocoaPods Tips & Tricks]]></title>
     <link href="https://jpsim.com/cocoapods-tips-tricks/"/>
-    <updated>2014-03-12T09:45:00-07:00</updated>
+    <updated>2014-03-12T09:45:00-04:00</updated>
     <id>https://jpsim.com/cocoapods-tips-tricks</id>
     <content type="html"><![CDATA[<p><a href="http://cocoapods.org">CocoaPods</a> documentation isn&#8217;t very opiniated, which can cause confusion for newcomers. Here are a few tricks I&#8217;ve picked up after building a few dozen projects with CocoaPods.</p>
 
@@ -685,7 +685,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[JPSVolumeButtonHandler]]></title>
     <link href="https://jpsim.com/jpsvolumebuttonhandler/"/>
-    <updated>2014-02-19T14:38:00-08:00</updated>
+    <updated>2014-02-19T14:38:00-05:00</updated>
     <id>https://jpsim.com/jpsvolumebuttonhandler</id>
     <content type="html"><![CDATA[<p>The fun times building a <a href="https://github.com/jpsim/JPSVolumeButtonHandler">tiny open source class</a> to use an iOS device&#8217;s hardware volume buttons in 3rd party apps.</p>
 
@@ -733,7 +733,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[WWDC needs to <span>radically</span> change]]></title>
     <link href="https://jpsim.com/wwdc-radically-change/"/>
-    <updated>2013-04-26T16:53:00-07:00</updated>
+    <updated>2013-04-26T16:53:00-04:00</updated>
     <id>https://jpsim.com/wwdc-radically-change</id>
     <content type="html"><![CDATA[<p>This is my road (so far) to WWDC13. This should serve as a reminder to my future self to avoid WWDC next year.</p>
 
@@ -819,7 +819,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[JPSThumbnailAnnotation]]></title>
     <link href="https://jpsim.com/jpsthumbnailannotation/"/>
-    <updated>2013-04-22T06:43:00-07:00</updated>
+    <updated>2013-04-22T06:43:00-04:00</updated>
     <id>https://jpsim.com/jpsthumbnailannotation</id>
     <content type="html"><![CDATA[<p>I just released a new iOS component called <a href="https://github.com/jpsim/JPSThumbnailAnnotation">JPSThumbnailAnnotation</a> which is a great way to display thumbnails on a map.</p>
 
@@ -836,7 +836,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Letting Go &amp; Moving On]]></title>
     <link href="https://jpsim.com/letting-go-and-moving-on/"/>
-    <updated>2013-04-15T07:54:00-07:00</updated>
+    <updated>2013-04-15T07:54:00-04:00</updated>
     <id>https://jpsim.com/letting-go-and-moving-on</id>
     <content type="html"><![CDATA[<p>I&#8217;ve been building <a href="http://mgn.tc">Magnetic Bear Studios</a> for the last two years.</p>
 
@@ -863,7 +863,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[On the importance of <span>pointless projects</span>]]></title>
     <link href="https://jpsim.com/pointless-projects/"/>
-    <updated>2013-01-24T09:44:00-08:00</updated>
+    <updated>2013-01-24T09:44:00-05:00</updated>
     <id>https://jpsim.com/pointless-projects</id>
     <content type="html"><![CDATA[<p>Yesterday, I <a href="https://github.com/jpsim/LetterpressPlayer">open sourced</a> a Letterpress<sup>[1]</sup> cheating app for iPhone.</p>
 
@@ -882,7 +882,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[A more <span>open</span> kind of agency]]></title>
     <link href="https://jpsim.com/a-more-open-kind-of-agency/"/>
-    <updated>2013-01-07T14:12:00-08:00</updated>
+    <updated>2013-01-07T14:12:00-05:00</updated>
     <id>https://jpsim.com/a-more-open-kind-of-agency</id>
     <content type="html"><![CDATA[<p>How MBS is leading the way to creating a new type of agency: a fully open one.</p>
 
@@ -907,7 +907,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Goals for <span>2013</span>]]></title>
     <link href="https://jpsim.com/goals-for-2013/"/>
-    <updated>2013-01-07T12:03:00-08:00</updated>
+    <updated>2013-01-07T12:03:00-05:00</updated>
     <id>https://jpsim.com/goals-for-2013</id>
     <content type="html"><![CDATA[<p>Writing my goals for 2013 publicly to keep myself accountable.</p>
 
@@ -966,7 +966,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Remote <span>founder</span>]]></title>
     <link href="https://jpsim.com/remote-founder/"/>
-    <updated>2012-12-24T13:31:00-08:00</updated>
+    <updated>2012-12-24T13:31:00-05:00</updated>
     <id>https://jpsim.com/remote-founder</id>
     <content type="html"><![CDATA[<p><em>Every minute</em> a founder is away from their team is costly.</p>
 
@@ -992,7 +992,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Obligatory <span>Hello World</span>]]></title>
     <link href="https://jpsim.com/obligatory-hello-world/"/>
-    <updated>2012-12-24T13:05:00-08:00</updated>
+    <updated>2012-12-24T13:05:00-05:00</updated>
     <id>https://jpsim.com/obligatory-hello-world</id>
     <content type="html"><![CDATA[<p>With 2013 around the corner, it seems customary to create an article saying <em>&#8220;this is a new year, I&#8217;ll start blogging again&#8221;</em>, so here I am&#8230;</p>
 

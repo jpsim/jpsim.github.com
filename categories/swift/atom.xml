@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | JP Simard]]></title>
   <link href="https://jpsim.com/categories/swift/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-11-29T13:54:18-08:00</updated>
+  <updated>2021-11-23T11:11:47-05:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
     <link href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/"/>
-    <updated>2018-11-22T14:50:00-08:00</updated>
+    <updated>2018-11-22T14:50:00-05:00</updated>
     <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
     <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 
@@ -69,7 +69,7 @@ Summary
   <entry>
     <title type="html"><![CDATA[Introducing Yams 1.0]]></title>
     <link href="https://jpsim.com/introducing-yams-1-dot-0/"/>
-    <updated>2018-05-19T11:40:00-07:00</updated>
+    <updated>2018-05-19T11:40:00-04:00</updated>
     <id>https://jpsim.com/introducing-yams-1-dot-0</id>
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
 
@@ -124,7 +124,7 @@ YAML, I encourage you to give Yams a try.</p>
   <entry>
     <title type="html"><![CDATA[Uncovering SourceKit]]></title>
     <link href="https://jpsim.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00-07:00</updated>
+    <updated>2014-07-06T16:07:00-04:00</updated>
     <id>https://jpsim.com/uncovering-sourcekit</id>
     <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we'll focus on <em>SourceKit</em>, Xcode's under-appreciated sidekick.</p>
 
@@ -245,7 +245,7 @@ YAML, I encourage you to give Yams a try.</p>
   <entry>
     <title type="html"><![CDATA[SF Swift Meetup]]></title>
     <link href="https://jpsim.com/sf-swift-meetup/"/>
-    <updated>2014-06-27T14:58:00-07:00</updated>
+    <updated>2014-06-27T14:58:00-04:00</updated>
     <id>https://jpsim.com/sf-swift-meetup</id>
     <content type="html"><![CDATA[<p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We've made the whole thing available online:</p>
 

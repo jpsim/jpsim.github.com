@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swiftlint | JP Simard]]></title>
   <link href="https://jpsim.com/categories/swiftlint/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-11-29T13:54:18-08:00</updated>
+  <updated>2021-11-23T11:11:47-05:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
     <link href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/"/>
-    <updated>2018-11-22T14:50:00-08:00</updated>
+    <updated>2018-11-22T14:50:00-05:00</updated>
     <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
     <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: projects | JP Simard]]></title>
   <link href="https://jpsim.com/categories/projects/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2018-11-29T13:54:18-08:00</updated>
+  <updated>2021-11-23T11:11:47-05:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
     <link href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/"/>
-    <updated>2018-11-22T14:50:00-08:00</updated>
+    <updated>2018-11-22T14:50:00-05:00</updated>
     <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
     <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 
@@ -69,7 +69,7 @@ Summary
   <entry>
     <title type="html"><![CDATA[Introducing Yams 1.0]]></title>
     <link href="https://jpsim.com/introducing-yams-1-dot-0/"/>
-    <updated>2018-05-19T11:40:00-07:00</updated>
+    <updated>2018-05-19T11:40:00-04:00</updated>
     <id>https://jpsim.com/introducing-yams-1-dot-0</id>
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
 
@@ -124,7 +124,7 @@ YAML, I encourage you to give Yams a try.</p>
   <entry>
     <title type="html"><![CDATA[Building a serverless password-protected photo gallery]]></title>
     <link href="https://jpsim.com/awspics/"/>
-    <updated>2017-07-04T06:14:00-07:00</updated>
+    <updated>2017-07-04T06:14:00-04:00</updated>
     <id>https://jpsim.com/awspics</id>
     <content type="html"><![CDATA[<p>Building a serverless photo gallery?
 <em>Easy!</em>
@@ -257,7 +257,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[JPSThumbnailAnnotation updated for iOS 7]]></title>
     <link href="https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7/"/>
-    <updated>2014-03-27T11:55:00-07:00</updated>
+    <updated>2014-03-27T11:55:00-04:00</updated>
     <id>https://jpsim.com/jpsthumbnailannotation-updated-for-ios-7</id>
     <content type="html"><![CDATA[<p>I've just given a fresh coat of iOS7-flavoured paint to my most popular open-source library: JPSThumbnailAnnotation.</p>
 
@@ -276,7 +276,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
   <entry>
     <title type="html"><![CDATA[Keyboard Layout Guide]]></title>
     <link href="https://jpsim.com/keyboard-layout-guide/"/>
-    <updated>2014-03-26T14:41:00-07:00</updated>
+    <updated>2014-03-26T14:41:00-04:00</updated>
     <id>https://jpsim.com/keyboard-layout-guide</id>
     <content type="html"><![CDATA[<p>I really like iOS 7's <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They're immensely useful. But in my adventures with Auto Layout, I've often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
 
