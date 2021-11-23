@@ -1,3 +1,12 @@
+## Building
+
+```
+$ bundle config build.ffi --with-cflags="-Wno-compound-token-split-by-macro -Wno-implicit-function-declaration"
+$ bundle config build.rdiscount --with-cflags="-Wno-compound-token-split-by-macro -Wno-implicit-function-declaration"
+$ bundle install
+$ bundle exec rake generate && bundle exec rake deploy
+```
+
 ## What is Octopress?
 
 Octopress is [Jekyll](https://github.com/mojombo/jekyll) blogging at its finest.
