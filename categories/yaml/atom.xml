@@ -4,7 +4,7 @@
   <title><![CDATA[Category: yaml | JP Simard]]></title>
   <link href="https://jpsim.com/categories/yaml/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2021-11-23T11:36:28-05:00</updated>
+  <updated>2021-11-28T15:29:46+00:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Introducing Yams 1.0]]></title>
     <link href="https://jpsim.com/introducing-yams-1-dot-0/"/>
-    <updated>2018-05-19T11:40:00-04:00</updated>
+    <updated>2018-05-19T11:40:00+00:00</updated>
     <id>https://jpsim.com/introducing-yams-1-dot-0</id>
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
 

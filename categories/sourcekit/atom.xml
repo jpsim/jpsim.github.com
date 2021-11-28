@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sourcekit | JP Simard]]></title>
   <link href="https://jpsim.com/categories/sourcekit/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2021-11-23T11:36:28-05:00</updated>
+  <updated>2021-11-28T15:29:46+00:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
     <link href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint/"/>
-    <updated>2018-11-22T14:50:00-05:00</updated>
+    <updated>2018-11-22T14:50:00+00:00</updated>
     <id>https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint</id>
     <content type="html"><![CDATA[<p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 
@@ -69,7 +69,7 @@ Summary
   <entry>
     <title type="html"><![CDATA[Uncovering SourceKit]]></title>
     <link href="https://jpsim.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00-04:00</updated>
+    <updated>2014-07-06T16:07:00+00:00</updated>
     <id>https://jpsim.com/uncovering-sourcekit</id>
     <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we'll focus on <em>SourceKit</em>, Xcode's under-appreciated sidekick.</p>
 

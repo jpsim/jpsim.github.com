@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cocoapods | JP Simard]]></title>
   <link href="https://jpsim.com/categories/cocoapods/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2021-11-23T11:36:28-05:00</updated>
+  <updated>2021-11-28T15:29:46+00:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Private Pods]]></title>
     <link href="https://jpsim.com/private-pods/"/>
-    <updated>2014-03-17T19:12:00-04:00</updated>
+    <updated>2014-03-17T19:12:00+00:00</updated>
     <id>https://jpsim.com/private-pods</id>
     <content type="html"><![CDATA[<p>Keeping a project modular is a lofty software development goal that we all strive for even though it can never be fully attained.</p>
 
@@ -59,7 +59,7 @@
   <entry>
     <title type="html"><![CDATA[CocoaPods Tips & Tricks]]></title>
     <link href="https://jpsim.com/cocoapods-tips-tricks/"/>
-    <updated>2014-03-12T09:45:00-04:00</updated>
+    <updated>2014-03-12T09:45:00+00:00</updated>
     <id>https://jpsim.com/cocoapods-tips-tricks</id>
     <content type="html"><![CDATA[<p><a href="http://cocoapods.org">CocoaPods</a> documentation isn't very opiniated, which can cause confusion for newcomers. Here are a few tricks I've picked up after building a few dozen projects with CocoaPods.</p>
 
