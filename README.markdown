@@ -1,11 +1,33 @@
-## Building
+## Generating
 
 ```
-$ bundle config build.ffi --with-cflags="-Wno-compound-token-split-by-macro -Wno-implicit-function-declaration"
-$ bundle config build.rdiscount --with-cflags="-Wno-compound-token-split-by-macro -Wno-implicit-function-declaration"
-$ bundle install
-$ bundle exec rake generate && bundle exec rake deploy
+docker run -it \
+  -v `pwd`:`pwd` \
+  -w `pwd` \
+  --rm ruby:2.7 /bin/bash \
+  -c "rm Gemfile.lock && bundle install && bundle exec rake generate"
 ```
+
+## Previewing
+
+```
+cd public
+python -m SimpleHTTPServer
+```
+
+## Deploying
+
+```
+bundle exec rake deploy
+```
+
+## History
+
+I branched off of https://github.com/imathis/octopress/commit/2a55f35 in 2012 to start this blog.
+
+In November 2021, I tried updating to the latest upstream version of octopress and realized 1) there were many breaking changes and 2) it's been unmaintained since 2016.
+
+So I'll keep using the Docker steps with dependencies from 2012 until I need something more modern, at which point I should switch wholesale to a new static site generator like Gatsby or Hugo or Publish.
 
 ## What is Octopress?
 
