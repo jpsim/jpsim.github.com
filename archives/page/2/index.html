@@ -4,9 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="Norio Nomura and I (ok, honestly mostly Norio 😅) have been building a
-Swift library for encoding &amp; decoding YAML for the last 18 months and
-it&# &hellip;">
+  <meta name="description" content="tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭 Update: Since writing this post, I learnt &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/2">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -58,37 +56,49 @@ it&# &hellip;">
   
 
 
-<time datetime="2018-05-19T11:40:00+00:00" pubdate data-updated="true">May 19<span>th</span>, 2018</time>
+<time datetime="2018-11-22T14:50:00+00:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2018</time>
         
 
-         | <a class="disqus-link" href="/introducing-yams-1-dot-0/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/evaluating-swiftsyntax-for-use-in-swiftlint/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/introducing-yams-1-dot-0/">Introducing Yams 1.0</a></h1>
+      <h1 class="entry-title"><a href="/evaluating-swiftsyntax-for-use-in-swiftlint/">Evaluating SwiftSyntax for use in SwiftLint</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
+  <div class="entry-content"><p><strong>tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭</strong></p>
 
-<p><a href="https://twitter.com/norio_nomura">Norio Nomura</a> and I (ok, honestly mostly Norio 😅) have been building a
-Swift library for encoding &amp; decoding <a href="http://yaml.org">YAML</a> for the last 18 months and
-it&#8217;s now stable enough to make a 1.0 release and share with the world.</p>
+<p><strong>Update:</strong> Since writing this post, I learnt that SwiftSyntax&#8217;s upcoming byte tree deserialization mode will speed this up considerably.
+I hope to post a follow-up article on this shortly.</p>
 
-<p>It&#8217;s called Yams, you can find it on GitHub at <a href="https://github.com/jpsim/Yams">jpsim/Yams</a> and API
-docs are located at <a href="https://jpsim.com/Yams">jpsim.com/Yams</a>.</p>
+<p>I have for some time been looking forward to reimplementing some of <a href="https://github.com/realm/SwiftLint">SwiftLint</a>&#8217;s simpler syntax-only rules with <a href="https://github.com/apple/swift-syntax">SwiftSyntax</a>. If you&#8217;re not familiar with it, the recent <a href="https://nshipster.com/swiftsyntax/">NSHipster article</a> gives a great overview. My motivation for integrating it into SwiftLint was that it would be nice to use an officially maintained library directly to obtain the syntax tree rather than the open source but community-maintained <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> library. I was also under the false impression that SwiftSyntax would be significantly faster than SourceKit/SourceKitten.</p>
 
-<p>You could say it&#8217;s a Swift binding for <a href="https://github.com/yaml/libyaml">LibYAML</a> but I&#8217;d argue it&#8217;s
-much more than that.</p>
+<p>SourceKitten gets its syntax tree by dynamically loading <a href="https://github.com/apple/swift/tree/master/tools/SourceKit">SourceKit</a> and making cross-process XPC calls to a SourceKit daemon. In a typical uncached lint run, SwiftLint spends a significant amount of time waiting on this syntax tree for each file being linted. Because SwiftSyntax is <a href="https://github.com/apple/swift-syntax#building-swiftsyntax-from-master">code-generated</a> from the same syntax definition files as the Swift compiler, I had (incorrectly) assumed that calculating a Swift file&#8217;s syntax tree using SwiftSyntax was done entirely in-process by the library, which would have lead to significant performance gains by avoiding the cross-process XPC call made by SourceKitten for equivalent functionality.</p>
 
-<p>I&#8217;m actually very happy with how this library ended up. It plays nicely with
-Swift 4&#8217;s <a href="https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types">Codable protocol</a>, meaning that you get fast &amp; type-safe
-encoding &amp; decoding that feels right at home in modern Swift.</p>
+<p>In reality, SwiftSyntax delegates all parsing &amp; lexing to the <code>swiftc</code> binary, <a href="https://github.com/apple/swift-syntax/blob/0.40200.0/Sources/SwiftSyntax/SwiftSyntax.swift#L100-L101">launching the process</a>, <a href="https://github.com/apple/swift-syntax/blob/0.40200.0/Sources/SwiftSyntax/SwiftSyntax.swift#L102">reading its output from stdout</a> and <a href="https://github.com/apple/swift-syntax/blob/0.40200.0/Sources/SwiftSyntax/SwiftSyntax.swift#L103-L104">deserializing the JSON response</a> into its <code>SourceFileSyntax</code> Swift type. This is repeated for each file being parsed 😱.</p>
 
-<p>Here&#8217;s a simple example of encoding &amp; decoding <code>Codable</code> types:</p>
+<p><strong>Launching a new instance of the Swift compiler for each file parsed is orders of magnitude slower than SourceKitten&#8217;s XPC call to a long-lived SourceKit daemon.</strong></p>
+
+<p>I discovered this after <a href="https://github.com/realm/SwiftLint/pull/2476">reimplementing</a> a very simple SwiftLint rule with a SwiftSyntax-based implementation: <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md#fallthrough">Fallthrough</a>. This opt-in rule is a perfect proof-of-concept for integrating SwiftSyntax into SwiftLint because it literally just finds all occurrences of the <code>fallthrough</code> keyword and reports a violation at that location. I measured the time it took to lint a folder of ~100 Swift files from Lyft&#8217;s iOS codebase with only the <code>fallthrough</code> rule whitelisted.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span></span><span class="c1"># .swiftlint.yml configuration file</span>
+</span><span class='line'><span class="nt">included</span><span class="p">:</span>
+</span><span class='line'>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path/to/lint/dir</span> <span class="c1"># contains ~100 Swift files</span>
+</span><span class='line'><span class="nt">whitelist_rules</span><span class="p">:</span>
+</span><span class='line'>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">fallthrough</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I compiled both SwiftLint from <code>master</code> and again with this <code>fallthrough-swift-syntax</code> branch with <code>swift build -c release</code> and named the binaries <code>swiftlint-master</code> and <code>swiftlint-swift-syntax</code>. I then benchmarked both binaries using the excellent <a href="https://github.com/sharkdp/hyperfine">hyperfine</a> utility.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -102,40 +112,28 @@ encoding &amp; decoding that feels right at home in modern Swift.</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span></span><span class="kd">import</span> <span class="nc">Yams</span>
+</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$ hyperfine <span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span> <span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
+</span><span class='line'>Benchmark <span class="c1">#1: ./swiftlint-master lint --quiet --no-cache</span>
+</span><span class='line'>  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:     <span class="m">231</span>.3 ms ±   <span class="m">5</span>.1 ms    <span class="o">[</span>User: <span class="m">130</span>.5 ms, System: <span class="m">29</span>.2 ms<span class="o">]</span>
+</span><span class='line'>  Range <span class="o">(</span>min … max<span class="o">)</span>:   <span class="m">224</span>.3 ms … <span class="m">238</span>.3 ms
 </span><span class='line'>
-</span><span class='line'><span class="kd">struct</span> <span class="nc">S</span><span class="p">:</span> <span class="n">Codable</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nv">p</span><span class="p">:</span> <span class="nb">String</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'>Benchmark <span class="c1">#2: ./swiftlint-swift-syntax lint --quiet --no-cache</span>
+</span><span class='line'>  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      <span class="m">5</span>.254 s ±  <span class="m">0</span>.149 s    <span class="o">[</span>User: <span class="m">20</span>.309 s, System: <span class="m">23</span>.110 s<span class="o">]</span>
+</span><span class='line'>  Range <span class="o">(</span>min … max<span class="o">)</span>:    <span class="m">4</span>.839 s …  <span class="m">5</span>.354 s
 </span><span class='line'>
-</span><span class='line'><span class="kd">let</span> <span class="nv">s</span> <span class="p">=</span> <span class="n">S</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="s">&quot;test&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="kd">let</span> <span class="nv">encoder</span> <span class="p">=</span> <span class="n">YAMLEncoder</span><span class="p">()</span>
-</span><span class='line'><span class="kd">let</span> <span class="nv">encodedYAML</span> <span class="p">=</span> <span class="k">try</span> <span class="n">encoder</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-</span><span class='line'><span class="n">encodedYAML</span> <span class="p">==</span> <span class="s">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="s">  p: test</span>
-</span><span class='line'>
-</span><span class='line'><span class="s">  &quot;&quot;&quot;</span>
-</span><span class='line'><span class="kd">let</span> <span class="nv">decoder</span> <span class="p">=</span> <span class="n">YAMLDecoder</span><span class="p">()</span>
-</span><span class='line'><span class="kd">let</span> <span class="nv">decoded</span> <span class="p">=</span> <span class="k">try</span> <span class="n">decoder</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">S</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span> <span class="n">from</span><span class="p">:</span> <span class="n">encodedYAML</span><span class="p">)</span>
-</span><span class='line'><span class="n">s</span><span class="p">.</span><span class="n">p</span> <span class="p">==</span> <span class="n">decoded</span><span class="p">.</span><span class="n">p</span>
+</span><span class='line'>Summary
+</span><span class='line'>  <span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span> ran
+</span><span class='line'>   <span class="m">22</span>.71 ± <span class="m">0</span>.82 <span class="nb">times</span> faster than <span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Alternatively, you can use it to work with Swift scalar &amp; collection types,
-which is probably the easiest way to start parsing arbitrary YAML for your
-projects. Finally, there&#8217;s a third mode, which is a Yams-native API that best
-translates to how LibYAML works.</p>
+<p><strong>The SwiftSyntax version was 22x slower than the existing SourceKitten version</strong></p>
 
-<p>This library&#8217;s been powering a number of popular projects that use YAML for
-configuration, like <a href="https://github.com/realm/SwiftLint">SwiftLint</a>, <a href="https://github.com/SwiftGen/SwiftGen">SwiftGen</a>,
-<a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> &amp; used in <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> to parse Swift
-Package Manager build manifests. So if you&#8217;ve wanted to add YAML configuration
-files to your Swift CLI, or want to interoperate with other tools that process
-YAML, I encourage you to give Yams a try.</p>
+<p><em>Note that I ran SwiftLint with its caching mechanism and logging disabled to accurately measure the time it took just to perform the lint, rather than the overhead from logging or skipping the lint entirely by just returning cached results. Although logging only added 3ms to 10ms in my tests.</em></p>
+
+<hr />
+
+<p>Ultimately, this means SwiftLint will be keeping its SourceKitten-based implementation for the foreseeable future, unless SwiftSyntax removes its reliance on costly compiler invocations and drastically improves its performance. I really hope the Swift team can somehow find a way to move parsing and lexing into SwiftSyntax itself, making the library much more appealing to use.</p>
 </div>
   
   
@@ -165,7 +163,7 @@ YAML, I encourage you to give Yams a try.</p>
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2021 JP Simard
+  &copy; 2023 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 

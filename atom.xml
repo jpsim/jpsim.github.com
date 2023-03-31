@@ -4,7 +4,7 @@
   <title><![CDATA[JP Simard]]></title>
   <link href="https://jpsim.com/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2021-11-28T15:29:46+00:00</updated>
+  <updated>2023-03-31T15:02:51+00:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -12,6 +12,457 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building an NFC Music Box]]></title>
+    <link href="https://jpsim.com/building-an-nfc-music-box/"/>
+    <updated>2023-03-31T11:00:00+00:00</updated>
+    <id>https://jpsim.com/building-an-nfc-music-box</id>
+    <content type="html"><![CDATA[<p>My son and I built an NFC-based music player so he can play the music he
+wants, develop his own musical taste but most of all so that he and I
+could have something fun to build together.</p>
+
+<p>Kind of like a modern day record player, but infinitely more extensible,
+and with each album costing 1/100th the price of a vinyl record.</p>
+
+<p>Here it is in action (<em>music starts 9 seconds into the video, set your
+volume to low</em>):</p>
+
+<iframe title="vimeo-player" src="https://player.vimeo.com/video/813573763?h=6b3ebec0bc" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+
+
+<p><br /></p>
+
+<p>And here&#8217;s how we built it:</p>
+
+<h2>Materials</h2>
+
+<table>
+<thead>
+<tr>
+<th><br /></th>
+<th><br /></th>
+<th><br /></th>
+<th><br /></th>
+<th><br /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://jpsim.com/images/posts/musicbox/echo.jpg" alt="" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/case.jpg" alt="" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/pi.jpg" alt="" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/nfc_module.jpg" alt="" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/nfc_cards.jpg" alt="" /></td>
+</tr>
+</tbody>
+</table>
+
+
+<ul>
+<li><a href="https://www.amazon.com/dp/B08YT3BWMP">Amazon Echo Dot, $20</a>:
+For the price, this is a surprisingly hackable, portable speaker. I would have
+prefered something without any microphones at all, but I <em>mostly</em> trust the
+hardware mute switch.</li>
+<li><a href="https://www.etsy.com/listing/739034156">Case, $20</a>: Beautiful
+retro-style case for the Raspberry Pi. The top compartment is made to
+house a fan, but this is where I put the NFC module instead. The folks
+who make this at <a href="https://twitter.com/theC4Labs">C4 Labs</a> were <a href="https://twitter.com/simjp/status/1259980961665576960">super nice</a>.
+We broke a piece when we started building the box and they sent a
+replacement part right away.</li>
+<li><a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/">Raspberry Pi, $35</a>:
+I chose to go with a Raspberry Pi because they&#8217;re cheap, have good
+compatible NFC modules, lots of case options on Etsy and easy to
+develop on.</li>
+<li><a href="https://www.amazon.com/dp/B01CSTW0IA">NFC Module, $5</a>: I can&#8217;t
+believe this thing is just $5. Works great. Lots of good tutorials on
+connecting this to a Raspberry Pi.</li>
+<li><a href="https://store.gototags.com/nfc-pvc-card-ntag213/">NFC Cards, $29</a>:
+I got 100 cards at $0.29 each.</li>
+</ul>
+
+
+<p>In total, this adds up to $109, but in my case I already had a Raspberry
+Pi and an Echo Dot lying around that I could repurpose for this, so it
+cost me closer to $55.</p>
+
+<h2>Services</h2>
+
+<p>I&#8217;m already an Apple Music subscriber, so using that as the music source
+was the cheapest solution, although this setup would work with any music
+service that works with Amazon Echo: Spotify, Amazon Music, TuneIn,
+CloudPlayer, Deezer, iHeartRadio.</p>
+
+<p>In the exploration phase for this project, I wanted to buy DRM-free
+music, wire a speaker directly to the Raspberry Pi and play it locally.
+However, that would have meant that adding music later would be a much
+more tedious task. Plus it&#8217;s hard to find DRM-free music these days, and
+when you do find what you want it ends up being pricey. Especially
+compared to the convenience and cost of today&#8217;s streaming options.</p>
+
+<p>I also explored using HomePods as the speakers (see addendum below).</p>
+
+<p>The biggest downside to the current streaming approach is that there&#8217;s a
+5-10 second delay after tapping a card and music starting.</p>
+
+<h2>Assembly</h2>
+
+<table>
+<thead>
+<tr>
+<th><br /></th>
+<th><br /></th>
+<th><br /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://jpsim.com/images/posts/musicbox/assembly1.jpg" alt="Assembly #1" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/assembly2.jpg" alt="Assembly #2" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/assembly3.jpg" alt="Assembly #3" /></td>
+</tr>
+<tr>
+<td><img src="https://jpsim.com/images/posts/musicbox/assembly4.jpg" alt="Assembly #4" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/assembly5.jpg" alt="Assembly #5" /></td>
+<td><img src="https://jpsim.com/images/posts/musicbox/assembly6.jpg" alt="Assembly #6" /></td>
+</tr>
+</tbody>
+</table>
+
+
+<p><br /></p>
+
+<p>I assembled this with my son over a few days in May 2020, and then
+finished the setup in September 2021. The actual hardware assembly
+probably only took a combined total of 3 hours though.</p>
+
+<h2>Software</h2>
+
+<p><em>Disclaimer: This code is rough, it&#8217;s suitable for a toy project. I&#8217;m
+sharing it in case it&#8217;s useful for others getting started with a similar,
+project. I&#8217;m not claiming this is beautiful quality code.</em></p>
+
+<h3>Echo Dot Remote Control</h3>
+
+<p>I use the <a href="https://github.com/thorsten-gehrig/alexa-remote-control">alexa-remote-control</a> shell script to
+control the Echo Dot. When it&#8217;s up and running, it couldn&#8217;t be easier:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$ alexa_remote_control.sh -e <span class="s2">&quot;playmusic:APPLE_MUSIC:The Lion King&quot;</span>
+</span><span class='line'>$ alexa_remote_control.sh -e pause
+</span><span class='line'>$ alexa_remote_control.sh -e play
+</span><span class='line'>$ alexa_remote_control.sh -e vol:15
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>NFC Reader</h3>
+
+<p>I use <a href="https://github.com/pelwell/MFRC522-python">MFRC522-python</a> to
+interface with the NFC module.</p>
+
+<p>The Python script that reads cards and plays music looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span></span><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">MFRC522</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">signal</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">continue_reading</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span class='line'><span class="n">last_seen_card</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span class='line'><span class="n">echo_name</span> <span class="o">=</span> <span class="s2">&quot;MusicBox Echo&quot;</span>
+</span><span class='line'><span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+</span><span class='line'><span class="n">alexa_control_script</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;alexa_remote_control.sh&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">alexa</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;</span><span class="si">{alexa_control_script}</span><span class="s1"> -d &quot;</span><span class="si">{echo_name}</span><span class="s1">&quot; -e &quot;</span><span class="si">{command}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">alexa_control_script</span><span class="o">=</span><span class="n">alexa_control_script</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">echo_name</span><span class="o">=</span><span class="n">echo_name</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">pause</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;pause&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">play_music</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+</span><span class='line'>    <span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">pause</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;playmusic:APPLE_MUSIC:</span><span class="si">{query}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">set_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;vol:</span><span class="si">{volume}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">volume</span><span class="o">=</span><span class="n">volume</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">end_read</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">global</span> <span class="n">continue_reading</span>
+</span><span class='line'>    <span class="n">continue_reading</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span class='line'>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">end_read</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">MIFAREReader</span> <span class="o">=</span> <span class="n">MFRC522</span><span class="o">.</span><span class="n">MFRC522</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="n">continue_reading</span><span class="p">:</span>
+</span><span class='line'>    <span class="c1"># Scan for cards</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">TagType</span><span class="p">)</span> <span class="o">=</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MFRC522_Request</span><span class="p">(</span><span class="n">MIFAREReader</span><span class="o">.</span><span class="n">PICC_REQIDL</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># If we have a card, continue</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MI_OK</span><span class="p">:</span>
+</span><span class='line'>        <span class="c1"># Get the UID of the card</span>
+</span><span class='line'>        <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">uid</span><span class="p">)</span> <span class="o">=</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MFRC522_Anticoll</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1"># If we have the UID, continue</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MI_OK</span> <span class="ow">and</span> <span class="n">last_seen_card</span> <span class="o">!=</span> <span class="n">uid</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">last_seen_card</span> <span class="o">=</span> <span class="n">uid</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1"># Print UID</span>
+</span><span class='line'>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Card UID: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">uid</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">48</span><span class="p">]:</span>
+</span><span class='line'>                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PAUSE&quot;</span><span class="p">)</span>
+</span><span class='line'>                <span class="n">pause</span><span class="p">()</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">140</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">set_volume</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">247</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">81</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">set_volume</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">175</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Star Wars A New Hope Soundtrack&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">148</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">167</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Paco de Lucia&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">204</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Dexter Gordon&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">197</span><span class="p">,</span> <span class="mi">238</span><span class="p">,</span> <span class="mi">167</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Rainbow Connection&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">82</span><span class="p">]:</span>
+</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Genesis&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">93</span><span class="p">]:</span>
+</span><span class='line'>                <span class="c1"># and so on...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&#8217;ll notice that there are special cards for pausing, setting a high
+volume and setting a low volume. The rest of the cards map to music.</p>
+
+<p>The main thing I&#8217;d like to improve at some point is to avoid hardcoding
+a mapping of the card UIDs to music and instead program it using the
+companion iPhone app by writing a payload to the card. The iOS side I
+know how to do pretty quickly, but I&#8217;d have to spend more time to figure
+out how to do it on the MFRC522 reader side of things.</p>
+
+<h3>API Server</h3>
+
+<p>There&#8217;s an API server that can be used to control the music box using
+the companion iPhone app.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">api</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span class='line'><span class="n">echo_name</span> <span class="o">=</span> <span class="s2">&quot;MusicBox Echo&quot;</span>
+</span><span class='line'><span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+</span><span class='line'><span class="n">alexa_control_script</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;alexa_remote_control.sh&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">alexa</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;</span><span class="si">{alexa_control_script}</span><span class="s1"> -d &quot;</span><span class="si">{echo_name}</span><span class="s1">&quot; -e &quot;</span><span class="si">{command}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">alexa_control_script</span><span class="o">=</span><span class="n">alexa_control_script</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">echo_name</span><span class="o">=</span><span class="n">echo_name</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/pause&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">pause</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;pause&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/play&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">play</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">play_music</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">])</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;play&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/play/&lt;query&gt;&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">play_music</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+</span><span class='line'>    <span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">pause</span>
+</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;playmusic:APPLE_MUSIC:</span><span class="si">{query}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/volume/&lt;int:volume&gt;&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">set_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;vol:</span><span class="si">{volume}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">volume</span><span class="o">=</span><span class="n">volume</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">api</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>iPhone App</h3>
+
+<p>Of course I made an iPhone app using <a href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a> &amp;
+<a href="https://github.com/pointfreeco/swift-composable-architecture">Composable Architecture</a>.</p>
+
+<p>This helps me quickly adjust the volume, play/pause and play specific
+music. If my kid falls alseep to music, I can stop it without having to
+walk into his room.</p>
+
+<p>Siri intents work too, so I can play/pause music by speaking to Siri
+without having to launch the app.</p>
+
+<p><img src="https://jpsim.com/images/posts/musicbox/app.jpg" alt="" /></p>
+
+<h2>Closed Source</h2>
+
+<p>Hopefully this post is helpful to someone interested in building
+something similar. I&#8217;ve posted enough code and details to get you
+started, but I won&#8217;t be open sourcing the whole project because I&#8217;m just
+not willing to field support questions or feature requests. I&#8217;m happy to
+answer questions about my experience building this, but I&#8217;m sorry I
+can&#8217;t help you figure out why something&#8217;s not working if you go build
+something similar.</p>
+
+<hr />
+
+<h2>Addendum: HomePod Attempt</h2>
+
+<p>At one point I wanted to use a stereo pair of HomePods for this project,
+but all my attempts to reverse engineer a way to play music on them from
+a Raspberry Pi were fruitless. I tried sniffing the network traffic via
+Charles Proxy while playing music from the iOS Music app or even the
+Shortcuts app and wasn&#8217;t able to crack it. I did end up getting it
+working using <a href="https://github.com/owntone/owntone-server">forked-daap</a> but this set the HomePods in a
+weird state. I don&#8217;t remember all the details because I gave up on that
+approach for two reasons: the first is that I couldn&#8217;t get it to work
+well and the second is that I wanted to keep the HomePods in our living
+room while the music box was meant to be in my son&#8217;s bedroom.</p>
+
+<hr />
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Evaluating SwiftSyntax for use in SwiftLint]]></title>
@@ -986,19 +1437,6 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>But overall, being away from my team 3 days a week for 2 months had a noticeable impact on performance and most of all, our <em>culture</em>.</p>
 
 <p>So choose your battles carefully and fight alongside your team.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Obligatory <span>Hello World</span>]]></title>
-    <link href="https://jpsim.com/obligatory-hello-world/"/>
-    <updated>2012-12-24T13:05:00+00:00</updated>
-    <id>https://jpsim.com/obligatory-hello-world</id>
-    <content type="html"><![CDATA[<p>With 2013 around the corner, it seems customary to create an article saying <em>&#8220;this is a new year, I&#8217;ll start blogging again&#8221;</em>, so here I am&#8230;</p>
-
-<p>Only that this time I actually have a few articles written so I know this place won&#8217;t be a barren wasteland of stale octojunk.</p>
-
-<p>I&#8217;ll be splitting up my posts on the new <a href="http://magneticbear.com">Magnetic Bear Studios</a> site and this one.</p>
 ]]></content>
   </entry>
   

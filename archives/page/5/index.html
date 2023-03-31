@@ -4,9 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="I recently gave a talk on Swift at the SF/SV Swift Language User Group meetup. We&#8217;ve made the whole thing available online: Video
-Slides
-Slides &hellip;">
+  <meta name="description" content="To support a fancy new language, nifty realtime IDE features and impressive cross-language interoperability, Apple had to develop several new &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/5">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -58,30 +56,144 @@ Slides &hellip;">
   
 
 
-<time datetime="2014-06-27T14:58:00+00:00" pubdate data-updated="true">Jun 27<span>th</span>, 2014</time>
+<time datetime="2014-07-06T16:07:00+00:00" pubdate data-updated="true">Jul 6<span>th</span>, 2014</time>
         
 
-         | <a class="disqus-link" href="/sf-swift-meetup/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/uncovering-sourcekit/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/sf-swift-meetup/">SF Swift Meetup</a></h1>
+      <h1 class="entry-title"><a href="/uncovering-sourcekit/">Uncovering SourceKit</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>I recently gave a talk on <a href="https://developer.apple.com/swift">Swift</a> at the <a href="http://www.meetup.com/swift-language">SF/SV Swift Language User Group</a> meetup. We&#8217;ve made the whole thing available online:</p>
+  <div class="entry-content"><p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we&#8217;ll focus on <em>SourceKit</em>, Xcode&#8217;s under-appreciated sidekick.</p>
 
-<ul>
-<li><a href="http://realm.io/news/swift-unchartered-territory-swift-intro-and-internals">Video</a></li>
-<li><a href="https://speakerdeck.com/jpsim/swift-uncharted-territory">Slides</a></li>
-<li><a href="https://github.com/jpsim/talks">Slides Source</a></li>
-</ul>
+<p><img src="/images/posts/sidekick.jpg" alt="sidekick" /></p>
+
+<center><sub>SourceKitSidekick temporarily wearing a cape</sub></center>
 
 
-<p>The first half of the talk covers the basic features and syntax of the language. The rest of the talk touches on some more in-depth discoveries about the runtime, introspection and how the tools work behind the scenes.</p>
+<p><br/></p>
+
+<h2>What is SourceKit?</h2>
+
+<p>SourceKit is the set of tools that enables most of Swift&#8217;s source code manipulation features: source code parsing, syntax highlighting, typesetting, autocomplete, cross-language header generation, and lots more.</p>
+
+<h2>Architecture</h2>
+
+<p>Xcode traditionally runs its compiler (<a href="http://clang.llvm.org">Clang</a>) <em>in-process</em>, which means that any time the compiler would crash, so would the IDE.</p>
+
+<p><img src="/images/posts/house_of_cards.jpg" alt="house of cards" /></p>
+
+<center><sub>Xcode architecture diagram</sub></center>
+
+
+<p><br/></p>
+
+<p>Exacerbating the problem, Xcode can easily invoke the compiler thousands of times to parse, highlight and typeset source code, all before a user ever hits <em>⌘+B</em>. That&#8217;s because unlike most editors (Vim/Sublime/etc), Xcode doesn&#8217;t use regular expressions to parse source code, but rather Clang&#8217;s powerful (though much more complex) parser/tokenizer.</p>
+
+<p>Thankfully, Swift in Xcode 6 moves away from this architecture<sup>1</sup>, combining all these source code manipulation features into a separate process that communicates with Xcode through <a href="https://developer.apple.com/library/mac/documentation/macosx/conceptual/bpsystemstartup/chapters/CreatingXPCServices.html">XPC</a>: <code>sourcekitd</code>. This XPC daemon is launched whenever Xcode 6 loads any Swift code.</p>
+
+<p><img src="/images/posts/sourcekit_terminated.jpg" alt="sourcekit terminated" /></p>
+
+<center><sub>Life would be miserable if Xcode crashed every time this appeared</sub></center>
+
+
+<p><br/></p>
+
+<h2>How Xcode uses SourceKit</h2>
+
+<p>Since SourceKit is a private and undocumented tool, we need to get a little creative to learn how to use it. By setting the <code>SOURCEKIT_LOGGING</code><sup>2</sup> environment variable, Xcode will log its SourceKit communications to <code>stdout</code>, allowing us to monitor its communications in realtime. This is how many of the commands covered in this article were discovered.</p>
+
+<h2>Unified Symbol Resolution</h2>
+
+<p>SourceKit uses a Clang feature called the USR (Unified Symbol Resolution) as a unique identifier for a source code token (i.e. class, property, method, etc.). This is what allows you to <em>⌘+click</em> any token in Xcode and navigate to its definition. The USR is even more powerful now that it can unify a representation across languages (Swift/ObjC).</p>
+
+<p><img src="/images/posts/usr.jpg" alt="usr" /></p>
+
+<center><sub>The USR at work</sub></center>
+
+
+<p><br/></p>
+
+<p>To print the USR&#8217;s from a Swift file (and their locations), you can run the following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcrun swift-ide-test -print-usrs -source-filename=Musician.swift
+</span><span class='line'>10:7 s:C14swift_ide_test8Musician
+</span><span class='line'>14:9 s:vC14swift_ide_test8Musician4nameSS
+</span><span class='line'>19:9 s:vC14swift_ide_test8Musician9birthyearSu
+</span><span class='line'>33:5 s:FC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_
+</span><span class='line'>33:10 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
+</span><span class='line'>33:24 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu
+</span><span class='line'>34:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
+</span><span class='line'>34:21 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
+</span><span class='line'>35:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
+</span><span class='line'>35:26 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Swift<em>ish</em> header generation</h2>
+
+<p><em>⌘+clicking</em> on a token defined in Objective-C from Swift will cause Xcode to trigger a Swift-like header to be generated. I say Swift-like because this generated file is not valid Swift<sup>3</sup>, but at least displays the Swift syntax equivalent to the Objective-C tokens.</p>
+
+<p><a href="/images/posts/generated_swift_header.jpg"><img src="/images/posts/generated_swift_header.jpg" alt="Generated Swift Header" /></a></p>
+
+<center><sub>Left: original Objective-C header. Right: SourceKit-generated Swift-ish version.</sub></center>
+
+
+<p><br/></p>
+
+<h2>Using SourceKit from the command line</h2>
+
+<p><img src="/images/posts/sourcekit_playground.jpg" alt="SourceKit Playground" /></p>
+
+<p>There are 3 main command line tools that allow to interact with SourceKit: <code>sourcekitd-test</code>, <code>swift-ide-test</code> and <code>swift</code>.</p>
+
+<p>I compiled a shell script with documentation that runs through many useful commands like syntax highlighting, interface generation, AST parsing, demangling, and more.</p>
+
+<p>The script is available on GitHub as a <a href="https://gist.github.com/jpsim/13971c81445219db1c63#file-sourcekit_playground-sh">gist</a>.</p>
+
+<h2>3rd Party Tools Using SourceKit</h2>
+
+<p>Because SourceKit lives outside of Xcode, it’s possible to leverage it to build anything from a Swift IDE to a documentation generator.</p>
+
+<h3>jazzy<sup>♪♫</sup></h3>
+
+<p><img src="/images/posts/jazzy.jpg" alt="jazzy" /></p>
+
+<p><a href="https://github.com/realm/jazzy">jazzy</a> is a command-line utility that generates documentation for your Swift and Objective-C projects. It uses SourceKit to derive Swift syntax from Objective-C defined tokens (i.e. class, property, method, etc.).</p>
+
+<h3>SwiftEdit</h3>
+
+<p><a href="https://github.com/jpsim/SwiftEdit">SwiftEdit</a> is a proof-of-concept editor that supports syntax highlighting for Swift files.</p>
+
+<p><img src="/images/posts/SwiftEdit.png" alt="SwiftEdit" /></p>
+
+<h2>SourceKit &amp; You</h2>
+
+<p>We’re just scratching the surface of what’s possible to build with SourceKit. Tools could be made to measure cross-language code coverage, or provide an editor where Objective-C and Swift can be edited simultaneously. Hopefully this article inspires you to build something with SourceKit and improve our tools in the process.</p>
+
+<hr />
+
+<p><em>1: Objective-C in Xcode 6 (Beta 2) doesn&#8217;t use SourceKit at all, keeping Xcode&#8217;s traditional clang-in-process architecture. I expect this to change before Xcode 6 GM.</em></p>
+
+<p><em>2: For SourceKit logging, launch Xcode with <sub><code>export SOURCEKIT_LOGGING=3 &amp;&amp; /Applications/Xcode6-Beta2.app/Contents/MacOS/Xcode</code></sub></em></p>
+
+<p><em>3: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has <a href="https://github.com/ksm/SwiftInFlux#access-control">access control mechanisms</a>.</em></p>
 </div>
   
   
@@ -111,7 +223,7 @@ Slides &hellip;">
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2021 JP Simard
+  &copy; 2023 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 

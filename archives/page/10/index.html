@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="Keeping a project modular is a lofty software development goal that we all strive for even though it can never be fully attained. One way to &hellip;">
+  <meta name="description" content="I really like iOS 7&#8217;s topLayoutGuide and bottomLayoutGuide. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/10">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -56,59 +56,27 @@
   
 
 
-<time datetime="2014-03-17T19:12:00+00:00" pubdate data-updated="true">Mar 17<span>th</span>, 2014</time>
+<time datetime="2014-03-26T14:41:00+00:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
         
 
-         | <a class="disqus-link" href="/private-pods/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/keyboard-layout-guide/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/private-pods/">Private Pods</a></h1>
+      <h1 class="entry-title"><a href="/keyboard-layout-guide/">Keyboard Layout Guide</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>Keeping a project modular is a lofty software development goal that we all strive for even though it can never be fully attained.</p>
+  <div class="entry-content"><p>I really like iOS 7&#8217;s <code>topLayoutGuide</code> and <code>bottomLayoutGuide</code>. They&#8217;re immensely useful. But in my adventures with Auto Layout, I&#8217;ve often wished that Apple had added a third member to this exclusive group: a sort of <code>keyboardLayoutGuide</code>.</p>
 
-<p>One way to encourage a modular architecture is to use a dependency manager like <a href="http://cocoapods.org">Cocoapods</a>. I&#8217;ve blogged about using Cocoapods <a href="/cocoapods-tips-tricks">before</a>, but I didn&#8217;t touch on splitting up portions of your code that wouldn&#8217;t benefit from being open-sourced. Either because they&#8217;re too application-specific, or they&#8217;re proprietary.</p>
+<p>It&#8217;s a bit of a drag to have to set up <code>NSNotification</code> observers just to be able to keep your textfield on the screen when the keyboard barges into view. So I added a <code>keyboardLayoutGuide</code> to <code>UIViewController</code> myself. You can check it out on GitHub here: <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">jpsim/JPSKeyboardLayoutGuide</a>.</p>
 
-<p>For example, say you were building an application backed by a private web API, that needed to persist data to disk. A naïve implementation (<em>read what <strong>most</strong> of us would do, including myself</em>) would combine UI, API and persistence all in one project/workspace. In a fully modular app, UI/API/persistence would all have some degree of separation.</p>
+<p>If you&#8217;ve used Apple&#8217;s layout guides before, you&#8217;ll know that they&#8217;re actually just <code>id</code>&#8217;s that conform to the <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UILayoutSupport_Protocol/Reference/Reference.html"><code>UILayoutSupport</code> Protocol</a>. So I figured that having the guide just be a zero-sized UIView was probably the best way to go. This way, I can easily add it to the view and bind it to the keyboard frame by modifying a constraint&#8217;s constant.</p>
 
-<p>Private pods go a long way to help split up your codebase into logical modules. This becomes especially valuable in medium-large projects with 10k+ lines of code.</p>
-
-<p>There are two main ways to make a private pod: remote and local.</p>
-
-<h3>Remote</h3>
-
-<p>You can either create a Specs-like private repo as indicated in <a href="http://guides.cocoapods.org/making/private-cocoapods.html">this official Cocoapods guide</a> or you can host your <code>.podspec</code> online and reference it directly in your <code>Podfile</code>.</p>
-
-<p>Here&#8217;s how you&#8217;d reference it directly in a <code>Podfile</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Local</h3>
-
-<p>Though I find it unlikely, it might make sense to keep your private pods in the same repo as your project. In which case, you&#8217;d commit all its code in a special folder (i.e. <code>local_pods/POD_NAME</code>) and you&#8217;d specify the podspec path in your <code>Podfile</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In this case, the <code>.podspec</code> would be located at <code>local_pods/PrivatePod/PrivatePod.podspec</code>.</p>
-
-<p><em>Note: I&#8217;ve had inconsistent results writing local podspecs. Specs that worked perfectly in a remote repo didn&#8217;t work at all locally for no apparent reason. Your mileage may vary, I might have made a stupid mistake.</em></p>
-
-<h2>Word of caution</h2>
-
-<p>Splitting up your codebase is not something you should do for its own sake. The additional overhead probably won&#8217;t be worthwhile in smaller projects. But the larger the project, the bigger the gain.</p>
-
-<p>On that note, I hope this article helps you decide how you want to split your monolithic 300k line app. But hey, you could always build static libraries instead (<em>cue laughter</em>).</p>
+<p>In all honesty, I dislike the inheritance approach I took here; it seems like the easy way out. I&#8217;m hoping that either myself or a contributor will have a stroke of genius and find a composition-based way to do this. Perhaps a starting point would be a category on <code>UIViewController</code> along with an associated object as the <code>keyboardLayoutGuide</code> property&#8230; But then the <code>NSNotification</code>s will be troublesome. If you have an idea, please fork and send a PR or open up an issue on <a href="https://github.com/jpsim/JPSKeyboardLayoutGuide">github</a>!</p>
 </div>
   
   
@@ -138,7 +106,7 @@
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2021 JP Simard
+  &copy; 2023 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 

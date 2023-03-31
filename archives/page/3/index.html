@@ -4,10 +4,9 @@
 <head>
   <meta charset="utf-8">
   <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="Building a serverless photo gallery?
-Easy!
-Password-protecting that without adding servers?
-Surprisingly much more complex. Goals Host a self- &hellip;">
+  <meta name="description" content="Norio Nomura and I (ok, honestly mostly Norio 😅) have been building a
+Swift library for encoding &amp; decoding YAML for the last 18 months and
+it&# &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/3">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -59,145 +58,84 @@ Surprisingly much more complex. Goals Host a self- &hellip;">
   
 
 
-<time datetime="2017-07-04T06:14:00+00:00" pubdate data-updated="true">Jul 4<span>th</span>, 2017</time>
+<time datetime="2018-05-19T11:40:00+00:00" pubdate data-updated="true">May 19<span>th</span>, 2018</time>
         
 
-         | <a class="disqus-link" href="/awspics/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/introducing-yams-1-dot-0/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/awspics/">Building a serverless password-protected photo gallery</a></h1>
+      <h1 class="entry-title"><a href="/introducing-yams-1-dot-0/">Introducing Yams 1.0</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>Building a serverless photo gallery?
-<em>Easy!</em>
-Password-protecting that without adding servers?
-<em>Surprisingly much more complex.</em></p>
+  <div class="entry-content"><p><img src="https://raw.githubusercontent.com/jpsim/Yams/master/yams.jpg" alt="Yams: A Sweet &amp; Swifty YAML Parser" /></p>
 
-<p><img src="https://github.com/jpsim/AWSPics/raw/master/assets/awspics.gif" alt="" /></p>
+<p><a href="https://twitter.com/norio_nomura">Norio Nomura</a> and I (ok, honestly mostly Norio 😅) have been building a
+Swift library for encoding &amp; decoding <a href="http://yaml.org">YAML</a> for the last 18 months and
+it&#8217;s now stable enough to make a 1.0 release and share with the world.</p>
 
-<h2>Goals</h2>
+<p>It&#8217;s called Yams, you can find it on GitHub at <a href="https://github.com/jpsim/Yams">jpsim/Yams</a> and API
+docs are located at <a href="https://jpsim.com/Yams">jpsim.com/Yams</a>.</p>
 
-<blockquote><p>Host a self-contained, declarative infrastructure, password-protected,
-data-driven static photo gallery to share personal pictures with friends and
-family, without needing to run, maintain (or pay for) servers.</p></blockquote>
+<p>You could say it&#8217;s a Swift binding for <a href="https://github.com/yaml/libyaml">LibYAML</a> but I&#8217;d argue it&#8217;s
+much more than that.</p>
 
-<p>With <a href="https://twitter.com/simjp/status/873604866043543552">the recent addition</a>
-to our family, I wanted to set up a place where I could share pictures with
-our closest friends and family. Facebook wasn&#8217;t an option because&#8230;
-<a href="https://daringfireball.net/2017/06/fuck_facebook">yeah</a>,
-<a href="http://www.slate.com/articles/technology/data_mine_1/2013/09/facebook_privacy_and_kids_don_t_post_photos_of_your_kids_online.html">because</a>
-<a href="http://www.telegraph.co.uk/women/family/i-dont-put-pictures-of-my-children-on-facebook---and-you-shouldn/">many</a>
-<a href="http://www.huffingtonpost.com.au/2016/02/07/can-i-post-photos-of-other-peoples-children_n_9184560.html">reasons</a>
-<a href="https://medium.com/matter/beware-your-baby-s-face-is-online-and-on-sale-d33ae8cdaa9d">actually</a>.</p>
+<p>I&#8217;m actually very happy with how this library ended up. It plays nicely with
+Swift 4&#8217;s <a href="https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types">Codable protocol</a>, meaning that you get fast &amp; type-safe
+encoding &amp; decoding that feels right at home in modern Swift.</p>
 
-<p>Most of my family members are on Apple devices, while most of my friends are in
-the Google/Android ecosystem. So for day to day sharing of moments, we post a
-few pictures to iCloud photo sharing, and a few others to a WhatsApp group. But
-neither of these can really serve as the canonical place where we&#8217;re storing
-these photos long-term, because WhatsApp is pretty ephemeral, and the iCloud
-photo sharing experience <em>sucks</em> on non-Apple devices.</p>
+<p>Here&#8217;s a simple example of encoding &amp; decoding <code>Codable</code> types:</p>
 
-<h2>Architecture</h2>
-
-<p>Unfortunately there&#8217;s no &#8220;put a password in front of AWS CloudFront&#8221; checkbox.
-I wish there were, so I wouldn&#8217;t have had to build this. But there isn&#8217;t, so it
-was time to roll up my sleeves and learn a bit about how modern web
-infrastructure is built. Or at least my idea of it.</p>
-
-<p><img src="https://github.com/jpsim/AWSPics/raw/master/assets/architecture.png" alt="" /></p>
-
-<p>There are 7 main components:</p>
-
-<ol>
-<li><strong>CloudFront with restricted bucket access</strong> to prevent unauthenticated
-access to the site or its pictures.</li>
-<li><strong>Login lambda function</strong> to validate authentication and sign cookies to
-allow access to restricted buckets.</li>
-<li><strong>Source S3 bucket</strong> to store original pictures and metadata driving the
-site.</li>
-<li><strong>Resized S3 bucket</strong> to store resized versions of the original pictures.</li>
-<li><strong>Web S3 bucket</strong> to store the static website generated from the data in the
-source bucket.</li>
-<li><strong>Resize lambda function</strong> to automatically resize images added to the source
-S3 bucket and store them in the resized S3 bucket.</li>
-<li><strong>Site builder lambda function</strong> to automatically rebuild the static website
-when changes are made to the source S3 bucket.</li>
-</ol>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span></span><span class="kd">import</span> <span class="nc">Yams</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">struct</span> <span class="nc">S</span><span class="p">:</span> <span class="n">Codable</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nv">p</span><span class="p">:</span> <span class="nb">String</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">let</span> <span class="nv">s</span> <span class="p">=</span> <span class="n">S</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="s">&quot;test&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="kd">let</span> <span class="nv">encoder</span> <span class="p">=</span> <span class="n">YAMLEncoder</span><span class="p">()</span>
+</span><span class='line'><span class="kd">let</span> <span class="nv">encodedYAML</span> <span class="p">=</span> <span class="k">try</span> <span class="n">encoder</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'><span class="n">encodedYAML</span> <span class="p">==</span> <span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="s">  p: test</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">  &quot;&quot;&quot;</span>
+</span><span class='line'><span class="kd">let</span> <span class="nv">decoder</span> <span class="p">=</span> <span class="n">YAMLDecoder</span><span class="p">()</span>
+</span><span class='line'><span class="kd">let</span> <span class="nv">decoded</span> <span class="p">=</span> <span class="k">try</span> <span class="n">decoder</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">S</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span> <span class="n">from</span><span class="p">:</span> <span class="n">encodedYAML</span><span class="p">)</span>
+</span><span class='line'><span class="n">s</span><span class="p">.</span><span class="n">p</span> <span class="p">==</span> <span class="n">decoded</span><span class="p">.</span><span class="n">p</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Can it be simplified?</h2>
+<p>Alternatively, you can use it to work with Swift scalar &amp; collection types,
+which is probably the easiest way to start parsing arbitrary YAML for your
+projects. Finally, there&#8217;s a third mode, which is a Yams-native API that best
+translates to how LibYAML works.</p>
 
-<p>Of course. There are a few ways I can think of to simplify this, but the
-tradeoffs aren&#8217;t worthwhile IMO.</p>
-
-<ol>
-<li><strong>Resize images on demand.</strong> Rather than resize all the images when they&#8217;re
-first added to the source bucket, the resize lambda could be exposed via a
-CloudFront origin. However, since the static site only really uses two
-image sizes, and that lambda functions have a significant
-<a href="https://serverless.com/blog/keep-your-lambdas-warm/">cold start penalty</a>,
-it&#8217;s much more efficient to just precompute the resized images.</li>
-<li><strong>Consolidate buckets.</strong>  Rather than separate source, resized &amp; web buckets,
-they could just be in a single bucket. However, this would just shift the
-complexity a bit since the stack would then need to filter new object
-notifications to know which function to invoke. Plus, right now to back up
-the valuable content, I just need to periodically mirror the source bucket,
-rather than all the derivative data in the resized and web buckets.</li>
-</ol>
-
-
-<h2>Problems?</h2>
-
-<p>I have a few annoyances with this setup as-is.</p>
-
-<p>One is that only the resized bucket triggers the site builder function. That
-means that any other object modified in the source bucket, such as the
-<code>metadata.yml</code> files that include album comments, don&#8217;t trigger a site build.</p>
-
-<p>Another related problem is that for every new image in the source bucket, two
-are created in the resized bucket, each one invoking the site builder function.
-Not only that, but if I upload an album with lots of pictures all in one shot,
-the site will be rebuilt twice for each picture! 🙀</p>
-
-<p>Unfortunately, S3 buckets can only have a
-<a href="https://stackoverflow.com/q/31471178/373262">single notification per event type</a>,
-so we can&#8217;t trigger both the resize and site builder functions when new objects
-are created on the source bucket.</p>
-
-<p>I think the solution here would involve
-<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">publishing S3 events to SNS or SQS</a>
-and &#8220;debouncing&#8221; the site builder lambda, but again&#8230; <strong>#complexity</strong>.</p>
-
-<p><img src="https://media.giphy.com/media/mYqaRkXyoGbcY/giphy.gif" alt="" /></p>
-
-<p>I&#8217;ll probably do this eventually, but I&#8217;m in no hurry.</p>
-
-<h2>Code</h2>
-
-<p>I&#8217;ve open sourced the entire AWS stack on GitHub over at
-<a href="https://github.com/jpsim/AWSPics">jpsim/AWSPics</a>. I&#8217;m also hosting a demo
-site over at <a href="https://awspics.net">awspics.net</a> (use &#8220;username&#8221;/&#8221;password&#8221; as
-credentials to check it out).</p>
-
-<p>There&#8217;s a (long) video walkthrough <a href="https://youtu.be/010AGcY4uoE">on YouTube</a>
-too, if that&#8217;s useful to follow along.</p>
-
-<h2>Closing Thoughts</h2>
-
-<p>Overall, I really enjoyed stepping outside my comfort zone of native
-Swift/ObjC/C++ programming, learning a TON about several AWS services and
-ultimately meeting my goal of setting up a private photo gallery.</p>
-
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If you think incremental Xcode builds take a while, try deploying changes to an AWS CloudFormation stack 😅 <a href="https://t.co/yTPsqarT92">pic.twitter.com/yTPsqarT92</a></p>&mdash; JP Simard (@simjp) <a href="https://twitter.com/simjp/status/881640404851884033">July 2, 2017</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
+<p>This library&#8217;s been powering a number of popular projects that use YAML for
+configuration, like <a href="https://github.com/realm/SwiftLint">SwiftLint</a>, <a href="https://github.com/SwiftGen/SwiftGen">SwiftGen</a>,
+<a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> &amp; used in <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> to parse Swift
+Package Manager build manifests. So if you&#8217;ve wanted to add YAML configuration
+files to your Swift CLI, or want to interoperate with other tools that process
+YAML, I encourage you to give Yams a try.</p>
 </div>
   
   
@@ -227,7 +165,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2021 JP Simard
+  &copy; 2023 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 
