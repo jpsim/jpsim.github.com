@@ -11,6 +11,7 @@ iOS developer at [Lyft](https://lyft.com), previously [Realm](https://realm.io) 
 ## Contact
 
 * Email: [{{ site.email }}](mailto:{{ site.email }})
+* Mastodon: [@jpsim@hachyderm.io](https://hachyderm.io/@jpsim)
 * Twitter: [@{{ site.twitter_user }}](https://twitter.com/{{ site.twitter_user }})
 * GitHub: [@{{ site.github_user }}](https://github.com/{{ site.github_user }})
 
