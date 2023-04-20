@@ -4,15 +4,14 @@
 docker run -it \
   -v `pwd`:`pwd` \
   -w `pwd` \
-  --rm ruby:2.7 /bin/bash \
-  -c "rm Gemfile.lock && bundle install && bundle exec rake generate"
+  --rm ruby:2.7.8 /bin/bash \
+  -c "bundle install && bundle exec rake generate"
 ```
 
 ## Previewing
 
 ```
-cd public
-python -m SimpleHTTPServer
+python3 -m http.server --directory public
 ```
 
 ## Deploying
