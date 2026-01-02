@@ -4,7 +4,7 @@
   <title><![CDATA[Category: development | JP Simard]]></title>
   <link href="https://jpsim.com/categories/development/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2023-04-20T13:47:41+00:00</updated>
+  <updated>2026-01-02T19:54:14+00:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -12,6 +12,203 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mobile Development in the Age of AI]]></title>
+    <link href="https://jpsim.com/mobile-development-in-the-age-of-ai/"/>
+    <updated>2026-01-02T15:00:00+00:00</updated>
+    <id>https://jpsim.com/mobile-development-in-the-age-of-ai</id>
+    <content type="html"><![CDATA[<p>After working in mobile engineering for about a decade and a half, across
+multiple eras of iOS and Android tooling, languages, and architectural
+approaches, I've never been more excited about the landscape than I am right
+now.</p>
+
+<p>When I started making apps in 2011, it was thrilling to go from an idea to
+something you could physically touch and hold in your hand within hours. Today,
+that same feeling exists—but the iteration cycles are now an order of magnitude
+faster.</p>
+
+<p>The fundamentals haven’t changed. What <em>has</em> changed is the speed at which
+intent turns into working software.</p>
+
+<h2>Translation Is (Basically) a Solved Problem</h2>
+
+<p>A lot of where AI applications go wrong today comes from anthropomorphizing
+models and ascribing to them a kind of human-style intelligence. As
+<a href="https://www.youtube.com/watch?v=lXUZvyajciY">Andrej Karpathy</a> puts it: <em>“We’re summoning ghosts, not
+building animals.”</em></p>
+
+<p>But one category of tasks these LLM “ghosts” excel at is translation.</p>
+
+<p>That’s obvious when translating natural language like English to French, but
+it’s equally true for:</p>
+
+<ul>
+<li>TypeScript to Swift</li>
+<li>Jetpack Compose to SwiftUI</li>
+<li>Web APIs to platform SDKs</li>
+<li>Architectural patterns across platforms</li>
+</ul>
+
+
+<p>See <a href="https://simonwillison.net/2025/Dec/15/porting-justhtml/">this example</a>
+where Simon Willison ported JustHTML from Python to JavaScript with Codex CLI
+and GPT-5.2 in 4.5 hours.</p>
+
+<p>If you operate in an environment where your web app, iOS app, and Android app
+are separate codebases with baseline functional parity, AI fundamentally changes
+the economics of one codebase for each platform.</p>
+
+<p>Instead of rewriting features, you’re translating intent.</p>
+
+<p>A web PR becomes a reference implementation. Existing mobile code becomes
+executable context. Asking an agent to “take a first pass at implementing this
+natively” is now a normal—and productive—workflow, especially for apps with
+large CRUD-style surface areas and well-defined business logic.</p>
+
+<h2>Context Beats Code</h2>
+
+<p><a href="https://simonwillison.net/2025/jun/27/context-engineering/">Simon Willison</a> has written about <em>context engineering</em>:
+“the art of providing all the context for the task to be plausibly solvable by
+the LLM.” The limiting factor in AI-assisted development isn’t the model itself,
+but how clearly the problem is framed.</p>
+
+<p>That aligns closely with what actually matters in software engineering:</p>
+
+<ul>
+<li>Understanding the domain</li>
+<li>Choosing the right abstractions</li>
+<li>Designing the architecture</li>
+<li>Encoding business rules correctly</li>
+<li>Setting up the right conditions for QA and validating core behavior and edge cases</li>
+</ul>
+
+
+<p>These are platform-agnostic, one-time costs. Once you’ve paid them, the knowledge
+transfers cleanly across platforms.</p>
+
+<p>This is also where the distinction between <strong>process-driven</strong> and
+<strong>outcome-driven</strong> engineers becomes important. As
+<a href="https://simonwillison.net/2026/Jan/2/ben-werdmuller/">Ben Werdmuller</a> put it, we’re
+likely to see a real split between people who are outcome-driven and excited to
+test their work with users faster, and people who are process-driven and derive
+meaning primarily from the engineering itself.</p>
+
+<p>LLMs disproportionately benefit outcome-driven engineers—those who know what
+“good” looks like and can steer toward it. The tools reward clarity of intent,
+not ceremony.</p>
+
+<h2>What Mobile Development Actually Looks Like Now</h2>
+
+<p>In practice, most of the code I’ve written over the past twelve months hasn’t
+been typed directly into Xcode or Android Studio.</p>
+
+<p>A common setup today looks like this:</p>
+
+<ul>
+<li>A coding agent (e.g. Claude Code, Cursor, etc.) on one side of the screen</li>
+<li>Xcode or Android Studio on the other</li>
+<li>The bulk of code editing happening in the agent</li>
+<li>The IDE acting as a platform-native harness: breakpoints, debugger, previews,
+and deeper integrations with simulators and emulators</li>
+</ul>
+
+
+<p>With a modest amount of investment, the need for an IDE as a primary input tool
+almost disappears. The more you can hoist your compiler and language server out
+of the IDE and into terminal-ready commands, the more you can augment the
+capabilities of your coding agent.</p>
+
+<h2>Native Platforms Pair Well With AI, Despite Training Gaps</h2>
+
+<p>A fair concern is that frontier models still have less deep knowledge of
+iOS- and Android-specific APIs than they do of web or Python ecosystems.</p>
+
+<p><a href="https://www.cocoawithlove.com/blog/llms-twelve-months-later.html">Matt Gallagher</a> recently wrote about the state of Swift and iOS
+knowledge in frontier models at the end of 2025. He notes that <em>“most LLMs are
+trained on data that is 2+ years old, and their Swift style often feels older
+still.”</em></p>
+
+<p>The conclusion isn’t that models are perfect, but that modern native platforms
+provide strong constraints:</p>
+
+<ul>
+<li>Strong static typing</li>
+<li>Clear compiler diagnostics</li>
+<li>Declarative UI frameworks</li>
+<li>Deterministic tooling</li>
+</ul>
+
+
+<p>These constraints matter more than raw training data volume. What matters day to
+day isn’t whether an LLM can one-shot a perfect solution, but whether it can
+iterate quickly with tight feedback. Strong typing in Swift, Kotlin, and
+TypeScript helps enormously here.</p>
+
+<p>I don’t know about you, but I don’t typically write perfect code on the first try
+either.</p>
+
+<h2>A Brief Note on React Native</h2>
+
+<p>It’s absolutely possible to build excellent mobile apps using React Native or
+fully native stacks.</p>
+
+<p>What’s often underestimated is the organizational overhead and depth of
+expertise required to do React Native well at scale. Teams that succeed tend to
+invest heavily in platform infrastructure, tooling, and internal knowledge.
+Shopify is a well-known example of what “doing it right” looks like.</p>
+
+<p>AI shifts this tradeoff. When translation becomes cheap, the value of
+lowest-common-denominator abstractions drops. Platform-idiomatic code no longer
+implies slower delivery.</p>
+
+<p>Side note: this is a large part of why Ramp’s mobile engineering team is much
+leaner than people expect given the breadth of the apps' capabilities.</p>
+
+<h2>The Centaur Model, Applied</h2>
+
+<p>This way of working maps closely to what Cory Doctorow calls the
+<a href="https://pluralistic.net/2025/12/05/pop-that-bubble/#u-washington"><em>Centaur model</em></a>. In automation theory, “a centaur” is a person
+assisted by a machine.</p>
+
+<p>Humans and machines work together, each focused on what they do best:</p>
+
+<ul>
+<li>Humans handle judgment, architecture, domain understanding, and taste</li>
+<li>Machines handle repetition, translation, and acceleration</li>
+</ul>
+
+
+<p>AI doesn’t remove the need for software engineers. It removes the least
+interesting parts of the job and sharpens the most important ones.</p>
+
+<h2>Why This Reinforces Native Teams</h2>
+
+<p>With AI-assisted translation:</p>
+
+<ul>
+<li>Separate codebases no longer incur the same maintenance costs as they once did</li>
+<li>Platform fidelity no longer trades off against velocity</li>
+<li>Engineers can build where they’re strongest and port confidently</li>
+</ul>
+
+
+<p>This is exactly how we’re working today—and why Ramp is hiring <a href="https://jobs.ashbyhq.com/ramp/4859cd5e-f2a9-44d7-81f7-8bfc0e62369f">iOS engineers</a>
+and <a href="https://jobs.ashbyhq.com/ramp/f564dcf9-9390-4a3f-896f-8047a5086040">Android engineers</a>.</p>
+
+<p>If you care about building platform-idiomatic mobile apps, moving quickly
+without sacrificing quality, and spending more time on judgment than
+boilerplate, this is a particularly good moment to be doing native mobile
+engineering.</p>
+
+<h2>Closing</h2>
+
+<p>The tools changed.<br/>
+The job didn’t.</p>
+
+<p>If anything, it got more interesting.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building an NFC Music Box]]></title>
@@ -577,127 +774,6 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 
 <script async src="https://jpsim.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Uncovering SourceKit]]></title>
-    <link href="https://jpsim.com/uncovering-sourcekit/"/>
-    <updated>2014-07-06T16:07:00+00:00</updated>
-    <id>https://jpsim.com/uncovering-sourcekit</id>
-    <content type="html"><![CDATA[<p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we'll focus on <em>SourceKit</em>, Xcode's under-appreciated sidekick.</p>
-
-<p><img src="/images/posts/sidekick.jpg" alt="sidekick" /></p>
-
-<center><sub>SourceKitSidekick temporarily wearing a cape</sub></center>
-
-
-<p><br/></p>
-
-<h2>What is SourceKit?</h2>
-
-<p>SourceKit is the set of tools that enables most of Swift's source code manipulation features: source code parsing, syntax highlighting, typesetting, autocomplete, cross-language header generation, and lots more.</p>
-
-<h2>Architecture</h2>
-
-<p>Xcode traditionally runs its compiler (<a href="http://clang.llvm.org">Clang</a>) <em>in-process</em>, which means that any time the compiler would crash, so would the IDE.</p>
-
-<p><img src="/images/posts/house_of_cards.jpg" alt="house of cards" /></p>
-
-<center><sub>Xcode architecture diagram</sub></center>
-
-
-<p><br/></p>
-
-<p>Exacerbating the problem, Xcode can easily invoke the compiler thousands of times to parse, highlight and typeset source code, all before a user ever hits <em>⌘+B</em>. That's because unlike most editors (Vim/Sublime/etc), Xcode doesn't use regular expressions to parse source code, but rather Clang's powerful (though much more complex) parser/tokenizer.</p>
-
-<p>Thankfully, Swift in Xcode 6 moves away from this architecture<sup>1</sup>, combining all these source code manipulation features into a separate process that communicates with Xcode through <a href="https://developer.apple.com/library/mac/documentation/macosx/conceptual/bpsystemstartup/chapters/CreatingXPCServices.html">XPC</a>: <code>sourcekitd</code>. This XPC daemon is launched whenever Xcode 6 loads any Swift code.</p>
-
-<p><img src="/images/posts/sourcekit_terminated.jpg" alt="sourcekit terminated" /></p>
-
-<center><sub>Life would be miserable if Xcode crashed every time this appeared</sub></center>
-
-
-<p><br/></p>
-
-<h2>How Xcode uses SourceKit</h2>
-
-<p>Since SourceKit is a private and undocumented tool, we need to get a little creative to learn how to use it. By setting the <code>SOURCEKIT_LOGGING</code><sup>2</sup> environment variable, Xcode will log its SourceKit communications to <code>stdout</code>, allowing us to monitor its communications in realtime. This is how many of the commands covered in this article were discovered.</p>
-
-<h2>Unified Symbol Resolution</h2>
-
-<p>SourceKit uses a Clang feature called the USR (Unified Symbol Resolution) as a unique identifier for a source code token (i.e. class, property, method, etc.). This is what allows you to <em>⌘+click</em> any token in Xcode and navigate to its definition. The USR is even more powerful now that it can unify a representation across languages (Swift/ObjC).</p>
-
-<p><img src="/images/posts/usr.jpg" alt="usr" /></p>
-
-<center><sub>The USR at work</sub></center>
-
-
-<p><br/></p>
-
-<p>To print the USR's from a Swift file (and their locations), you can run the following command:</p>
-
-<pre><code>$ xcrun swift-ide-test -print-usrs -source-filename=Musician.swift
-10:7 s:C14swift_ide_test8Musician
-14:9 s:vC14swift_ide_test8Musician4nameSS
-19:9 s:vC14swift_ide_test8Musician9birthyearSu
-33:5 s:FC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_
-33:10 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
-33:24 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu
-34:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
-34:21 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
-35:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
-35:26 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu
-</code></pre>
-
-<h2>Swift<em>ish</em> header generation</h2>
-
-<p><em>⌘+clicking</em> on a token defined in Objective-C from Swift will cause Xcode to trigger a Swift-like header to be generated. I say Swift-like because this generated file is not valid Swift<sup>3</sup>, but at least displays the Swift syntax equivalent to the Objective-C tokens.</p>
-
-<p><a href="/images/posts/generated_swift_header.jpg"><img src="/images/posts/generated_swift_header.jpg" alt="Generated Swift Header" /></a></p>
-
-<center><sub>Left: original Objective-C header. Right: SourceKit-generated Swift-ish version.</sub></center>
-
-
-<p><br/></p>
-
-<h2>Using SourceKit from the command line</h2>
-
-<p><img src="/images/posts/sourcekit_playground.jpg" alt="SourceKit Playground" /></p>
-
-<p>There are 3 main command line tools that allow to interact with SourceKit: <code>sourcekitd-test</code>, <code>swift-ide-test</code> and <code>swift</code>.</p>
-
-<p>I compiled a shell script with documentation that runs through many useful commands like syntax highlighting, interface generation, AST parsing, demangling, and more.</p>
-
-<p>The script is available on GitHub as a <a href="https://gist.github.com/jpsim/13971c81445219db1c63#file-sourcekit_playground-sh">gist</a>.</p>
-
-<h2>3rd Party Tools Using SourceKit</h2>
-
-<p>Because SourceKit lives outside of Xcode, it’s possible to leverage it to build anything from a Swift IDE to a documentation generator.</p>
-
-<h3>jazzy<sup>♪♫</sup></h3>
-
-<p><img src="/images/posts/jazzy.jpg" alt="jazzy" /></p>
-
-<p><a href="https://github.com/realm/jazzy">jazzy</a> is a command-line utility that generates documentation for your Swift and Objective-C projects. It uses SourceKit to derive Swift syntax from Objective-C defined tokens (i.e. class, property, method, etc.).</p>
-
-<h3>SwiftEdit</h3>
-
-<p><a href="https://github.com/jpsim/SwiftEdit">SwiftEdit</a> is a proof-of-concept editor that supports syntax highlighting for Swift files.</p>
-
-<p><img src="/images/posts/SwiftEdit.png" alt="SwiftEdit" /></p>
-
-<h2>SourceKit &amp; You</h2>
-
-<p>We’re just scratching the surface of what’s possible to build with SourceKit. Tools could be made to measure cross-language code coverage, or provide an editor where Objective-C and Swift can be edited simultaneously. Hopefully this article inspires you to build something with SourceKit and improve our tools in the process.</p>
-
-<hr />
-
-<p><em>1: Objective-C in Xcode 6 (Beta 2) doesn't use SourceKit at all, keeping Xcode's traditional clang-in-process architecture. I expect this to change before Xcode 6 GM.</em></p>
-
-<p><em>2: For SourceKit logging, launch Xcode with <sub><code>export SOURCEKIT_LOGGING=3 &amp;&amp; /Applications/Xcode6-Beta2.app/Contents/MacOS/Xcode</code></sub></em></p>
-
-<p><em>3: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has <a href="https://github.com/ksm/SwiftInFlux#access-control">access control mechanisms</a>.</em></p>
 ]]></content>
   </entry>
   

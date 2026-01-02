@@ -3,8 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="To support a fancy new language, nifty realtime IDE features and impressive cross-language interoperability, Apple had to develop several new &hellip;">
+  <title>JP Simard - Mobile Engineer</title>
+  <meta name="description" content="Building a serverless photo gallery?
+Easy!
+Password-protecting that without adding servers?
+Surprisingly much more complex. Goals Host a self- &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/archives/page/5">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -21,7 +24,7 @@
 
 <body >
   <header class="main-header" role="banner">
-        <h1><a href="/">JP Simard</a> &mdash; Swift Developer</h1>
+        <h1><a href="/">JP Simard</a> &mdash; Mobile Engineer</h1>
     <nav role="navigation">
       <ul class="main-nav">
   <li><a href="/">Home</a></li>
@@ -56,144 +59,145 @@
   
 
 
-<time datetime="2014-07-06T16:07:00+00:00" pubdate data-updated="true">Jul 6<span>th</span>, 2014</time>
+<time datetime="2017-07-04T06:14:00+00:00" pubdate data-updated="true">Jul 4<span>th</span>, 2017</time>
         
 
-         | <a class="disqus-link" href="/uncovering-sourcekit/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/awspics/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/uncovering-sourcekit/">Uncovering SourceKit</a></h1>
+      <h1 class="entry-title"><a href="/awspics/">Building a serverless password-protected photo gallery</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>To support a <a href="http://developer.apple.com/swift">fancy new language</a>, nifty <a href="https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-source_editor/ExploringandEvaluatingSwiftCodeinaPlayground/ExploringandEvaluatingSwiftCodeinaPlayground.html">realtime IDE</a> features and impressive <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">cross-language interoperability</a>, Apple had to develop several new underlying tools. Here, we&#8217;ll focus on <em>SourceKit</em>, Xcode&#8217;s under-appreciated sidekick.</p>
+  <div class="entry-content"><p>Building a serverless photo gallery?
+<em>Easy!</em>
+Password-protecting that without adding servers?
+<em>Surprisingly much more complex.</em></p>
 
-<p><img src="/images/posts/sidekick.jpg" alt="sidekick" /></p>
+<p><img src="https://github.com/jpsim/AWSPics/raw/master/assets/awspics.gif" alt="" /></p>
 
-<center><sub>SourceKitSidekick temporarily wearing a cape</sub></center>
+<h2>Goals</h2>
 
+<blockquote><p>Host a self-contained, declarative infrastructure, password-protected,
+data-driven static photo gallery to share personal pictures with friends and
+family, without needing to run, maintain (or pay for) servers.</p></blockquote>
 
-<p><br/></p>
+<p>With <a href="https://twitter.com/simjp/status/873604866043543552">the recent addition</a>
+to our family, I wanted to set up a place where I could share pictures with
+our closest friends and family. Facebook wasn&#8217;t an option because&#8230;
+<a href="https://daringfireball.net/2017/06/fuck_facebook">yeah</a>,
+<a href="http://www.slate.com/articles/technology/data_mine_1/2013/09/facebook_privacy_and_kids_don_t_post_photos_of_your_kids_online.html">because</a>
+<a href="http://www.telegraph.co.uk/women/family/i-dont-put-pictures-of-my-children-on-facebook---and-you-shouldn/">many</a>
+<a href="http://www.huffingtonpost.com.au/2016/02/07/can-i-post-photos-of-other-peoples-children_n_9184560.html">reasons</a>
+<a href="https://medium.com/matter/beware-your-baby-s-face-is-online-and-on-sale-d33ae8cdaa9d">actually</a>.</p>
 
-<h2>What is SourceKit?</h2>
-
-<p>SourceKit is the set of tools that enables most of Swift&#8217;s source code manipulation features: source code parsing, syntax highlighting, typesetting, autocomplete, cross-language header generation, and lots more.</p>
+<p>Most of my family members are on Apple devices, while most of my friends are in
+the Google/Android ecosystem. So for day to day sharing of moments, we post a
+few pictures to iCloud photo sharing, and a few others to a WhatsApp group. But
+neither of these can really serve as the canonical place where we&#8217;re storing
+these photos long-term, because WhatsApp is pretty ephemeral, and the iCloud
+photo sharing experience <em>sucks</em> on non-Apple devices.</p>
 
 <h2>Architecture</h2>
 
-<p>Xcode traditionally runs its compiler (<a href="http://clang.llvm.org">Clang</a>) <em>in-process</em>, which means that any time the compiler would crash, so would the IDE.</p>
+<p>Unfortunately there&#8217;s no &#8220;put a password in front of AWS CloudFront&#8221; checkbox.
+I wish there were, so I wouldn&#8217;t have had to build this. But there isn&#8217;t, so it
+was time to roll up my sleeves and learn a bit about how modern web
+infrastructure is built. Or at least my idea of it.</p>
 
-<p><img src="/images/posts/house_of_cards.jpg" alt="house of cards" /></p>
+<p><img src="https://github.com/jpsim/AWSPics/raw/master/assets/architecture.png" alt="" /></p>
 
-<center><sub>Xcode architecture diagram</sub></center>
+<p>There are 7 main components:</p>
 
-
-<p><br/></p>
-
-<p>Exacerbating the problem, Xcode can easily invoke the compiler thousands of times to parse, highlight and typeset source code, all before a user ever hits <em>⌘+B</em>. That&#8217;s because unlike most editors (Vim/Sublime/etc), Xcode doesn&#8217;t use regular expressions to parse source code, but rather Clang&#8217;s powerful (though much more complex) parser/tokenizer.</p>
-
-<p>Thankfully, Swift in Xcode 6 moves away from this architecture<sup>1</sup>, combining all these source code manipulation features into a separate process that communicates with Xcode through <a href="https://developer.apple.com/library/mac/documentation/macosx/conceptual/bpsystemstartup/chapters/CreatingXPCServices.html">XPC</a>: <code>sourcekitd</code>. This XPC daemon is launched whenever Xcode 6 loads any Swift code.</p>
-
-<p><img src="/images/posts/sourcekit_terminated.jpg" alt="sourcekit terminated" /></p>
-
-<center><sub>Life would be miserable if Xcode crashed every time this appeared</sub></center>
-
-
-<p><br/></p>
-
-<h2>How Xcode uses SourceKit</h2>
-
-<p>Since SourceKit is a private and undocumented tool, we need to get a little creative to learn how to use it. By setting the <code>SOURCEKIT_LOGGING</code><sup>2</sup> environment variable, Xcode will log its SourceKit communications to <code>stdout</code>, allowing us to monitor its communications in realtime. This is how many of the commands covered in this article were discovered.</p>
-
-<h2>Unified Symbol Resolution</h2>
-
-<p>SourceKit uses a Clang feature called the USR (Unified Symbol Resolution) as a unique identifier for a source code token (i.e. class, property, method, etc.). This is what allows you to <em>⌘+click</em> any token in Xcode and navigate to its definition. The USR is even more powerful now that it can unify a representation across languages (Swift/ObjC).</p>
-
-<p><img src="/images/posts/usr.jpg" alt="usr" /></p>
-
-<center><sub>The USR at work</sub></center>
+<ol>
+<li><strong>CloudFront with restricted bucket access</strong> to prevent unauthenticated
+access to the site or its pictures.</li>
+<li><strong>Login lambda function</strong> to validate authentication and sign cookies to
+allow access to restricted buckets.</li>
+<li><strong>Source S3 bucket</strong> to store original pictures and metadata driving the
+site.</li>
+<li><strong>Resized S3 bucket</strong> to store resized versions of the original pictures.</li>
+<li><strong>Web S3 bucket</strong> to store the static website generated from the data in the
+source bucket.</li>
+<li><strong>Resize lambda function</strong> to automatically resize images added to the source
+S3 bucket and store them in the resized S3 bucket.</li>
+<li><strong>Site builder lambda function</strong> to automatically rebuild the static website
+when changes are made to the source S3 bucket.</li>
+</ol>
 
 
-<p><br/></p>
+<h2>Can it be simplified?</h2>
 
-<p>To print the USR&#8217;s from a Swift file (and their locations), you can run the following command:</p>
+<p>Of course. There are a few ways I can think of to simplify this, but the
+tradeoffs aren&#8217;t worthwhile IMO.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xcrun swift-ide-test -print-usrs -source-filename=Musician.swift
-</span><span class='line'>10:7 s:C14swift_ide_test8Musician
-</span><span class='line'>14:9 s:vC14swift_ide_test8Musician4nameSS
-</span><span class='line'>19:9 s:vC14swift_ide_test8Musician9birthyearSu
-</span><span class='line'>33:5 s:FC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_
-</span><span class='line'>33:10 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
-</span><span class='line'>33:24 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu
-</span><span class='line'>34:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
-</span><span class='line'>34:21 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4nameSS
-</span><span class='line'>35:9 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_4selfS0_
-</span><span class='line'>35:26 s:vFC14swift_ide_test8MusiciancFMS0_FT4nameSS9birthyearSu_S0_L_9birthyearSu</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li><strong>Resize images on demand.</strong> Rather than resize all the images when they&#8217;re
+first added to the source bucket, the resize lambda could be exposed via a
+CloudFront origin. However, since the static site only really uses two
+image sizes, and that lambda functions have a significant
+<a href="https://serverless.com/blog/keep-your-lambdas-warm/">cold start penalty</a>,
+it&#8217;s much more efficient to just precompute the resized images.</li>
+<li><strong>Consolidate buckets.</strong>  Rather than separate source, resized &amp; web buckets,
+they could just be in a single bucket. However, this would just shift the
+complexity a bit since the stack would then need to filter new object
+notifications to know which function to invoke. Plus, right now to back up
+the valuable content, I just need to periodically mirror the source bucket,
+rather than all the derivative data in the resized and web buckets.</li>
+</ol>
 
 
-<h2>Swift<em>ish</em> header generation</h2>
+<h2>Problems?</h2>
 
-<p><em>⌘+clicking</em> on a token defined in Objective-C from Swift will cause Xcode to trigger a Swift-like header to be generated. I say Swift-like because this generated file is not valid Swift<sup>3</sup>, but at least displays the Swift syntax equivalent to the Objective-C tokens.</p>
+<p>I have a few annoyances with this setup as-is.</p>
 
-<p><a href="/images/posts/generated_swift_header.jpg"><img src="/images/posts/generated_swift_header.jpg" alt="Generated Swift Header" /></a></p>
+<p>One is that only the resized bucket triggers the site builder function. That
+means that any other object modified in the source bucket, such as the
+<code>metadata.yml</code> files that include album comments, don&#8217;t trigger a site build.</p>
 
-<center><sub>Left: original Objective-C header. Right: SourceKit-generated Swift-ish version.</sub></center>
+<p>Another related problem is that for every new image in the source bucket, two
+are created in the resized bucket, each one invoking the site builder function.
+Not only that, but if I upload an album with lots of pictures all in one shot,
+the site will be rebuilt twice for each picture! 🙀</p>
+
+<p>Unfortunately, S3 buckets can only have a
+<a href="https://stackoverflow.com/q/31471178/373262">single notification per event type</a>,
+so we can&#8217;t trigger both the resize and site builder functions when new objects
+are created on the source bucket.</p>
+
+<p>I think the solution here would involve
+<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">publishing S3 events to SNS or SQS</a>
+and &#8220;debouncing&#8221; the site builder lambda, but again&#8230; <strong>#complexity</strong>.</p>
+
+<p><img src="https://media.giphy.com/media/mYqaRkXyoGbcY/giphy.gif" alt="" /></p>
+
+<p>I&#8217;ll probably do this eventually, but I&#8217;m in no hurry.</p>
+
+<h2>Code</h2>
+
+<p>I&#8217;ve open sourced the entire AWS stack on GitHub over at
+<a href="https://github.com/jpsim/AWSPics">jpsim/AWSPics</a>. I&#8217;m also hosting a demo
+site over at <a href="https://awspics.net">awspics.net</a> (use &#8220;username&#8221;/&#8221;password&#8221; as
+credentials to check it out).</p>
+
+<p>There&#8217;s a (long) video walkthrough <a href="https://youtu.be/010AGcY4uoE">on YouTube</a>
+too, if that&#8217;s useful to follow along.</p>
+
+<h2>Closing Thoughts</h2>
+
+<p>Overall, I really enjoyed stepping outside my comfort zone of native
+Swift/ObjC/C++ programming, learning a TON about several AWS services and
+ultimately meeting my goal of setting up a private photo gallery.</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If you think incremental Xcode builds take a while, try deploying changes to an AWS CloudFormation stack 😅 <a href="https://t.co/yTPsqarT92">pic.twitter.com/yTPsqarT92</a></p>&mdash; JP Simard (@simjp) <a href="https://twitter.com/simjp/status/881640404851884033">July 2, 2017</a></blockquote>
 
 
-<p><br/></p>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<h2>Using SourceKit from the command line</h2>
-
-<p><img src="/images/posts/sourcekit_playground.jpg" alt="SourceKit Playground" /></p>
-
-<p>There are 3 main command line tools that allow to interact with SourceKit: <code>sourcekitd-test</code>, <code>swift-ide-test</code> and <code>swift</code>.</p>
-
-<p>I compiled a shell script with documentation that runs through many useful commands like syntax highlighting, interface generation, AST parsing, demangling, and more.</p>
-
-<p>The script is available on GitHub as a <a href="https://gist.github.com/jpsim/13971c81445219db1c63#file-sourcekit_playground-sh">gist</a>.</p>
-
-<h2>3rd Party Tools Using SourceKit</h2>
-
-<p>Because SourceKit lives outside of Xcode, it’s possible to leverage it to build anything from a Swift IDE to a documentation generator.</p>
-
-<h3>jazzy<sup>♪♫</sup></h3>
-
-<p><img src="/images/posts/jazzy.jpg" alt="jazzy" /></p>
-
-<p><a href="https://github.com/realm/jazzy">jazzy</a> is a command-line utility that generates documentation for your Swift and Objective-C projects. It uses SourceKit to derive Swift syntax from Objective-C defined tokens (i.e. class, property, method, etc.).</p>
-
-<h3>SwiftEdit</h3>
-
-<p><a href="https://github.com/jpsim/SwiftEdit">SwiftEdit</a> is a proof-of-concept editor that supports syntax highlighting for Swift files.</p>
-
-<p><img src="/images/posts/SwiftEdit.png" alt="SwiftEdit" /></p>
-
-<h2>SourceKit &amp; You</h2>
-
-<p>We’re just scratching the surface of what’s possible to build with SourceKit. Tools could be made to measure cross-language code coverage, or provide an editor where Objective-C and Swift can be edited simultaneously. Hopefully this article inspires you to build something with SourceKit and improve our tools in the process.</p>
-
-<hr />
-
-<p><em>1: Objective-C in Xcode 6 (Beta 2) doesn&#8217;t use SourceKit at all, keeping Xcode&#8217;s traditional clang-in-process architecture. I expect this to change before Xcode 6 GM.</em></p>
-
-<p><em>2: For SourceKit logging, launch Xcode with <sub><code>export SOURCEKIT_LOGGING=3 &amp;&amp; /Applications/Xcode6-Beta2.app/Contents/MacOS/Xcode</code></sub></em></p>
-
-<p><em>3: Speculation: I expect private Swift modules to expose public interfaces using a similar syntax once the language has <a href="https://github.com/ksm/SwiftInFlux#access-control">access control mechanisms</a>.</em></p>
 </div>
   
   
@@ -214,7 +218,7 @@
 <aside class="sidebar">
   
     <section>
-  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a Swift developer. <a href="/about">More about me &raquo;</a>
+  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a mobile engineer. <a href="/about">More about me &raquo;</a>
 </section>
 
   
@@ -223,7 +227,7 @@
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2023 JP Simard
+  &copy; 2026 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 

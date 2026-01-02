@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Evaluating SwiftSyntax for use in SwiftLint - JP Simard - Swift Developer</title>
+  <title>Evaluating SwiftSyntax for use in SwiftLint - JP Simard - Mobile Engineer</title>
   <meta name="description" content="tl;dr; Implementing SwiftLint using SwiftSyntax instead of SourceKitten would make it run over 20x slower 😭 Update: Since writing this post, I learnt &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com/evaluating-swiftsyntax-for-use-in-swiftlint">
@@ -21,7 +21,7 @@
 
 <body >
   <header class="main-header" role="banner">
-        <h1><a href="/">JP Simard</a> &mdash; Swift Developer</h1>
+        <h1><a href="/">JP Simard</a> &mdash; Mobile Engineer</h1>
     <nav role="navigation">
       <ul class="main-nav">
   <li><a href="/">Home</a></li>
@@ -89,9 +89,9 @@ I hope to post a follow-up article on this shortly.</p>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='yaml'><span class='line'><span></span><span class="c1"># .swiftlint.yml configuration file</span>
 </span><span class='line'><span class="nt">included</span><span class="p">:</span>
-</span><span class='line'>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path/to/lint/dir</span> <span class="c1"># contains ~100 Swift files</span>
+</span><span class='line'><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/lint/dir</span><span class="w"> </span><span class="c1"># contains ~100 Swift files</span>
 </span><span class='line'><span class="nt">whitelist_rules</span><span class="p">:</span>
-</span><span class='line'>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">fallthrough</span>
+</span><span class='line'><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fallthrough</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -109,18 +109,18 @@ I hope to post a follow-up article on this shortly.</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$ hyperfine <span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span> <span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
-</span><span class='line'>Benchmark <span class="c1">#1: ./swiftlint-master lint --quiet --no-cache</span>
-</span><span class='line'>  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:     <span class="m">231</span>.3 ms ±   <span class="m">5</span>.1 ms    <span class="o">[</span>User: <span class="m">130</span>.5 ms, System: <span class="m">29</span>.2 ms<span class="o">]</span>
-</span><span class='line'>  Range <span class="o">(</span>min … max<span class="o">)</span>:   <span class="m">224</span>.3 ms … <span class="m">238</span>.3 ms
-</span><span class='line'>
-</span><span class='line'>Benchmark <span class="c1">#2: ./swiftlint-swift-syntax lint --quiet --no-cache</span>
-</span><span class='line'>  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      <span class="m">5</span>.254 s ±  <span class="m">0</span>.149 s    <span class="o">[</span>User: <span class="m">20</span>.309 s, System: <span class="m">23</span>.110 s<span class="o">]</span>
-</span><span class='line'>  Range <span class="o">(</span>min … max<span class="o">)</span>:    <span class="m">4</span>.839 s …  <span class="m">5</span>.354 s
-</span><span class='line'>
+</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$<span class="w"> </span>hyperfine<span class="w"> </span><span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span><span class="w"> </span><span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
+</span><span class='line'>Benchmark<span class="w"> </span><span class="c1">#1: ./swiftlint-master lint --quiet --no-cache</span>
+</span><span class='line'><span class="w">  </span>Time<span class="w"> </span><span class="o">(</span>mean<span class="w"> </span>±<span class="w"> </span>σ<span class="o">)</span>:<span class="w">     </span><span class="m">231</span>.3<span class="w"> </span>ms<span class="w"> </span>±<span class="w">   </span><span class="m">5</span>.1<span class="w"> </span>ms<span class="w">    </span><span class="o">[</span>User:<span class="w"> </span><span class="m">130</span>.5<span class="w"> </span>ms,<span class="w"> </span>System:<span class="w"> </span><span class="m">29</span>.2<span class="w"> </span>ms<span class="o">]</span>
+</span><span class='line'><span class="w">  </span>Range<span class="w"> </span><span class="o">(</span>min<span class="w"> </span>…<span class="w"> </span>max<span class="o">)</span>:<span class="w">   </span><span class="m">224</span>.3<span class="w"> </span>ms<span class="w"> </span>…<span class="w"> </span><span class="m">238</span>.3<span class="w"> </span>ms
+</span><span class='line'><span class="w"> </span>
+</span><span class='line'>Benchmark<span class="w"> </span><span class="c1">#2: ./swiftlint-swift-syntax lint --quiet --no-cache</span>
+</span><span class='line'><span class="w">  </span>Time<span class="w"> </span><span class="o">(</span>mean<span class="w"> </span>±<span class="w"> </span>σ<span class="o">)</span>:<span class="w">      </span><span class="m">5</span>.254<span class="w"> </span>s<span class="w"> </span>±<span class="w">  </span><span class="m">0</span>.149<span class="w"> </span>s<span class="w">    </span><span class="o">[</span>User:<span class="w"> </span><span class="m">20</span>.309<span class="w"> </span>s,<span class="w"> </span>System:<span class="w"> </span><span class="m">23</span>.110<span class="w"> </span>s<span class="o">]</span>
+</span><span class='line'><span class="w">  </span>Range<span class="w"> </span><span class="o">(</span>min<span class="w"> </span>…<span class="w"> </span>max<span class="o">)</span>:<span class="w">    </span><span class="m">4</span>.839<span class="w"> </span>s<span class="w"> </span>…<span class="w">  </span><span class="m">5</span>.354<span class="w"> </span>s
+</span><span class='line'><span class="w"> </span>
 </span><span class='line'>Summary
-</span><span class='line'>  <span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span> ran
-</span><span class='line'>   <span class="m">22</span>.71 ± <span class="m">0</span>.82 <span class="nb">times</span> faster than <span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
+</span><span class='line'><span class="w">  </span><span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span><span class="w"> </span>ran
+</span><span class='line'><span class="w">   </span><span class="m">22</span>.71<span class="w"> </span>±<span class="w"> </span><span class="m">0</span>.82<span class="w"> </span><span class="nb">times</span><span class="w"> </span>faster<span class="w"> </span>than<span class="w"> </span><span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -197,7 +197,7 @@ I hope to post a follow-up article on this shortly.</p>
 <aside class="sidebar">
   
     <section>
-  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a Swift developer. <a href="/about">More about me &raquo;</a>
+  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a mobile engineer. <a href="/about">More about me &raquo;</a>
 </section>
 
   
@@ -207,7 +207,7 @@ I hope to post a follow-up article on this shortly.</p>
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2023 JP Simard
+  &copy; 2026 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 

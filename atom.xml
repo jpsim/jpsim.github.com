@@ -4,7 +4,7 @@
   <title><![CDATA[JP Simard]]></title>
   <link href="https://jpsim.com/atom.xml" rel="self"/>
   <link href="https://jpsim.com/"/>
-  <updated>2023-04-20T13:47:41+00:00</updated>
+  <updated>2026-01-02T19:54:14+00:00</updated>
   <id>https://jpsim.com/</id>
   <author>
     <name><![CDATA[JP Simard]]></name>
@@ -12,6 +12,203 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mobile Development in the Age of AI]]></title>
+    <link href="https://jpsim.com/mobile-development-in-the-age-of-ai/"/>
+    <updated>2026-01-02T15:00:00+00:00</updated>
+    <id>https://jpsim.com/mobile-development-in-the-age-of-ai</id>
+    <content type="html"><![CDATA[<p>After working in mobile engineering for about a decade and a half, across
+multiple eras of iOS and Android tooling, languages, and architectural
+approaches, I&#8217;ve never been more excited about the landscape than I am right
+now.</p>
+
+<p>When I started making apps in 2011, it was thrilling to go from an idea to
+something you could physically touch and hold in your hand within hours. Today,
+that same feeling exists—but the iteration cycles are now an order of magnitude
+faster.</p>
+
+<p>The fundamentals haven’t changed. What <em>has</em> changed is the speed at which
+intent turns into working software.</p>
+
+<h2>Translation Is (Basically) a Solved Problem</h2>
+
+<p>A lot of where AI applications go wrong today comes from anthropomorphizing
+models and ascribing to them a kind of human-style intelligence. As
+<a href="https://www.youtube.com/watch?v=lXUZvyajciY">Andrej Karpathy</a> puts it: <em>“We’re summoning ghosts, not
+building animals.”</em></p>
+
+<p>But one category of tasks these LLM “ghosts” excel at is translation.</p>
+
+<p>That’s obvious when translating natural language like English to French, but
+it’s equally true for:</p>
+
+<ul>
+<li>TypeScript to Swift</li>
+<li>Jetpack Compose to SwiftUI</li>
+<li>Web APIs to platform SDKs</li>
+<li>Architectural patterns across platforms</li>
+</ul>
+
+
+<p>See <a href="https://simonwillison.net/2025/Dec/15/porting-justhtml/">this example</a>
+where Simon Willison ported JustHTML from Python to JavaScript with Codex CLI
+and GPT-5.2 in 4.5 hours.</p>
+
+<p>If you operate in an environment where your web app, iOS app, and Android app
+are separate codebases with baseline functional parity, AI fundamentally changes
+the economics of one codebase for each platform.</p>
+
+<p>Instead of rewriting features, you’re translating intent.</p>
+
+<p>A web PR becomes a reference implementation. Existing mobile code becomes
+executable context. Asking an agent to “take a first pass at implementing this
+natively” is now a normal—and productive—workflow, especially for apps with
+large CRUD-style surface areas and well-defined business logic.</p>
+
+<h2>Context Beats Code</h2>
+
+<p><a href="https://simonwillison.net/2025/jun/27/context-engineering/">Simon Willison</a> has written about <em>context engineering</em>:
+“the art of providing all the context for the task to be plausibly solvable by
+the LLM.” The limiting factor in AI-assisted development isn’t the model itself,
+but how clearly the problem is framed.</p>
+
+<p>That aligns closely with what actually matters in software engineering:</p>
+
+<ul>
+<li>Understanding the domain</li>
+<li>Choosing the right abstractions</li>
+<li>Designing the architecture</li>
+<li>Encoding business rules correctly</li>
+<li>Setting up the right conditions for QA and validating core behavior and edge cases</li>
+</ul>
+
+
+<p>These are platform-agnostic, one-time costs. Once you’ve paid them, the knowledge
+transfers cleanly across platforms.</p>
+
+<p>This is also where the distinction between <strong>process-driven</strong> and
+<strong>outcome-driven</strong> engineers becomes important. As
+<a href="https://simonwillison.net/2026/Jan/2/ben-werdmuller/">Ben Werdmuller</a> put it, we’re
+likely to see a real split between people who are outcome-driven and excited to
+test their work with users faster, and people who are process-driven and derive
+meaning primarily from the engineering itself.</p>
+
+<p>LLMs disproportionately benefit outcome-driven engineers—those who know what
+“good” looks like and can steer toward it. The tools reward clarity of intent,
+not ceremony.</p>
+
+<h2>What Mobile Development Actually Looks Like Now</h2>
+
+<p>In practice, most of the code I’ve written over the past twelve months hasn’t
+been typed directly into Xcode or Android Studio.</p>
+
+<p>A common setup today looks like this:</p>
+
+<ul>
+<li>A coding agent (e.g. Claude Code, Cursor, etc.) on one side of the screen</li>
+<li>Xcode or Android Studio on the other</li>
+<li>The bulk of code editing happening in the agent</li>
+<li>The IDE acting as a platform-native harness: breakpoints, debugger, previews,
+and deeper integrations with simulators and emulators</li>
+</ul>
+
+
+<p>With a modest amount of investment, the need for an IDE as a primary input tool
+almost disappears. The more you can hoist your compiler and language server out
+of the IDE and into terminal-ready commands, the more you can augment the
+capabilities of your coding agent.</p>
+
+<h2>Native Platforms Pair Well With AI, Despite Training Gaps</h2>
+
+<p>A fair concern is that frontier models still have less deep knowledge of
+iOS- and Android-specific APIs than they do of web or Python ecosystems.</p>
+
+<p><a href="https://www.cocoawithlove.com/blog/llms-twelve-months-later.html">Matt Gallagher</a> recently wrote about the state of Swift and iOS
+knowledge in frontier models at the end of 2025. He notes that <em>“most LLMs are
+trained on data that is 2+ years old, and their Swift style often feels older
+still.”</em></p>
+
+<p>The conclusion isn’t that models are perfect, but that modern native platforms
+provide strong constraints:</p>
+
+<ul>
+<li>Strong static typing</li>
+<li>Clear compiler diagnostics</li>
+<li>Declarative UI frameworks</li>
+<li>Deterministic tooling</li>
+</ul>
+
+
+<p>These constraints matter more than raw training data volume. What matters day to
+day isn’t whether an LLM can one-shot a perfect solution, but whether it can
+iterate quickly with tight feedback. Strong typing in Swift, Kotlin, and
+TypeScript helps enormously here.</p>
+
+<p>I don’t know about you, but I don’t typically write perfect code on the first try
+either.</p>
+
+<h2>A Brief Note on React Native</h2>
+
+<p>It’s absolutely possible to build excellent mobile apps using React Native or
+fully native stacks.</p>
+
+<p>What’s often underestimated is the organizational overhead and depth of
+expertise required to do React Native well at scale. Teams that succeed tend to
+invest heavily in platform infrastructure, tooling, and internal knowledge.
+Shopify is a well-known example of what “doing it right” looks like.</p>
+
+<p>AI shifts this tradeoff. When translation becomes cheap, the value of
+lowest-common-denominator abstractions drops. Platform-idiomatic code no longer
+implies slower delivery.</p>
+
+<p>Side note: this is a large part of why Ramp’s mobile engineering team is much
+leaner than people expect given the breadth of the apps&#8217; capabilities.</p>
+
+<h2>The Centaur Model, Applied</h2>
+
+<p>This way of working maps closely to what Cory Doctorow calls the
+<a href="https://pluralistic.net/2025/12/05/pop-that-bubble/#u-washington"><em>Centaur model</em></a>. In automation theory, “a centaur” is a person
+assisted by a machine.</p>
+
+<p>Humans and machines work together, each focused on what they do best:</p>
+
+<ul>
+<li>Humans handle judgment, architecture, domain understanding, and taste</li>
+<li>Machines handle repetition, translation, and acceleration</li>
+</ul>
+
+
+<p>AI doesn’t remove the need for software engineers. It removes the least
+interesting parts of the job and sharpens the most important ones.</p>
+
+<h2>Why This Reinforces Native Teams</h2>
+
+<p>With AI-assisted translation:</p>
+
+<ul>
+<li>Separate codebases no longer incur the same maintenance costs as they once did</li>
+<li>Platform fidelity no longer trades off against velocity</li>
+<li>Engineers can build where they’re strongest and port confidently</li>
+</ul>
+
+
+<p>This is exactly how we’re working today—and why Ramp is hiring <a href="https://jobs.ashbyhq.com/ramp/4859cd5e-f2a9-44d7-81f7-8bfc0e62369f">iOS engineers</a>
+and <a href="https://jobs.ashbyhq.com/ramp/f564dcf9-9390-4a3f-896f-8047a5086040">Android engineers</a>.</p>
+
+<p>If you care about building platform-idiomatic mobile apps, moving quickly
+without sacrificing quality, and spending more time on judgment than
+boilerplate, this is a particularly good moment to be doing native mobile
+engineering.</p>
+
+<h2>Closing</h2>
+
+<p>The tools changed.<br/>
+The job didn’t.</p>
+
+<p>If anything, it got more interesting.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building an NFC Music Box]]></title>
@@ -151,10 +348,10 @@ control the Echo Dot. When it&#8217;s up and running, it couldn&#8217;t be easie
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$ alexa_remote_control.sh -e <span class="s2">&quot;playmusic:APPLE_MUSIC:The Lion King&quot;</span>
-</span><span class='line'>$ alexa_remote_control.sh -e pause
-</span><span class='line'>$ alexa_remote_control.sh -e play
-</span><span class='line'>$ alexa_remote_control.sh -e vol:15
+</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$<span class="w"> </span>alexa_remote_control.sh<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;playmusic:APPLE_MUSIC:The Lion King&quot;</span>
+</span><span class='line'>$<span class="w"> </span>alexa_remote_control.sh<span class="w"> </span>-e<span class="w"> </span>pause
+</span><span class='line'>$<span class="w"> </span>alexa_remote_control.sh<span class="w"> </span>-e<span class="w"> </span>play
+</span><span class='line'>$<span class="w"> </span>alexa_remote_control.sh<span class="w"> </span>-e<span class="w"> </span>vol:15
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -491,9 +688,9 @@ I hope to post a follow-up article on this shortly.</p>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='yaml'><span class='line'><span></span><span class="c1"># .swiftlint.yml configuration file</span>
 </span><span class='line'><span class="nt">included</span><span class="p">:</span>
-</span><span class='line'>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path/to/lint/dir</span> <span class="c1"># contains ~100 Swift files</span>
+</span><span class='line'><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/lint/dir</span><span class="w"> </span><span class="c1"># contains ~100 Swift files</span>
 </span><span class='line'><span class="nt">whitelist_rules</span><span class="p">:</span>
-</span><span class='line'>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">fallthrough</span>
+</span><span class='line'><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fallthrough</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -511,18 +708,18 @@ I hope to post a follow-up article on this shortly.</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$ hyperfine <span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span> <span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
-</span><span class='line'>Benchmark <span class="c1">#1: ./swiftlint-master lint --quiet --no-cache</span>
-</span><span class='line'>  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:     <span class="m">231</span>.3 ms ±   <span class="m">5</span>.1 ms    <span class="o">[</span>User: <span class="m">130</span>.5 ms, System: <span class="m">29</span>.2 ms<span class="o">]</span>
-</span><span class='line'>  Range <span class="o">(</span>min … max<span class="o">)</span>:   <span class="m">224</span>.3 ms … <span class="m">238</span>.3 ms
-</span><span class='line'>
-</span><span class='line'>Benchmark <span class="c1">#2: ./swiftlint-swift-syntax lint --quiet --no-cache</span>
-</span><span class='line'>  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      <span class="m">5</span>.254 s ±  <span class="m">0</span>.149 s    <span class="o">[</span>User: <span class="m">20</span>.309 s, System: <span class="m">23</span>.110 s<span class="o">]</span>
-</span><span class='line'>  Range <span class="o">(</span>min … max<span class="o">)</span>:    <span class="m">4</span>.839 s …  <span class="m">5</span>.354 s
-</span><span class='line'>
+</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$<span class="w"> </span>hyperfine<span class="w"> </span><span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span><span class="w"> </span><span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
+</span><span class='line'>Benchmark<span class="w"> </span><span class="c1">#1: ./swiftlint-master lint --quiet --no-cache</span>
+</span><span class='line'><span class="w">  </span>Time<span class="w"> </span><span class="o">(</span>mean<span class="w"> </span>±<span class="w"> </span>σ<span class="o">)</span>:<span class="w">     </span><span class="m">231</span>.3<span class="w"> </span>ms<span class="w"> </span>±<span class="w">   </span><span class="m">5</span>.1<span class="w"> </span>ms<span class="w">    </span><span class="o">[</span>User:<span class="w"> </span><span class="m">130</span>.5<span class="w"> </span>ms,<span class="w"> </span>System:<span class="w"> </span><span class="m">29</span>.2<span class="w"> </span>ms<span class="o">]</span>
+</span><span class='line'><span class="w">  </span>Range<span class="w"> </span><span class="o">(</span>min<span class="w"> </span>…<span class="w"> </span>max<span class="o">)</span>:<span class="w">   </span><span class="m">224</span>.3<span class="w"> </span>ms<span class="w"> </span>…<span class="w"> </span><span class="m">238</span>.3<span class="w"> </span>ms
+</span><span class='line'><span class="w"> </span>
+</span><span class='line'>Benchmark<span class="w"> </span><span class="c1">#2: ./swiftlint-swift-syntax lint --quiet --no-cache</span>
+</span><span class='line'><span class="w">  </span>Time<span class="w"> </span><span class="o">(</span>mean<span class="w"> </span>±<span class="w"> </span>σ<span class="o">)</span>:<span class="w">      </span><span class="m">5</span>.254<span class="w"> </span>s<span class="w"> </span>±<span class="w">  </span><span class="m">0</span>.149<span class="w"> </span>s<span class="w">    </span><span class="o">[</span>User:<span class="w"> </span><span class="m">20</span>.309<span class="w"> </span>s,<span class="w"> </span>System:<span class="w"> </span><span class="m">23</span>.110<span class="w"> </span>s<span class="o">]</span>
+</span><span class='line'><span class="w">  </span>Range<span class="w"> </span><span class="o">(</span>min<span class="w"> </span>…<span class="w"> </span>max<span class="o">)</span>:<span class="w">    </span><span class="m">4</span>.839<span class="w"> </span>s<span class="w"> </span>…<span class="w">  </span><span class="m">5</span>.354<span class="w"> </span>s
+</span><span class='line'><span class="w"> </span>
 </span><span class='line'>Summary
-</span><span class='line'>  <span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span> ran
-</span><span class='line'>   <span class="m">22</span>.71 ± <span class="m">0</span>.82 <span class="nb">times</span> faster than <span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
+</span><span class='line'><span class="w">  </span><span class="s1">&#39;./swiftlint-master lint --quiet --no-cache&#39;</span><span class="w"> </span>ran
+</span><span class='line'><span class="w">   </span><span class="m">22</span>.71<span class="w"> </span>±<span class="w"> </span><span class="m">0</span>.82<span class="w"> </span><span class="nb">times</span><span class="w"> </span>faster<span class="w"> </span>than<span class="w"> </span><span class="s1">&#39;./swiftlint-swift-syntax lint --quiet --no-cache&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1023,7 +1220,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>Here&#8217;s how you&#8217;d reference it directly in a <code>Podfile</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:podspec</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span><span class="w"> </span><span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span><span class="w"> </span><span class="ss">:podspec</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;https://github.com/jpsim/JPSDisplayLink/raw/master/JPSDisplayLink.podspec&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1032,7 +1229,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>Though I find it unlikely, it might make sense to keep your private pods in the same repo as your project. In which case, you&#8217;d commit all its code in a special folder (i.e. <code>local_pods/POD_NAME</code>) and you&#8217;d specify the podspec path in your <code>Podfile</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;local_pods/PrivatePod&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span><span class="w"> </span><span class="s1">&#39;PrivatePod&#39;</span><span class="p">,</span><span class="w"> </span><span class="ss">:path</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;local_pods/PrivatePod&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1107,7 +1304,7 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <p>Certain projects are notorious for taking a long time to merge PR&#8217;s (<a href="https://github.com/kif-framework/KIF">cough</a>). In those cases or cases when your PR&#8217;s aren&#8217;t accepted, it can be useful to just point your <code>Podfile</code> to your fork of the project. Add this to your <code>Podfile</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span> <span class="s1">&#39;KIF&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">&#39;https://github.com/ksuther/KIF&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span></span><span class="n">pod</span><span class="w"> </span><span class="s1">&#39;KIF&#39;</span><span class="p">,</span><span class="w"> </span><span class="ss">:git</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;https://github.com/ksuther/KIF&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1411,32 +1608,6 @@ ultimately meeting my goal of setting up a private photo gallery.</p>
 <h3>How?</h3>
 
 <p>I&#8217;m buying a bike and doing it!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Remote <span>founder</span>]]></title>
-    <link href="https://jpsim.com/remote-founder/"/>
-    <updated>2012-12-24T13:31:00+00:00</updated>
-    <id>https://jpsim.com/remote-founder</id>
-    <content type="html"><![CDATA[<p><em>Every minute</em> a founder is away from their team is costly.</p>
-
-<p>Opportunities to do some business development, or to help out a client for a short while may seem tempting, but if it means being unavailable to your team, you <strong>must</strong> keep this period as short as possible. <em>This effect is compounded the smaller your team is.</em></p>
-
-<p>In August, one of our <em><a href="http://openera.com">awesome</a></em> clients invited us to work alongside them in Montréal for 2 months during their stint at the <a href="http://founderfuel.com">Founder Fuel</a> accelerator.</p>
-
-<p>There were many advantages for us to join them there:</p>
-
-<ul>
-<li>Proximity to our growing Montréal client base</li>
-<li>Business development opportunities in a new city (more than 50% of our leads come from there)</li>
-<li>Chance to meet and interview MTL-based devs</li>
-</ul>
-
-
-<p>But overall, being away from my team 3 days a week for 2 months had a noticeable impact on performance and most of all, our <em>culture</em>.</p>
-
-<p>So choose your battles carefully and fight alongside your team.</p>
 ]]></content>
   </entry>
   

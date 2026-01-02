@@ -3,10 +3,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>JP Simard - Swift Developer</title>
-  <meta name="description" content="My son and I built an NFC-based music player so he can play the music he
-wants, develop his own musical taste but most of all so that he and I
-could &hellip;">
+  <title>JP Simard - Mobile Engineer</title>
+  <meta name="description" content="After working in mobile engineering for about a decade and a half, across
+multiple eras of iOS and Android tooling, languages, and architectural &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://jpsim.com">
   <link href="/favicon.ico" rel="shortcut icon"> 
@@ -23,7 +22,7 @@ could &hellip;">
 
 <body >
   <header class="main-header" role="banner">
-        <h1><a href="/">JP Simard</a> &mdash; Swift Developer</h1>
+        <h1><a href="/">JP Simard</a> &mdash; Mobile Engineer</h1>
     <nav role="navigation">
       <ul class="main-nav">
   <li><a href="/">Home</a></li>
@@ -58,463 +57,209 @@ could &hellip;">
   
 
 
-<time datetime="2023-03-31T11:00:00+00:00" pubdate data-updated="true">Mar 31<span>st</span>, 2023</time>
+<time datetime="2026-01-02T15:00:00+00:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2026</time>
         
 
-         | <a class="disqus-link" href="/building-an-nfc-music-box/#disqus_thread">Comments</a>
+         | <a class="disqus-link" href="/mobile-development-in-the-age-of-ai/#disqus_thread">Comments</a>
         
         | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
       </p>
     
     
-      <h1 class="entry-title"><a href="/building-an-nfc-music-box/">Building an NFC Music Box</a></h1>
+      <h1 class="entry-title"><a href="/mobile-development-in-the-age-of-ai/">Mobile Development in the Age of AI</a></h1>
     
   </header>
 
 
-  <div class="entry-content"><p>My son and I built an NFC-based music player so he can play the music he
-wants, develop his own musical taste but most of all so that he and I
-could have something fun to build together.</p>
+  <div class="entry-content"><p>After working in mobile engineering for about a decade and a half, across
+multiple eras of iOS and Android tooling, languages, and architectural
+approaches, I&#8217;ve never been more excited about the landscape than I am right
+now.</p>
 
-<p>Kind of like a modern day record player, but infinitely more extensible,
-and with each album costing 1/100th the price of a vinyl record.</p>
+<p>When I started making apps in 2011, it was thrilling to go from an idea to
+something you could physically touch and hold in your hand within hours. Today,
+that same feeling exists—but the iteration cycles are now an order of magnitude
+faster.</p>
 
-<p>Here it is in action (<em>music starts 9 seconds into the video, set your
-volume to low</em>):</p>
+<p>The fundamentals haven’t changed. What <em>has</em> changed is the speed at which
+intent turns into working software.</p>
 
-<iframe title="vimeo-player" src="https://player.vimeo.com/video/813573763?h=6b3ebec0bc" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+<h2>Translation Is (Basically) a Solved Problem</h2>
 
+<p>A lot of where AI applications go wrong today comes from anthropomorphizing
+models and ascribing to them a kind of human-style intelligence. As
+<a href="https://www.youtube.com/watch?v=lXUZvyajciY">Andrej Karpathy</a> puts it: <em>“We’re summoning ghosts, not
+building animals.”</em></p>
 
-<p><br /></p>
+<p>But one category of tasks these LLM “ghosts” excel at is translation.</p>
 
-<p>And here&#8217;s how we built it:</p>
-
-<h2>Materials</h2>
-
-<table>
-<thead>
-<tr>
-<th><br /></th>
-<th><br /></th>
-<th><br /></th>
-<th><br /></th>
-<th><br /></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/images/posts/musicbox/echo.jpg" alt="" /></td>
-<td><img src="/images/posts/musicbox/case.jpg" alt="" /></td>
-<td><img src="/images/posts/musicbox/pi.jpg" alt="" /></td>
-<td><img src="/images/posts/musicbox/nfc_module.jpg" alt="" /></td>
-<td><img src="/images/posts/musicbox/nfc_cards.jpg" alt="" /></td>
-</tr>
-</tbody>
-</table>
-
+<p>That’s obvious when translating natural language like English to French, but
+it’s equally true for:</p>
 
 <ul>
-<li><a href="https://www.amazon.com/dp/B08YT3BWMP">Amazon Echo Dot, $20</a>:
-For the price, this is a surprisingly hackable, portable speaker. I would have
-prefered something without any microphones at all, but I <em>mostly</em> trust the
-hardware mute switch.</li>
-<li><a href="https://www.etsy.com/listing/739034156">Case, $20</a>: Beautiful
-retro-style case for the Raspberry Pi. The top compartment is made to
-house a fan, but this is where I put the NFC module instead. The folks
-who make this at <a href="https://twitter.com/theC4Labs">C4 Labs</a> were <a href="https://twitter.com/simjp/status/1259980961665576960">super nice</a>.
-We broke a piece when we started building the box and they sent a
-replacement part right away.</li>
-<li><a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/">Raspberry Pi, $35</a>:
-I chose to go with a Raspberry Pi because they&#8217;re cheap, have good
-compatible NFC modules, lots of case options on Etsy and easy to
-develop on.</li>
-<li><a href="https://www.amazon.com/dp/B01CSTW0IA">NFC Module, $5</a>: I can&#8217;t
-believe this thing is just $5. Works great. Lots of good tutorials on
-connecting this to a Raspberry Pi.</li>
-<li><a href="https://store.gototags.com/nfc-pvc-card-ntag213/">NFC Cards, $29</a>:
-I got 100 cards at $0.29 each.</li>
+<li>TypeScript to Swift</li>
+<li>Jetpack Compose to SwiftUI</li>
+<li>Web APIs to platform SDKs</li>
+<li>Architectural patterns across platforms</li>
 </ul>
 
 
-<p>In total, this adds up to $109, but in my case I already had a Raspberry
-Pi and an Echo Dot lying around that I could repurpose for this, so it
-cost me closer to $55.</p>
+<p>See <a href="https://simonwillison.net/2025/Dec/15/porting-justhtml/">this example</a>
+where Simon Willison ported JustHTML from Python to JavaScript with Codex CLI
+and GPT-5.2 in 4.5 hours.</p>
 
-<h2>Services</h2>
+<p>If you operate in an environment where your web app, iOS app, and Android app
+are separate codebases with baseline functional parity, AI fundamentally changes
+the economics of one codebase for each platform.</p>
 
-<p>I&#8217;m already an Apple Music subscriber, so using that as the music source
-was the cheapest solution, although this setup would work with any music
-service that works with Amazon Echo: Spotify, Amazon Music, TuneIn,
-CloudPlayer, Deezer, iHeartRadio.</p>
+<p>Instead of rewriting features, you’re translating intent.</p>
 
-<p>In the exploration phase for this project, I wanted to buy DRM-free
-music, wire a speaker directly to the Raspberry Pi and play it locally.
-However, that would have meant that adding music later would be a much
-more tedious task. Plus it&#8217;s hard to find DRM-free music these days, and
-when you do find what you want it ends up being pricey. Especially
-compared to the convenience and cost of today&#8217;s streaming options.</p>
+<p>A web PR becomes a reference implementation. Existing mobile code becomes
+executable context. Asking an agent to “take a first pass at implementing this
+natively” is now a normal—and productive—workflow, especially for apps with
+large CRUD-style surface areas and well-defined business logic.</p>
 
-<p>I also explored using HomePods as the speakers (see addendum below).</p>
+<h2>Context Beats Code</h2>
 
-<p>The biggest downside to the current streaming approach is that there&#8217;s a
-5-10 second delay after tapping a card and music starting.</p>
+<p><a href="https://simonwillison.net/2025/jun/27/context-engineering/">Simon Willison</a> has written about <em>context engineering</em>:
+“the art of providing all the context for the task to be plausibly solvable by
+the LLM.” The limiting factor in AI-assisted development isn’t the model itself,
+but how clearly the problem is framed.</p>
 
-<h2>Assembly</h2>
+<p>That aligns closely with what actually matters in software engineering:</p>
 
-<table>
-<thead>
-<tr>
-<th><br /></th>
-<th><br /></th>
-<th><br /></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/images/posts/musicbox/assembly1.jpg" alt="Assembly #1" /></td>
-<td><img src="/images/posts/musicbox/assembly2.jpg" alt="Assembly #2" /></td>
-<td><img src="/images/posts/musicbox/assembly3.jpg" alt="Assembly #3" /></td>
-</tr>
-<tr>
-<td><img src="/images/posts/musicbox/assembly4.jpg" alt="Assembly #4" /></td>
-<td><img src="/images/posts/musicbox/assembly5.jpg" alt="Assembly #5" /></td>
-<td><img src="/images/posts/musicbox/assembly6.jpg" alt="Assembly #6" /></td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>Understanding the domain</li>
+<li>Choosing the right abstractions</li>
+<li>Designing the architecture</li>
+<li>Encoding business rules correctly</li>
+<li>Setting up the right conditions for QA and validating core behavior and edge cases</li>
+</ul>
 
 
-<p><br /></p>
+<p>These are platform-agnostic, one-time costs. Once you’ve paid them, the knowledge
+transfers cleanly across platforms.</p>
 
-<p>I assembled this with my son over a few days in May 2020, and then
-finished the setup in September 2021. The actual hardware assembly
-probably only took a combined total of 3 hours though.</p>
+<p>This is also where the distinction between <strong>process-driven</strong> and
+<strong>outcome-driven</strong> engineers becomes important. As
+<a href="https://simonwillison.net/2026/Jan/2/ben-werdmuller/">Ben Werdmuller</a> put it, we’re
+likely to see a real split between people who are outcome-driven and excited to
+test their work with users faster, and people who are process-driven and derive
+meaning primarily from the engineering itself.</p>
 
-<h2>Software</h2>
+<p>LLMs disproportionately benefit outcome-driven engineers—those who know what
+“good” looks like and can steer toward it. The tools reward clarity of intent,
+not ceremony.</p>
 
-<p><em>Disclaimer: This code is rough, it&#8217;s suitable for a toy project. I&#8217;m
-sharing it in case it&#8217;s useful for others getting started with a similar,
-project. I&#8217;m not claiming this is beautiful quality code.</em></p>
+<h2>What Mobile Development Actually Looks Like Now</h2>
 
-<h3>Echo Dot Remote Control</h3>
+<p>In practice, most of the code I’ve written over the past twelve months hasn’t
+been typed directly into Xcode or Android Studio.</p>
 
-<p>I use the <a href="https://github.com/thorsten-gehrig/alexa-remote-control">alexa-remote-control</a> shell script to
-control the Echo Dot. When it&#8217;s up and running, it couldn&#8217;t be easier:</p>
+<p>A common setup today looks like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='shell'><span class='line'><span></span>$ alexa_remote_control.sh -e <span class="s2">&quot;playmusic:APPLE_MUSIC:The Lion King&quot;</span>
-</span><span class='line'>$ alexa_remote_control.sh -e pause
-</span><span class='line'>$ alexa_remote_control.sh -e play
-</span><span class='line'>$ alexa_remote_control.sh -e vol:15
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>NFC Reader</h3>
-
-<p>I use <a href="https://github.com/pelwell/MFRC522-python">MFRC522-python</a> to
-interface with the NFC module.</p>
-
-<p>The Python script that reads cards and plays music looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span></span><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">MFRC522</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">signal</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">continue_reading</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span class='line'><span class="n">last_seen_card</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span class='line'><span class="n">echo_name</span> <span class="o">=</span> <span class="s2">&quot;MusicBox Echo&quot;</span>
-</span><span class='line'><span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
-</span><span class='line'><span class="n">alexa_control_script</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;alexa_remote_control.sh&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">alexa</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;</span><span class="si">{alexa_control_script}</span><span class="s1"> -d &quot;</span><span class="si">{echo_name}</span><span class="s1">&quot; -e &quot;</span><span class="si">{command}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span class='line'>            <span class="n">alexa_control_script</span><span class="o">=</span><span class="n">alexa_control_script</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">echo_name</span><span class="o">=</span><span class="n">echo_name</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span>
-</span><span class='line'>        <span class="p">)</span>
-</span><span class='line'>    <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">pause</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;pause&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">play_music</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
-</span><span class='line'>    <span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">pause</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;playmusic:APPLE_MUSIC:</span><span class="si">{query}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">set_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;vol:</span><span class="si">{volume}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">volume</span><span class="o">=</span><span class="n">volume</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">end_read</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">global</span> <span class="n">continue_reading</span>
-</span><span class='line'>    <span class="n">continue_reading</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span class='line'>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">end_read</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">MIFAREReader</span> <span class="o">=</span> <span class="n">MFRC522</span><span class="o">.</span><span class="n">MFRC522</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">while</span> <span class="n">continue_reading</span><span class="p">:</span>
-</span><span class='line'>    <span class="c1"># Scan for cards</span>
-</span><span class='line'>    <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">TagType</span><span class="p">)</span> <span class="o">=</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MFRC522_Request</span><span class="p">(</span><span class="n">MIFAREReader</span><span class="o">.</span><span class="n">PICC_REQIDL</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># If we have a card, continue</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MI_OK</span><span class="p">:</span>
-</span><span class='line'>        <span class="c1"># Get the UID of the card</span>
-</span><span class='line'>        <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">uid</span><span class="p">)</span> <span class="o">=</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MFRC522_Anticoll</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1"># If we have the UID, continue</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">MIFAREReader</span><span class="o">.</span><span class="n">MI_OK</span> <span class="ow">and</span> <span class="n">last_seen_card</span> <span class="o">!=</span> <span class="n">uid</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">last_seen_card</span> <span class="o">=</span> <span class="n">uid</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1"># Print UID</span>
-</span><span class='line'>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Card UID: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">uid</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">48</span><span class="p">]:</span>
-</span><span class='line'>                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PAUSE&quot;</span><span class="p">)</span>
-</span><span class='line'>                <span class="n">pause</span><span class="p">()</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">140</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">set_volume</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">247</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">81</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">set_volume</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">175</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Star Wars A New Hope Soundtrack&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">148</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">167</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Paco de Lucia&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">204</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Dexter Gordon&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">197</span><span class="p">,</span> <span class="mi">238</span><span class="p">,</span> <span class="mi">167</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Rainbow Connection&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">82</span><span class="p">]:</span>
-</span><span class='line'>                <span class="n">play_music</span><span class="p">(</span><span class="s2">&quot;Genesis&quot;</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">elif</span> <span class="n">uid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">136</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">93</span><span class="p">]:</span>
-</span><span class='line'>                <span class="c1"># and so on...</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>A coding agent (e.g. Claude Code, Cursor, etc.) on one side of the screen</li>
+<li>Xcode or Android Studio on the other</li>
+<li>The bulk of code editing happening in the agent</li>
+<li>The IDE acting as a platform-native harness: breakpoints, debugger, previews,
+and deeper integrations with simulators and emulators</li>
+</ul>
 
 
-<p>You&#8217;ll notice that there are special cards for pausing, setting a high
-volume and setting a low volume. The rest of the cards map to music.</p>
+<p>With a modest amount of investment, the need for an IDE as a primary input tool
+almost disappears. The more you can hoist your compiler and language server out
+of the IDE and into terminal-ready commands, the more you can augment the
+capabilities of your coding agent.</p>
 
-<p>The main thing I&#8217;d like to improve at some point is to avoid hardcoding
-a mapping of the card UIDs to music and instead program it using the
-companion iPhone app by writing a payload to the card. The iOS side I
-know how to do pretty quickly, but I&#8217;d have to spend more time to figure
-out how to do it on the MFRC522 reader side of things.</p>
+<h2>Native Platforms Pair Well With AI, Despite Training Gaps</h2>
 
-<h3>API Server</h3>
+<p>A fair concern is that frontier models still have less deep knowledge of
+iOS- and Android-specific APIs than they do of web or Python ecosystems.</p>
 
-<p>There&#8217;s an API server that can be used to control the music box using
-the companion iPhone app.</p>
+<p><a href="https://www.cocoawithlove.com/blog/llms-twelve-months-later.html">Matt Gallagher</a> recently wrote about the state of Swift and iOS
+knowledge in frontier models at the end of 2025. He notes that <em>“most LLMs are
+trained on data that is 2+ years old, and their Swift style often feels older
+still.”</em></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">api</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-</span><span class='line'><span class="n">echo_name</span> <span class="o">=</span> <span class="s2">&quot;MusicBox Echo&quot;</span>
-</span><span class='line'><span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
-</span><span class='line'><span class="n">alexa_control_script</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;alexa_remote_control.sh&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">alexa</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;</span><span class="si">{alexa_control_script}</span><span class="s1"> -d &quot;</span><span class="si">{echo_name}</span><span class="s1">&quot; -e &quot;</span><span class="si">{command}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span class='line'>            <span class="n">alexa_control_script</span><span class="o">=</span><span class="n">alexa_control_script</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">echo_name</span><span class="o">=</span><span class="n">echo_name</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span>
-</span><span class='line'>        <span class="p">)</span>
-</span><span class='line'>    <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/pause&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">pause</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;pause&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/play&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">play</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">play_music</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">])</span>
-</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;play&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/play/&lt;query&gt;&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">play_music</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
-</span><span class='line'>    <span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">pause</span>
-</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;playmusic:APPLE_MUSIC:</span><span class="si">{query}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/volume/&lt;int:volume&gt;&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">set_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">alexa</span><span class="p">(</span><span class="s2">&quot;vol:</span><span class="si">{volume}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">volume</span><span class="o">=</span><span class="n">volume</span><span class="p">))</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">api</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>The conclusion isn’t that models are perfect, but that modern native platforms
+provide strong constraints:</p>
+
+<ul>
+<li>Strong static typing</li>
+<li>Clear compiler diagnostics</li>
+<li>Declarative UI frameworks</li>
+<li>Deterministic tooling</li>
+</ul>
 
 
-<h3>iPhone App</h3>
+<p>These constraints matter more than raw training data volume. What matters day to
+day isn’t whether an LLM can one-shot a perfect solution, but whether it can
+iterate quickly with tight feedback. Strong typing in Swift, Kotlin, and
+TypeScript helps enormously here.</p>
 
-<p>Of course I made an iPhone app using <a href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a> &amp;
-<a href="https://github.com/pointfreeco/swift-composable-architecture">Composable Architecture</a>.</p>
+<p>I don’t know about you, but I don’t typically write perfect code on the first try
+either.</p>
 
-<p>This helps me quickly adjust the volume, play/pause and play specific
-music. If my kid falls alseep to music, I can stop it without having to
-walk into his room.</p>
+<h2>A Brief Note on React Native</h2>
 
-<p>Siri intents work too, so I can play/pause music by speaking to Siri
-without having to launch the app.</p>
+<p>It’s absolutely possible to build excellent mobile apps using React Native or
+fully native stacks.</p>
 
-<p><img src="/images/posts/musicbox/app.jpg" alt="" /></p>
+<p>What’s often underestimated is the organizational overhead and depth of
+expertise required to do React Native well at scale. Teams that succeed tend to
+invest heavily in platform infrastructure, tooling, and internal knowledge.
+Shopify is a well-known example of what “doing it right” looks like.</p>
 
-<h2>Closed Source</h2>
+<p>AI shifts this tradeoff. When translation becomes cheap, the value of
+lowest-common-denominator abstractions drops. Platform-idiomatic code no longer
+implies slower delivery.</p>
 
-<p>Hopefully this post is helpful to someone interested in building
-something similar. I&#8217;ve posted enough code and details to get you
-started, but I won&#8217;t be open sourcing the whole project because I&#8217;m just
-not willing to field support questions or feature requests. I&#8217;m happy to
-answer questions about my experience building this, but I&#8217;m sorry I
-can&#8217;t help you figure out why something&#8217;s not working if you go build
-something similar.</p>
+<p>Side note: this is a large part of why Ramp’s mobile engineering team is much
+leaner than people expect given the breadth of the apps&#8217; capabilities.</p>
 
-<hr />
+<h2>The Centaur Model, Applied</h2>
 
-<h2>Addendum: HomePod Attempt</h2>
+<p>This way of working maps closely to what Cory Doctorow calls the
+<a href="https://pluralistic.net/2025/12/05/pop-that-bubble/#u-washington"><em>Centaur model</em></a>. In automation theory, “a centaur” is a person
+assisted by a machine.</p>
 
-<p>At one point I wanted to use a stereo pair of HomePods for this project,
-but all my attempts to reverse engineer a way to play music on them from
-a Raspberry Pi were fruitless. I tried sniffing the network traffic via
-Charles Proxy while playing music from the iOS Music app or even the
-Shortcuts app and wasn&#8217;t able to crack it. I did end up getting it
-working using <a href="https://github.com/owntone/owntone-server">forked-daap</a> but this set the HomePods in a
-weird state. I don&#8217;t remember all the details because I gave up on that
-approach for two reasons: the first is that I couldn&#8217;t get it to work
-well and the second is that I wanted to keep the HomePods in our living
-room while the music box was meant to be in my son&#8217;s bedroom.</p>
+<p>Humans and machines work together, each focused on what they do best:</p>
 
-<hr />
+<ul>
+<li>Humans handle judgment, architecture, domain understanding, and taste</li>
+<li>Machines handle repetition, translation, and acceleration</li>
+</ul>
+
+
+<p>AI doesn’t remove the need for software engineers. It removes the least
+interesting parts of the job and sharpens the most important ones.</p>
+
+<h2>Why This Reinforces Native Teams</h2>
+
+<p>With AI-assisted translation:</p>
+
+<ul>
+<li>Separate codebases no longer incur the same maintenance costs as they once did</li>
+<li>Platform fidelity no longer trades off against velocity</li>
+<li>Engineers can build where they’re strongest and port confidently</li>
+</ul>
+
+
+<p>This is exactly how we’re working today—and why Ramp is hiring <a href="https://jobs.ashbyhq.com/ramp/4859cd5e-f2a9-44d7-81f7-8bfc0e62369f">iOS engineers</a>
+and <a href="https://jobs.ashbyhq.com/ramp/f564dcf9-9390-4a3f-896f-8047a5086040">Android engineers</a>.</p>
+
+<p>If you care about building platform-idiomatic mobile apps, moving quickly
+without sacrificing quality, and spending more time on judgment than
+boilerplate, this is a particularly good moment to be doing native mobile
+engineering.</p>
+
+<h2>Closing</h2>
+
+<p>The tools changed.<br/>
+The job didn’t.</p>
+
+<p>If anything, it got more interesting.</p>
 </div>
   
   
@@ -533,7 +278,7 @@ room while the music box was meant to be in my son&#8217;s bedroom.</p>
 <aside class="sidebar">
   
     <section>
-  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a Swift developer. <a href="/about">More about me &raquo;</a>
+  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a mobile engineer. <a href="/about">More about me &raquo;</a>
 </section>
 
   
@@ -542,7 +287,7 @@ room while the music box was meant to be in my son&#8217;s bedroom.</p>
     </div>
   </div>
   <footer class="footer" role="contentinfo"><p>
-  &copy; 2023 JP Simard
+  &copy; 2026 JP Simard
   <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
 </p>
 

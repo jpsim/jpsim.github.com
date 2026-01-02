@@ -1,0 +1,373 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mobile Development in the Age of AI - JP Simard - Mobile Engineer</title>
+  <meta name="description" content="After working in mobile engineering for about a decade and a half, across
+multiple eras of iOS and Android tooling, languages, and architectural &hellip;">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://jpsim.com/mobile-development-in-the-age-of-ai">
+  <link href="/favicon.ico" rel="shortcut icon"> 
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="/stylesheets/screen.css" rel="stylesheet">
+  <link href="/stylesheets/widescreen.css" rel="stylesheet" media="screen and (min-width: 45em)">
+  
+  <script src="//use.typekit.net/nhv5bly.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+  <link href="https://jpsim.com/atom.xml" rel="alternate" title="JP Simard" type="application/atom+xml">
+</head>
+
+<body >
+  <header class="main-header" role="banner">
+        <h1><a href="/">JP Simard</a> &mdash; Mobile Engineer</h1>
+    <nav role="navigation">
+      <ul class="main-nav">
+  <li><a href="/">Home</a></li>
+  <li><a rel="me" href="https://hachyderm.io/@jpsim">Mastodon</a></li>
+  <li><a href="https://github.com/jpsim">GitHub</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+    </nav>
+  </header>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2026-01-02T15:00:00+00:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2026</time>
+        
+
+         | <a class="disqus-link" href="#disqus_thread">Comments</a>
+        
+        | <a class="rss-feed" href="https://jpsim.com/atom.xml">RSS Feed</a>
+      </p>
+    
+    
+      <h1 class="entry-title">Mobile Development in the Age of AI</h1>
+    
+  </header>
+
+
+<div class="entry-content"><p>After working in mobile engineering for about a decade and a half, across
+multiple eras of iOS and Android tooling, languages, and architectural
+approaches, I&#8217;ve never been more excited about the landscape than I am right
+now.</p>
+
+<p>When I started making apps in 2011, it was thrilling to go from an idea to
+something you could physically touch and hold in your hand within hours. Today,
+that same feeling exists—but the iteration cycles are now an order of magnitude
+faster.</p>
+
+<p>The fundamentals haven’t changed. What <em>has</em> changed is the speed at which
+intent turns into working software.</p>
+
+<h2>Translation Is (Basically) a Solved Problem</h2>
+
+<p>A lot of where AI applications go wrong today comes from anthropomorphizing
+models and ascribing to them a kind of human-style intelligence. As
+<a href="https://www.youtube.com/watch?v=lXUZvyajciY">Andrej Karpathy</a> puts it: <em>“We’re summoning ghosts, not
+building animals.”</em></p>
+
+<p>But one category of tasks these LLM “ghosts” excel at is translation.</p>
+
+<p>That’s obvious when translating natural language like English to French, but
+it’s equally true for:</p>
+
+<ul>
+<li>TypeScript to Swift</li>
+<li>Jetpack Compose to SwiftUI</li>
+<li>Web APIs to platform SDKs</li>
+<li>Architectural patterns across platforms</li>
+</ul>
+
+
+<p>See <a href="https://simonwillison.net/2025/Dec/15/porting-justhtml/">this example</a>
+where Simon Willison ported JustHTML from Python to JavaScript with Codex CLI
+and GPT-5.2 in 4.5 hours.</p>
+
+<p>If you operate in an environment where your web app, iOS app, and Android app
+are separate codebases with baseline functional parity, AI fundamentally changes
+the economics of one codebase for each platform.</p>
+
+<p>Instead of rewriting features, you’re translating intent.</p>
+
+<p>A web PR becomes a reference implementation. Existing mobile code becomes
+executable context. Asking an agent to “take a first pass at implementing this
+natively” is now a normal—and productive—workflow, especially for apps with
+large CRUD-style surface areas and well-defined business logic.</p>
+
+<h2>Context Beats Code</h2>
+
+<p><a href="https://simonwillison.net/2025/jun/27/context-engineering/">Simon Willison</a> has written about <em>context engineering</em>:
+“the art of providing all the context for the task to be plausibly solvable by
+the LLM.” The limiting factor in AI-assisted development isn’t the model itself,
+but how clearly the problem is framed.</p>
+
+<p>That aligns closely with what actually matters in software engineering:</p>
+
+<ul>
+<li>Understanding the domain</li>
+<li>Choosing the right abstractions</li>
+<li>Designing the architecture</li>
+<li>Encoding business rules correctly</li>
+<li>Setting up the right conditions for QA and validating core behavior and edge cases</li>
+</ul>
+
+
+<p>These are platform-agnostic, one-time costs. Once you’ve paid them, the knowledge
+transfers cleanly across platforms.</p>
+
+<p>This is also where the distinction between <strong>process-driven</strong> and
+<strong>outcome-driven</strong> engineers becomes important. As
+<a href="https://simonwillison.net/2026/Jan/2/ben-werdmuller/">Ben Werdmuller</a> put it, we’re
+likely to see a real split between people who are outcome-driven and excited to
+test their work with users faster, and people who are process-driven and derive
+meaning primarily from the engineering itself.</p>
+
+<p>LLMs disproportionately benefit outcome-driven engineers—those who know what
+“good” looks like and can steer toward it. The tools reward clarity of intent,
+not ceremony.</p>
+
+<h2>What Mobile Development Actually Looks Like Now</h2>
+
+<p>In practice, most of the code I’ve written over the past twelve months hasn’t
+been typed directly into Xcode or Android Studio.</p>
+
+<p>A common setup today looks like this:</p>
+
+<ul>
+<li>A coding agent (e.g. Claude Code, Cursor, etc.) on one side of the screen</li>
+<li>Xcode or Android Studio on the other</li>
+<li>The bulk of code editing happening in the agent</li>
+<li>The IDE acting as a platform-native harness: breakpoints, debugger, previews,
+and deeper integrations with simulators and emulators</li>
+</ul>
+
+
+<p>With a modest amount of investment, the need for an IDE as a primary input tool
+almost disappears. The more you can hoist your compiler and language server out
+of the IDE and into terminal-ready commands, the more you can augment the
+capabilities of your coding agent.</p>
+
+<h2>Native Platforms Pair Well With AI, Despite Training Gaps</h2>
+
+<p>A fair concern is that frontier models still have less deep knowledge of
+iOS- and Android-specific APIs than they do of web or Python ecosystems.</p>
+
+<p><a href="https://www.cocoawithlove.com/blog/llms-twelve-months-later.html">Matt Gallagher</a> recently wrote about the state of Swift and iOS
+knowledge in frontier models at the end of 2025. He notes that <em>“most LLMs are
+trained on data that is 2+ years old, and their Swift style often feels older
+still.”</em></p>
+
+<p>The conclusion isn’t that models are perfect, but that modern native platforms
+provide strong constraints:</p>
+
+<ul>
+<li>Strong static typing</li>
+<li>Clear compiler diagnostics</li>
+<li>Declarative UI frameworks</li>
+<li>Deterministic tooling</li>
+</ul>
+
+
+<p>These constraints matter more than raw training data volume. What matters day to
+day isn’t whether an LLM can one-shot a perfect solution, but whether it can
+iterate quickly with tight feedback. Strong typing in Swift, Kotlin, and
+TypeScript helps enormously here.</p>
+
+<p>I don’t know about you, but I don’t typically write perfect code on the first try
+either.</p>
+
+<h2>A Brief Note on React Native</h2>
+
+<p>It’s absolutely possible to build excellent mobile apps using React Native or
+fully native stacks.</p>
+
+<p>What’s often underestimated is the organizational overhead and depth of
+expertise required to do React Native well at scale. Teams that succeed tend to
+invest heavily in platform infrastructure, tooling, and internal knowledge.
+Shopify is a well-known example of what “doing it right” looks like.</p>
+
+<p>AI shifts this tradeoff. When translation becomes cheap, the value of
+lowest-common-denominator abstractions drops. Platform-idiomatic code no longer
+implies slower delivery.</p>
+
+<p>Side note: this is a large part of why Ramp’s mobile engineering team is much
+leaner than people expect given the breadth of the apps&#8217; capabilities.</p>
+
+<h2>The Centaur Model, Applied</h2>
+
+<p>This way of working maps closely to what Cory Doctorow calls the
+<a href="https://pluralistic.net/2025/12/05/pop-that-bubble/#u-washington"><em>Centaur model</em></a>. In automation theory, “a centaur” is a person
+assisted by a machine.</p>
+
+<p>Humans and machines work together, each focused on what they do best:</p>
+
+<ul>
+<li>Humans handle judgment, architecture, domain understanding, and taste</li>
+<li>Machines handle repetition, translation, and acceleration</li>
+</ul>
+
+
+<p>AI doesn’t remove the need for software engineers. It removes the least
+interesting parts of the job and sharpens the most important ones.</p>
+
+<h2>Why This Reinforces Native Teams</h2>
+
+<p>With AI-assisted translation:</p>
+
+<ul>
+<li>Separate codebases no longer incur the same maintenance costs as they once did</li>
+<li>Platform fidelity no longer trades off against velocity</li>
+<li>Engineers can build where they’re strongest and port confidently</li>
+</ul>
+
+
+<p>This is exactly how we’re working today—and why Ramp is hiring <a href="https://jobs.ashbyhq.com/ramp/4859cd5e-f2a9-44d7-81f7-8bfc0e62369f">iOS engineers</a>
+and <a href="https://jobs.ashbyhq.com/ramp/f564dcf9-9390-4a3f-896f-8047a5086040">Android engineers</a>.</p>
+
+<p>If you care about building platform-idiomatic mobile apps, moving quickly
+without sacrificing quality, and spending more time on judgment than
+boilerplate, this is a particularly good moment to be doing native mobile
+engineering.</p>
+
+<h2>Closing</h2>
+
+<p>The tools changed.<br/>
+The job didn’t.</p>
+
+<p>If anything, it got more interesting.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <a href="/about" class="fn">JP Simard</a></span>
+ <span>on</span>
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2026-01-02T15:00:00+00:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2026</time>
+      in 
+
+<span class="categories">
+  
+    <a class='category' href='/categories/ai/'>ai</a>, <a class='category' href='/categories/development/'>development</a>, <a class='category' href='/categories/mobile/'>mobile</a>, <a class='category' href='/categories/product/'>product</a>
+  
+</span>
+
+.
+      <span class="pull-request">If you would like to update this post, <a href="https://github.com/jpsim/jpsim.github.com/blob/source/source/_posts/2026-01-02-mobile-development-in-the-age-of-ai.markdown"> please send a pull request</a> on GitHub.</span>
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://jpsim.com/mobile-development-in-the-age-of-ai/" data-via="simjp" data-counturl="https://jpsim.com/mobile-development-in-the-age-of-ai/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/building-an-nfc-music-box/" title="Previous Post: Building an NFC Music Box">&laquo; Previous</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <p class="biog"><a href="https://twitter.com/simjp">JP Simard</a> is a mobile engineer. <a href="/about">More about me &raquo;</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer class="footer" role="contentinfo"><p>
+  &copy; 2026 JP Simard
+  <span class="credit">&mdash; Powered by <a href="http://octopress.org">Octopress</a>, fonts served by <a href="https://typekit.com/colophons/nhv5bly">Typekit</a>, hosted by <a href="https://github.com/jpsim/jpsim.github.com">GitHub</a>.</span>
+</p>
+
+<p class="top"><a href="#">Back to top &uarr;</a></p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'simjp';
+      var disqus_developer = 1;
+
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jpsim.com/mobile-development-in-the-age-of-ai/';
+        var disqus_url = 'http://jpsim.com/mobile-development-in-the-age-of-ai/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script>
+    var _gaq=[['_setAccount','UA-35217213-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+
+
+
+</body>
+</html>
