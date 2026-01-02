@@ -1,12 +1,12 @@
 ---
 layout: page
-title: "Hi, I'm JP Simard - a <span>Swift developer</span> based in <span>Montréal</span> (prev. SF & Ottawa)."
+title: "Hi, I'm JP Simard - a <span>mobile engineer</span> based in <span>Montréal</span> (prev. SF & Ottawa)."
 comments: false
 sharing: false
 footer: false
 style:
 ---
-iOS developer at [Lyft](https://lyft.com), previously [Realm](https://realm.io) & [Magnetic Bear Studios](http://magneticbear.com) (founder), electrical engineer, musician, runner, jazzman and a fake graphic designer.
+Mobile engineer at [Ramp](https://ramp.com), previously [Lyft](https://lyft.com), [Realm](https://realm.io) & [Magnetic Bear Studios](http://magneticbear.com) (founder), electrical engineer, musician, runner, jazzman and a fake graphic designer.
 
 ## Contact
 
